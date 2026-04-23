@@ -155,7 +155,7 @@ const DIFF_LABEL = { easy: 'Fácil', medium: 'Media', hard: 'Difícil' };
  
 function getTodayKey() {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  return`.{d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
  
 function getOrCreateUserQuests(uid) {
@@ -280,19 +280,19 @@ async function drawBracketCanvas(t) {
     }
   ctx.restore();
   ctx.save();
-  ctx.font = `bold 22px Arial`; ctx.textAlign = 'center';
+  ctx.font =`.old 22px Arial`; ctx.textAlign = 'center';
   ctx.fillStyle = '#FFD700'; ctx.shadowColor = '#FFD700'; ctx.shadowBlur = 14;
   ctx.fillText(`🏆  ${t.name}`, canvas.width/2, 38);
   ctx.shadowBlur = 0;
-  ctx.font = `12px Arial`; ctx.fillStyle = '#ffffff55';
+  ctx.font =`.2px Arial`; ctx.fillStyle = '#ffffff55';
   ctx.fillText(`${t.participants.length} participantes  ·  ${getTournamentStatus(t)}`, canvas.width/2, 56);
   ctx.restore();
   const RN = ['FINAL','SEMIFINAL','CUARTOS','OCTAVOS','R16','R32'];
   rounds.forEach((matches, ri) => {
     const colX = PAD_X + ri * (MW + CGAP);
     const spm = maxM / matches.length;
-    const rName = RN[numR - 1 - ri] || `R${ri+1}`;
-    ctx.save(); ctx.font = `bold 10px Arial`; ctx.fillStyle = '#FFD700BB';
+    const rName = RN[numR - 1 - ri] ||`.${ri+1}`;
+    ctx.save(); ctx.font =`.old 10px Arial`; ctx.fillStyle = '#FFD700BB';
     ctx.textAlign = 'center'; ctx.fillText(rName, colX + MW/2, PAD_Y - 14); ctx.restore();
     matches.forEach((match, mi) => {
       const mY = PAD_Y + (mi * spm + spm/2) * slotH / (maxM / maxM) - MH/2 + mi * (slotH - MH);
@@ -313,21 +313,21 @@ async function drawBracketCanvas(t) {
       ctx.beginPath(); ctx.moveTo(colX+8, drawY+MH/2); ctx.lineTo(colX+MW-8, drawY+MH/2); ctx.stroke(); ctx.restore();
       const name1 = p1 ? (p1.username||p1.id).substring(0,15) : 'BYE';
       const name2 = p2 ? (p2.username||p2.id).substring(0,15) : 'BYE';
-      const elo1 = p1 ? `${getEloTier(data[p1.id]?.elo||1000).emoji} ${data[p1.id]?.elo||1000}` : '';
-      const elo2 = p2 ? `${getEloTier(data[p2.id]?.elo||1000).emoji} ${data[p2.id]?.elo||1000}` : '';
+      const elo1 = p1 ?`.{getEloTier(data[p1.id]?.elo||1000).emoji} ${data[p1.id]?.elo||1000}` : '';
+      const elo2 = p2 ?`.{getEloTier(data[p2.id]?.elo||1000).emoji} ${data[p2.id]?.elo||1000}` : '';
       ctx.save();
-      ctx.font = `bold 12px Arial`; ctx.textAlign = 'left';
+      ctx.font =`.old 12px Arial`; ctx.textAlign = 'left';
       ctx.fillStyle = p1Won ? '#00ff88' : p1 ? '#ffffff' : '#444444';
       if (p1Won) { ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 7; }
       ctx.fillText((p1Won?'👑 ':'')+name1, colX+8, drawY+MH/2-9); ctx.shadowBlur=0;
-      ctx.font = `10px Arial`; ctx.fillStyle = '#777777'; ctx.fillText(elo1, colX+8, drawY+MH/2+2);
-      ctx.font = `bold 12px Arial`;
+      ctx.font =`.0px Arial`; ctx.fillStyle = '#777777'; ctx.fillText(elo1, colX+8, drawY+MH/2+2);
+      ctx.font =`.old 12px Arial`;
       ctx.fillStyle = p2Won ? '#00ff88' : p2 ? '#ffffffcc' : '#444444';
       if (p2Won) { ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 7; }
       ctx.fillText((p2Won?'👑 ':'')+name2, colX+8, drawY+MH/2+17); ctx.shadowBlur=0;
-      ctx.font = `10px Arial`; ctx.fillStyle = '#777777'; ctx.fillText(elo2, colX+8, drawY+MH/2+28);
+      ctx.font =`.0px Arial`; ctx.fillStyle = '#777777'; ctx.fillText(elo2, colX+8, drawY+MH/2+28);
       if (match.score) {
-        ctx.font = `bold 11px Arial`; ctx.fillStyle = '#FFD700'; ctx.textAlign = 'right';
+        ctx.font =`.old 11px Arial`; ctx.fillStyle = '#FFD700'; ctx.textAlign = 'right';
         ctx.fillText(match.score, colX+MW-8, drawY+MH/2+4);
       }
       ctx.restore();
@@ -361,29 +361,29 @@ async function startTournament(tId, interaction, tMsg, tCol) {
   const files = bracketCanvas ? [{ attachment: bracketCanvas.toBuffer(), name: 'bracket.png' }] : [];
   const r = t.rounds[t.currentRound];
   const matchupLines = r.map((m, i) => {
-    const p1 = m.p1 ? `@${m.p1.username}` : 'BYE';
-    const p2 = m.p2 ? `@${m.p2.username}` : 'BYE';
-    if (m.winner) return `~~**Partido ${i+1}:** ${p1} vs ${p2}~~ (BYE)`;
-    return `**Partido ${i+1}:** ${p1}  vs  ${p2}`;
+    const p1 = m.p1 ?`.${m.p1.username}` : 'BYE';
+    const p2 = m.p2 ?`.${m.p2.username}` : 'BYE';
+    if (m.winner) return`.~**Partido ${i+1}:** ${p1} vs ${p2}~~ (BYE)`;
+    return`.*Partido ${i+1}:** ${p1}  vs  ${p2}`;
   }).join('\n');
-  const mentions = t.participants.map(p => `<@${p.id}>`).join(' ');
+  const mentions = t.participants.map(p =>`.@${p.id}>`).join(' ');
   const embed = {
     color: 0x00C851,
-    title: `🏆 ¡${t.name} ha comenzado!`,
+    title:`. ¡${t.name} ha comenzado!`,
     description: [
       mentions, '',
-      `**${t.participants.length} jugadores** luchando por **${t.prizes.champion.toLocaleString()} 💰**!`,
-      '', `**📋 Ronda 1:**`, matchupLines, '',
-      `⚔️ Usa \ `.torneo jugar ${tId}\` para jugar tu partido.`,
-      `📊 Usa \ `.torneo bracket ${tId}\` para ver el bracket.`,
+`.*${t.participants.length} jugadores** luchando por **${t.prizes.champion.toLocaleString()} 💰**!`,
+      '',`.*📋 Ronda 1:**`, matchupLines, '',
+`.️ Usa \`.torneo jugar ${tId}\` para jugar tu partido.`,
+`. Usa \`.torneo bracket ${tId}\` para ver el bracket.`,
     ].join('\n'),
     fields: [
-      { name: '🥇 Campeón',        value: `${t.prizes.champion.toLocaleString()} 💰`,  inline: true },
-      { name: '🥈 Finalista',      value: `${t.prizes.runnerUp.toLocaleString()} 💰`,  inline: true },
-      { name: '🥉 Semifinalistas', value: `${t.prizes.semifinal.toLocaleString()} 💰`, inline: true },
+      { name: '🥇 Campeón',        value:`.{t.prizes.champion.toLocaleString()} 💰`,  inline: true },
+      { name: '🥈 Finalista',      value:`.{t.prizes.runnerUp.toLocaleString()} 💰`,  inline: true },
+      { name: '🥉 Semifinalistas', value:`.{t.prizes.semifinal.toLocaleString()} 💰`, inline: true },
     ],
     image: bracketCanvas ? { url: 'attachment://bracket.png' } : undefined,
-    footer: { text: `ID del torneo: ${tId}` },
+    footer: { text:`.D del torneo: ${tId}` },
     timestamp: new Date().toISOString()
   };
   if (interaction?.update) {
@@ -886,7 +886,7 @@ async function drawShowcaseCard(player) {
   // ── BADGE "WORLD CUP CHAMPIONS" — solo texto elegante sin fondo amarillo ──
   if (isWC) {
     ctx.save();
-    ctx.font = `bold 9px ${FIFA_FONT}`;
+    ctx.font =`.old 9px ${FIFA_FONT}`;
     ctx.fillStyle = '#FFD700';
     ctx.textAlign = 'center';
     ctx.shadowColor = '#FFD700';
@@ -905,7 +905,7 @@ async function drawShowcaseCard(player) {
 
   // Rating y posición
   const topOffset = isWC ? 16 : 0;
-  ctx.font = `bold 82px ${FIFA_FONT}`;
+  ctx.font =`.old 82px ${FIFA_FONT}`;
   ctx.fillStyle = c.ratingCol;
   ctx.textAlign = 'left';
   ctx.shadowColor = '#00000044';
@@ -913,7 +913,7 @@ async function drawShowcaseCard(player) {
   ctx.fillText(String(player.rating), cx + 16, cy + 84 + topOffset);
   ctx.shadowBlur = 0;
 
-  ctx.font = `bold 22px ${FIFA_FONT}`;
+  ctx.font =`.old 22px ${FIFA_FONT}`;
   ctx.fillStyle = c.posCol;
   ctx.textAlign = 'left';
   ctx.fillText(player.position, cx + 20, cy + 110 + topOffset);
@@ -926,7 +926,7 @@ async function drawShowcaseCard(player) {
     drawManualFlag(ctx, nationality.country, flagX, flagY, flagW, flagH);
     // País debajo
     ctx.save();
-    ctx.font = `bold 9px ${FIFA_FONT}`;
+    ctx.font =`.old 9px ${FIFA_FONT}`;
     ctx.fillStyle = '#FFD700';
     ctx.textAlign = 'center';
     ctx.shadowColor = '#00000066';
@@ -966,7 +966,7 @@ async function drawShowcaseCard(player) {
   ctx.stroke();
 
   const initials = player.name.substring(0, 2).toUpperCase();
-  ctx.font = `bold 52px ${FIFA_FONT}`;
+  ctx.font =`.old 52px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -993,7 +993,7 @@ async function drawShowcaseCard(player) {
   let nameFontSize = 20;
   if (nameStr.length > 12) nameFontSize = 16;
   if (nameStr.length > 16) nameFontSize = 14;
-  ctx.font = `bold ${nameFontSize}px ${FIFA_FONT}`;
+  ctx.font =`.old ${nameFontSize}px ${FIFA_FONT}`;
   ctx.fillStyle = c.nameCol;
   ctx.textAlign = 'center';
   ctx.shadowColor = '#00000066';
@@ -1025,13 +1025,13 @@ async function drawShowcaseCard(player) {
   col1.forEach((key, i) => {
     const sy = startY + i * rowH;
     const colCenter = cx + CW / 4;
-    ctx.font = `bold 26px ${FIFA_FONT}`;
+    ctx.font =`.old 26px ${FIFA_FONT}`;
     ctx.fillStyle = c.statNum;
     ctx.textAlign = 'right';
     ctx.shadowColor = '#00000055';
     ctx.shadowBlur = 3;
     ctx.fillText(String(stats[key]), colCenter - 4, sy);
-    ctx.font = `bold 13px ${FIFA_FONT}`;
+    ctx.font =`.old 13px ${FIFA_FONT}`;
     ctx.fillStyle = c.statLabel;
     ctx.textAlign = 'left';
     ctx.shadowBlur = 0;
@@ -1041,13 +1041,13 @@ async function drawShowcaseCard(player) {
   col2.forEach((key, i) => {
     const sy = startY + i * rowH;
     const colCenter = cx + CW * 3 / 4;
-    ctx.font = `bold 26px ${FIFA_FONT}`;
+    ctx.font =`.old 26px ${FIFA_FONT}`;
     ctx.fillStyle = c.statNum;
     ctx.textAlign = 'right';
     ctx.shadowColor = '#00000055';
     ctx.shadowBlur = 3;
     ctx.fillText(String(stats[key]), colCenter - 4, sy);
-    ctx.font = `bold 13px ${FIFA_FONT}`;
+    ctx.font =`.old 13px ${FIFA_FONT}`;
     ctx.fillStyle = c.statLabel;
     ctx.textAlign = 'left';
     ctx.shadowBlur = 0;
@@ -1108,7 +1108,7 @@ async function drawCard(ctx, ox, oy, player) {
   drawFIFAPattern(ctx, ox, oy, CW, topH, c.shine);
 
   // Rating y posición
-  ctx.font = `bold 40px ${FIFA_FONT}`;
+  ctx.font =`.old 40px ${FIFA_FONT}`;
   ctx.fillStyle = c.ratingCol;
   ctx.textAlign = 'left';
   ctx.shadowColor = '#00000033';
@@ -1116,14 +1116,14 @@ async function drawCard(ctx, ox, oy, player) {
   ctx.fillText(String(player.rating), ox + 9, oy + 42);
   ctx.shadowBlur = 0;
 
-  ctx.font = `bold 12px ${FIFA_FONT}`;
+  ctx.font =`.old 12px ${FIFA_FONT}`;
   ctx.fillStyle = c.posCol;
   ctx.fillText(player.position, ox + 11, oy + 56);
 
   // ── BADGE WC pequeño (solo WorldCup) ──
   if (player.rarity === 'WorldCup') {
     ctx.save();
-    ctx.font = `bold 6px ${FIFA_FONT}`;
+    ctx.font =`.old 6px ${FIFA_FONT}`;
     ctx.fillStyle = '#FFD700';
     ctx.textAlign = 'center';
     ctx.shadowColor = '#FFD700';
@@ -1158,7 +1158,7 @@ async function drawCard(ctx, ox, oy, player) {
   ctx.stroke();
 
   const initials = player.name.substring(0, 2).toUpperCase();
-  ctx.font = `bold 24px ${FIFA_FONT}`;
+  ctx.font =`.old 24px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -1184,7 +1184,7 @@ async function drawCard(ctx, ox, oy, player) {
   const nameStr = player.name.toUpperCase();
   let fs2 = 11;
   if (nameStr.length > 14) fs2 = 9;
-  ctx.font = `bold ${fs2}px ${FIFA_FONT}`;
+  ctx.font =`.old ${fs2}px ${FIFA_FONT}`;
   ctx.fillStyle = c.nameCol;
   ctx.textAlign = 'center';
   ctx.shadowColor = '#00000066';
@@ -1216,13 +1216,13 @@ async function drawCard(ctx, ox, oy, player) {
   col1.forEach((key, i) => {
     const sy = startY + i * rowH;
     const colCenter = ox + CW / 4;
-    ctx.font = `bold 15px ${FIFA_FONT}`;
+    ctx.font =`.old 15px ${FIFA_FONT}`;
     ctx.fillStyle = c.statNum;
     ctx.textAlign = 'right';
     ctx.shadowColor = '#00000044';
     ctx.shadowBlur = 2;
     ctx.fillText(String(stats[key]), colCenter - 3, sy);
-    ctx.font = `bold 9px ${FIFA_FONT}`;
+    ctx.font =`.old 9px ${FIFA_FONT}`;
     ctx.fillStyle = c.statLabel;
     ctx.textAlign = 'left';
     ctx.shadowBlur = 0;
@@ -1232,13 +1232,13 @@ async function drawCard(ctx, ox, oy, player) {
   col2.forEach((key, i) => {
     const sy = startY + i * rowH;
     const colCenter = ox + CW * 3 / 4;
-    ctx.font = `bold 15px ${FIFA_FONT}`;
+    ctx.font =`.old 15px ${FIFA_FONT}`;
     ctx.fillStyle = c.statNum;
     ctx.textAlign = 'right';
     ctx.shadowColor = '#00000044';
     ctx.shadowBlur = 2;
     ctx.fillText(String(stats[key]), colCenter - 3, sy);
-    ctx.font = `bold 9px ${FIFA_FONT}`;
+    ctx.font =`.old 9px ${FIFA_FONT}`;
     ctx.fillStyle = c.statLabel;
     ctx.textAlign = 'left';
     ctx.shadowBlur = 0;
@@ -1288,11 +1288,11 @@ function drawEmptySlot(ctx, x, y, posLabel) {
   ctx.beginPath(); ctx.moveTo(cx, cy - 20); ctx.lineTo(cx, cy + 20); ctx.stroke();
   ctx.restore();
   ctx.save();
-  ctx.font = `bold 14px ${FIFA_FONT}`;
+  ctx.font =`.old 14px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff44';
   ctx.textAlign = 'center';
   ctx.fillText(posLabel, cx, cy + 45);
-  ctx.font = `11px ${FIFA_FONT}`;
+  ctx.font =`.1px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff28';
   ctx.fillText('VACÍO', cx, cy + 60);
   ctx.restore();
@@ -1347,7 +1347,7 @@ async function generatePackShakeGIF(packType) {
     roundRectPath(ctx, px, py, packW, packH, 12*scale);
     ctx.strokeStyle = pv.accent+'BB'; ctx.lineWidth = 2*scale; ctx.stroke();
     const lineY = py + packH * 0.42;
-    ctx.fillStyle = pv.dark; ctx.font = `bold ${Math.round(20*scale)}px ${FIFA_FONT}`;
+    ctx.fillStyle = pv.dark; ctx.font =`.old ${Math.round(20*scale)}px ${FIFA_FONT}`;
     ctx.textAlign = 'center'; ctx.shadowColor = pv.glow; ctx.shadowBlur = 6;
     ctx.fillText((packs[packType]?.label||packType).toUpperCase(), W/2, lineY - 8*scale);
     ctx.restore();
@@ -1499,14 +1499,14 @@ async function generatePackShopCanvas() {
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(30, titleY - 10); ctx.lineTo(230, titleY - 10); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(W - 30, titleY - 10); ctx.lineTo(W - 230, titleY - 10); ctx.stroke();
-  ctx.font = `bold 36px ${FIFA_FONT}`;
+  ctx.font =`.old 36px ${FIFA_FONT}`;
   ctx.textAlign = 'center';
   ctx.fillStyle = '#FFD700';
   ctx.shadowColor = '#FFD700';
   ctx.shadowBlur = 20;
   ctx.fillText('TIENDA DE PACKS', W / 2, titleY);
   ctx.shadowBlur = 0;
-  ctx.font = `14px ${FIFA_FONT}`;
+  ctx.font =`.4px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff44';
   ctx.fillText('ELIGE TU PACK · ABRE JUGADORES · CONSTRUYE TU EQUIPO', W / 2, titleY + 22);
   ctx.restore();
@@ -1627,7 +1627,7 @@ async function generatePackShopCanvas() {
     ctx.arc(cx + cardW/2, glowY, glowR * 0.65, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.font = `bold 22px ${FIFA_FONT}`;
+    ctx.font =`.old 22px ${FIFA_FONT}`;
     ctx.fillStyle = pd.accentLight;
     ctx.textAlign = 'center';
     ctx.shadowColor = pd.topGlow;
@@ -1635,7 +1635,7 @@ async function generatePackShopCanvas() {
     ctx.fillText(pd.label, cx + cardW / 2, cy + 132);
     ctx.shadowBlur = 0;
 
-    ctx.font = `12px ${FIFA_FONT}`;
+    ctx.font =`.2px ${FIFA_FONT}`;
     ctx.fillStyle = pd.accent + 'bb';
     ctx.fillText(pd.sublabel, cx + cardW / 2, cy + 152);
 
@@ -1658,15 +1658,15 @@ async function generatePackShopCanvas() {
     ctx.strokeStyle = pd.accent + '55';
     ctx.lineWidth = 1;
     ctx.stroke();
-    ctx.font = `bold 11px ${FIFA_FONT}`;
+    ctx.font =`.old 11px ${FIFA_FONT}`;
     ctx.fillStyle = pd.badgeText;
     ctx.textAlign = 'center';
     ctx.fillText(`✦ ${pd.rarity} ✦`, cx + cardW / 2, badgeY + 17);
 
-    ctx.font = `11px ${FIFA_FONT}`;
+    ctx.font =`.1px ${FIFA_FONT}`;
     ctx.fillStyle = '#ffffff40';
     ctx.fillText('PRECIO DE VENTA', cx + cardW / 2, cy + 228);
-    ctx.font = `bold 14px ${FIFA_FONT}`;
+    ctx.font =`.old 14px ${FIFA_FONT}`;
     ctx.fillStyle = pd.accent;
     ctx.fillText(`${pd.sellVal} 💰`, cx + cardW / 2, cy + 248);
 
@@ -1677,17 +1677,17 @@ async function generatePackShopCanvas() {
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    ctx.font = `11px ${FIFA_FONT}`;
+    ctx.font =`.1px ${FIFA_FONT}`;
     ctx.fillStyle = '#ffffff40';
     ctx.fillText('PRECIO', cx + cardW / 2, cy + 282);
 
-    ctx.font = `bold 30px ${FIFA_FONT}`;
+    ctx.font =`.old 30px ${FIFA_FONT}`;
     ctx.fillStyle = pd.priceColor;
     ctx.shadowColor = pd.topGlow;
     ctx.shadowBlur = 15;
     ctx.fillText(`${pd.price}`, cx + cardW / 2, cy + 316);
     ctx.shadowBlur = 0;
-    ctx.font = `bold 14px ${FIFA_FONT}`;
+    ctx.font =`.old 14px ${FIFA_FONT}`;
     ctx.fillStyle = pd.priceColor + 'aa';
     ctx.fillText('monedas', cx + cardW / 2, cy + 335);
 
@@ -1702,7 +1702,7 @@ async function generatePackShopCanvas() {
     ctx.strokeStyle = pd.accentLight + '66';
     ctx.lineWidth = 1;
     ctx.stroke();
-    ctx.font = `bold 12px ${FIFA_FONT}`;
+    ctx.font =`.old 12px ${FIFA_FONT}`;
     ctx.fillStyle = '#000000cc';
     ctx.shadowColor = pd.accentLight;
     ctx.shadowBlur = 4;
@@ -1726,7 +1726,7 @@ async function generatePackShopCanvas() {
   }
 
   ctx.save();
-  ctx.font = `12px ${FIFA_FONT}`;
+  ctx.font =`.2px ${FIFA_FONT}`;
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ffffff25';
   ctx.fillText('Usa  !buy <tipo>  para comprar · También puedes comprar varios: !buy 5 silver · Ver inventario: !inventory', W / 2, H - 14);
@@ -1775,10 +1775,10 @@ async function generateBalanceCanvas(user, username) {
   // ── Header: "@username has a balance of X 💰" ──
   const tier = getEloTier(user.elo || 1000);
   ctx.save();
-  ctx.font = `bold 15px ${FIFA_FONT}`;
+  ctx.font =`.old 15px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'left';
-  const headerText = `@${username} tiene un balance de  ${coins.toLocaleString()} 💰`;
+  const headerText =`.${username} tiene un balance de  ${coins.toLocaleString()} 💰`;
   // Fondo del header ligeramente más claro
   ctx.fillStyle = '#2b2d31';
   roundRectPath(ctx, 0, 0, W, HEADER_H, 12);
@@ -1789,11 +1789,11 @@ async function generateBalanceCanvas(user, username) {
 
   // Texto del header
   ctx.save();
-  ctx.font = `bold 14px ${FIFA_FONT}`;
+  ctx.font =`.old 14px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'left';
   ctx.fillText(`@${username}`, PADDING, 22);
-  ctx.font = `13px ${FIFA_FONT}`;
+  ctx.font =`.3px ${FIFA_FONT}`;
   ctx.fillStyle = '#b5bac1';
   ctx.fillText(`tiene un balance de  ${coins.toLocaleString()} 💰  ·  ${tier.emoji} ${tier.name}`, PADDING, 40);
   ctx.restore();
@@ -1835,7 +1835,7 @@ async function generateBalanceCanvas(user, username) {
 
     // Label
     ctx.save();
-    ctx.font = `14px ${FIFA_FONT}`;
+    ctx.font =`.4px ${FIFA_FONT}`;
     ctx.fillStyle = '#b5bac1';
     ctx.textAlign = 'left';
     ctx.fillText(row.label, PADDING + 44, rowY + ROW_H / 2 + 5);
@@ -1843,7 +1843,7 @@ async function generateBalanceCanvas(user, username) {
 
     // Valor (alineado a la derecha)
     ctx.save();
-    ctx.font = `bold 16px ${FIFA_FONT}`;
+    ctx.font =`.old 16px ${FIFA_FONT}`;
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'right';
     ctx.fillText(row.value, W - PADDING, rowY + ROW_H / 2 + 5);
@@ -1923,16 +1923,16 @@ async function generateSellCanvas(player, coinsEarned, newBalance, quantity) {
   drawFIFACardPath(ctx, miniX, miniY, miniW, miniH, 7);
   ctx.clip();
   drawFIFAPattern(ctx, miniX, miniY, miniW, miniH * 0.6, c.shine);
-  ctx.font = `bold 22px ${FIFA_FONT}`;
+  ctx.font =`.old 22px ${FIFA_FONT}`;
   ctx.fillStyle = c.ratingCol;
   ctx.textAlign = 'center';
   ctx.fillText(String(player.rating), miniX + miniW / 2, miniY + 26);
-  ctx.font = `bold 8px ${FIFA_FONT}`;
+  ctx.font =`.old 8px ${FIFA_FONT}`;
   ctx.fillStyle = c.posCol;
   ctx.fillText(player.position, miniX + miniW / 2, miniY + 38);
   ctx.fillStyle = c.nameBar;
   ctx.fillRect(miniX, miniY + miniH * 0.56, miniW, 18);
-  ctx.font = `bold 7px ${FIFA_FONT}`;
+  ctx.font =`.old 7px ${FIFA_FONT}`;
   ctx.fillStyle = c.nameCol;
   ctx.fillText(player.name.toUpperCase().substring(0, 10), miniX + miniW / 2, miniY + miniH * 0.56 + 12);
   ctx.fillStyle = c.statsArea;
@@ -1950,17 +1950,17 @@ async function generateSellCanvas(player, coinsEarned, newBalance, quantity) {
   const textX = miniX + miniW + 18;
   ctx.save();
   ctx.textAlign = 'left';
-  ctx.font = `11px ${FIFA_FONT}`;
+  ctx.font =`.1px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff30';
   ctx.fillText('VENTA COMPLETADA', textX, 30);
-  const displayName = (quantity > 1 ? `${quantity}x ` : '') + player.name;
-  ctx.font = `bold 22px ${FIFA_FONT}`;
+  const displayName = (quantity > 1 ?`.{quantity}x`.: '') + player.name;
+  ctx.font =`.old 22px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff';
   ctx.shadowColor = c.glow + '44';
   ctx.shadowBlur = 5;
   ctx.fillText(displayName, textX, 56);
   ctx.shadowBlur = 0;
-  ctx.font = `bold 11px ${FIFA_FONT}`;
+  ctx.font =`.old 11px ${FIFA_FONT}`;
   ctx.fillStyle = c.shine;
   ctx.fillText(`${player.rarity.toUpperCase()}  ·  ${player.position}  ·  ${player.rating} OVR`, textX, 74);
   ctx.beginPath();
@@ -1969,16 +1969,16 @@ async function generateSellCanvas(player, coinsEarned, newBalance, quantity) {
   ctx.strokeStyle = '#ffffff15';
   ctx.lineWidth = 1;
   ctx.stroke();
-  ctx.font = `11px ${FIFA_FONT}`;
+  ctx.font =`.1px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff35';
   ctx.fillText('RECIBISTE', textX, 102);
-  ctx.font = `bold 28px ${FIFA_FONT}`;
+  ctx.font =`.old 28px ${FIFA_FONT}`;
   ctx.fillStyle = '#FFD700';
   ctx.shadowColor = '#FFD700';
   ctx.shadowBlur = 14;
   ctx.fillText(`+${coinsEarned.toLocaleString()} 💰`, textX, 130);
   ctx.shadowBlur = 0;
-  ctx.font = `12px ${FIFA_FONT}`;
+  ctx.font =`.2px ${FIFA_FONT}`;
   ctx.fillStyle = '#ffffff40';
   ctx.fillText(`Balance actual: ${newBalance.toLocaleString()} monedas`, textX, 154);
   ctx.restore();
@@ -2007,14 +2007,14 @@ const helpPages = [
     title: '📖 Ayuda — Página 1/5 · Economía & Packs',
     color: 0x1a56db,
     fields: [
-      { name: '💰  `.bal`',           value: 'Ver tus monedas actuales', inline: false },
-      { name: '🎁  `.daily`',         value: 'Recompensa diaria (cada 24h) — acumula racha', inline: false },
-      { name: '🎖️  `.claim`',         value: 'Reclamar monedas cada **12h** + bonus de racha', inline: false },
-      { name: '⏱️  `.cd`',            value: 'Ver el estado de todos tus cooldowns:\n**Daily · Claim · Friendly · Arena** con tiempo exacto o ✅ Ready', inline: false },
-      { name: '📦  `.packs`',         value: 'Ver la tienda de packs y sus precios', inline: false },
-      { name: '🛒  `.buy <tipo>`', value: '🥉 Bronze **500 💰** → Comunes\n⚪ Silver **2500 💰** → Raros\n🥇 Gold **7500 💰** → Épicos\n💎 Legend **15000 💰** → Legendarios\n🏆 World Cup **95000 💰** → World Cup Champions', inline: false },
-      { name: '🎒  `.inventory`',     value: 'Ver cuántos packs tienes disponibles', inline: false },
-      { name: '🎮  `.open <tipo>` /  `.o <tipo>`', value: 'Abrir pack con animación en vivo paso a paso\n🥉 bronze · ⚪ silver · 🥇 gold · 💎 legend · 🏆 worldcup', inline: false },
+      { name: '💰`.bal`',           value: 'Ver tus monedas actuales', inline: false },
+      { name: '🎁`.daily`',         value: 'Recompensa diaria (cada 24h) — acumula racha', inline: false },
+      { name: '🎖️`.claim`',         value: 'Reclamar monedas cada **12h** + bonus de racha', inline: false },
+      { name: '⏱️`.cd`',            value: 'Ver el estado de todos tus cooldowns:\n**Daily · Claim · Friendly · Arena** con tiempo exacto o ✅ Ready', inline: false },
+      { name: '📦`.packs`',         value: 'Ver la tienda de packs y sus precios', inline: false },
+      { name: '🛒`.buy <tipo>`', value: '🥉 Bronze **500 💰** → Comunes\n⚪ Silver **2500 💰** → Raros\n🥇 Gold **7500 💰** → Épicos\n💎 Legend **15000 💰** → Legendarios\n🏆 World Cup **95000 💰** → World Cup Champions', inline: false },
+      { name: '🎒`.inventory`',     value: 'Ver cuántos packs tienes disponibles', inline: false },
+      { name: '🎮`.open <tipo>` /`.o <tipo>`', value: 'Abrir pack con animación en vivo paso a paso\n🥉 bronze · ⚪ silver · 🥇 gold · 💎 legend · 🏆 worldcup', inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
@@ -2022,15 +2022,15 @@ const helpPages = [
     title: '📖 Ayuda — Página 2/5 · Club, Equipo & Cartas',
     color: 0x00C851,
     fields: [
-      { name: '📋  `.club`',                   value: `Ver tu plantilla completa (máx **${MAX_CLUB_SIZE} jugadores**)`, inline: false },
-      { name: '✏️  `.club rename <nombre>`',   value: 'Cambiar el nombre de tu club', inline: false },
-      { name: '🖼️  `.club logo <url>`',        value: 'Poner logo a tu club con una imagen PNG/JPG\n `.club logo remove` para eliminarlo', inline: false },
-      { name: '🟢  `.team`',                   value: 'Ver tu equipo activo con imagen interactiva (4 jugadores)', inline: false },
-      { name: '🖼️  `.show <nombre>`',          value: 'Ver la carta individual con estadísticas detalladas\n💡 También funciona con cartas que **no tienes** en tu club', inline: false },
-      { name: '🎮  `.players [filtro]`',       value: 'Ver **todos** los jugadores disponibles en el juego, ordenados por OVR\n**Filtros:** `legendario` · `epico` · `raro` · `comun` · `gk` · `dm` · `am` · `st`\nBoton 🎲 Aleatorio para saltar a página random', inline: false },
-      { name: '➕  `.add <nombre>`',           value: 'Añadir jugador de tu club al equipo activo', inline: false },
-      { name: '❌  `.remove <nombre>`',        value: 'Quitar jugador del equipo activo (vuelve al club)', inline: false },
-      { name: '🗑️  `.removeall <nombre>`',     value: 'Quitar todas las copias de un jugador del equipo', inline: false },
+      { name: '📋`.club`',                   value:`.er tu plantilla completa (máx **${MAX_CLUB_SIZE} jugadores**)`, inline: false },
+      { name: '✏️`.club rename <nombre>`',   value: 'Cambiar el nombre de tu club', inline: false },
+      { name: '🖼️`.club logo <url>`',        value: 'Poner logo a tu club con una imagen PNG/JPG\n`.club logo remove` para eliminarlo', inline: false },
+      { name: '🟢`.team`',                   value: 'Ver tu equipo activo con imagen interactiva (4 jugadores)', inline: false },
+      { name: '🖼️`.show <nombre>`',          value: 'Ver la carta individual con estadísticas detalladas\n💡 También funciona con cartas que **no tienes** en tu club', inline: false },
+      { name: '🎮`.players [filtro]`',       value: 'Ver **todos** los jugadores disponibles en el juego, ordenados por OVR\n**Filtros:**`.egendario` ·`.pico` ·`.aro` ·`.omun` ·`.k` ·`.m` ·`.m` ·`.t`\nBoton 🎲 Aleatorio para saltar a página random', inline: false },
+      { name: '➕`.add <nombre>`',           value: 'Añadir jugador de tu club al equipo activo', inline: false },
+      { name: '❌`.remove <nombre>`',        value: 'Quitar jugador del equipo activo (vuelve al club)', inline: false },
+      { name: '🗑️`.removeall <nombre>`',     value: 'Quitar todas las copias de un jugador del equipo', inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
@@ -2038,13 +2038,13 @@ const helpPages = [
     title: '📖 Ayuda — Página 3/5 · Market & Equipo',
     color: 0xFFD700,
     fields: [
-      { name: '🔄  `.swap`',                      value: 'Intercambiar posiciones entre dos jugadores del equipo', inline: false },
-      { name: '🏪  `.market`',                    value: 'Ver el market dinámico — cartas publicadas por otros jugadores', inline: false },
-      { name: '🏪  `.market <nombre>`',           value: 'Comprar la carta más barata disponible de ese jugador\nEj:  `.market Czerro`', inline: false },
-      { name: '💸  `.sell <nombre> [precio]`',    value: 'Publicar una carta en el market con precio personalizado.\nSin precio = mínimo automático. Las cartas duran **24h**.', inline: false },
-      { name: '❌  `.cancelar`',                  value: 'Ver tus listings activos en el market y **retirar** los que quieras.\nLa carta vuelve directo a tu club.', inline: false },
-      { name: '💸  `.send @usuario <cantidad>`',  value: 'Transferir monedas a otro jugador\nMínimo **50 💰** · Requiere confirmación antes de enviar', inline: false },
-{ name: '🔄  `.trade @usuario <tu carta> por <su carta>`',
+      { name: '🔄`.swap`',                      value: 'Intercambiar posiciones entre dos jugadores del equipo', inline: false },
+      { name: '🏪`.market`',                    value: 'Ver el market dinámico — cartas publicadas por otros jugadores', inline: false },
+      { name: '🏪`.market <nombre>`',           value: 'Comprar la carta más barata disponible de ese jugador\nEj:`.market Czerro`', inline: false },
+      { name: '💸`.sell <nombre> [precio]`',    value: 'Publicar una carta en el market con precio personalizado.\nSin precio = mínimo automático. Las cartas duran **24h**.', inline: false },
+      { name: '❌`.cancelar`',                  value: 'Ver tus listings activos en el market y **retirar** los que quieras.\nLa carta vuelve directo a tu club.', inline: false },
+      { name: '💸`.send @usuario <cantidad>`',  value: 'Transferir monedas a otro jugador\nMínimo **50 💰** · Requiere confirmación antes de enviar', inline: false },
+{ name: '🔄`.trade @usuario <tu carta> por <su carta>`',
   value: [
     'Intercambiá cartas con otro jugador.',
     '**Reglas:**',
@@ -2052,7 +2052,7 @@ const helpPages = [
     '• No podés tradear contigo mismo',
     '• El rival tiene **120s** para aceptar o rechazar',
     '• Si alguna carta estaba en el equipo, se saca automáticamente',
-    '💡 Ej:  `.trade @Luntek Veil por Compass`',
+    '💡 Ej:`.trade @Luntek Veil por Compass`',
   ].join('\n'),
   inline: false
 },
@@ -2064,15 +2064,15 @@ const helpPages = [
     title: '📖 Ayuda — Página 4/5 · Arena & Partidos',
     color: 0xFF6B00,
     fields: [
-      { name: '🤝  `.friendly @rival`', value: 'Partido amistoso\n💰 Victoria: **+100** · Empate: **+50** · Derrota: **+20**', inline: false },
-      { name: '⚔️  `.arena`',           value: '**Matchmaking automático por ELO**\nEmparejas con alguien de ELO similar\n💰 Victoria: **+400** · Empate: **+250** · Derrota: **+50**\n⏱️ Cooldown de **15 minutos**', inline: false },
-      { name: '📊  `.top`',             value: 'Top 10 global por puntuación ELO', inline: false },
+      { name: '🤝`.friendly @rival`', value: 'Partido amistoso\n💰 Victoria: **+100** · Empate: **+50** · Derrota: **+20**', inline: false },
+      { name: '⚔️`.arena`',           value: '**Matchmaking automático por ELO**\nEmparejas con alguien de ELO similar\n💰 Victoria: **+400** · Empate: **+250** · Derrota: **+50**\n⏱️ Cooldown de **15 minutos**', inline: false },
+      { name: '📊`.top`',             value: 'Top 10 global por puntuación ELO', inline: false },
       { name: '💡 Tips para ganar monedas', value: '• **!claim** cada **12h** → racha de 14 días = Pack Gold gratis\n• **!daily** cada día → racha 7 días = 2 packs silver\n• **!arena** diario → hasta **+400 💰** por victoria\n• Vende duplicados → Épico vale **7500 💰** en market\n• Compra en **!market** y vende más caro\n• 30 días de racha → pack **LEGEND gratis**', inline: false },
-{ name: '🎯  `.quests` /  `.misiones`',
-    value: '3 misiones diarias (🟢 fácil · 🟡 media · 🔴 difícil)\nGana hasta **1.350 💰** por día completándolas\n `.quests reclamar <1|2|3>` para cobrar',
+{ name: '🎯`.quests` /`.misiones`',
+    value: '3 misiones diarias (🟢 fácil · 🟡 media · 🔴 difícil)\nGana hasta **1.350 💰** por día completándolas\n`.quests reclamar <1|2|3>` para cobrar',
     inline: false },
-  { name: '🏆  `.torneo`',
-    value: 'Torneos eliminatorios con bracket visual\n `.torneo listar` ·  `.torneo jugar <id>` ·  `.torneo bracket <id>`\nAdmins crean torneos:  `.torneo crear <nombre> <entrada> <jugadores>`',
+  { name: '🏆`.torneo`',
+    value: 'Torneos eliminatorios con bracket visual\n`.torneo listar` ·`.torneo jugar <id>` ·`.torneo bracket <id>`\nAdmins crean torneos:`.torneo crear <nombre> <entrada> <jugadores>`',
     inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
@@ -2082,24 +2082,24 @@ const helpPages = [
     color: 0x9B59B6,
     fields: [
       { name: '👑 Comandos de Admin', value: 'Los siguientes comandos solo funcionan si eres admin:', inline: false },
-      { name: ' `.giveme <n>`',          value: 'Darte monedas a ti mismo',               inline: true },
-      { name: ' `.give @u <n>`',         value: 'Dar monedas a usuario',                  inline: true },
-      { name: ' `.take @u <n>`',         value: 'Quitar monedas a usuario',               inline: true },
-      { name: ' `.givecard @u <jug>`',   value: 'Dar carta específica',                   inline: true },
-      { name: ' `.givepack @u <t> [n]`', value: 'Dar pack(s) a usuario',                  inline: true },
-      { name: ' `.profile @u`',          value: 'Ver perfil completo',                    inline: true },
-      { name: ' `.resetuser @u`',        value: 'Resetear cuenta completa',               inline: true },
-      { name: ' `.setelo @u <n>`',       value: 'Ajustar ELO',                            inline: true },
-      { name: ' `.resetdaily @u`',       value: 'Resetear daily/racha',                   inline: true },
-      { name: ' `.clearteam @u`',        value: 'Limpiar equipo activo',                  inline: true },
-      { name: ' `.clearclub @u`',        value: 'Limpiar club y equipo completo',         inline: true },
-      { name: ' `.removelogo @u`',       value: 'Eliminar logo del club',                 inline: true },
-      { name: ' `.info`',                value: 'Estadísticas globales del bot',          inline: true },
-      { name: ' `.addadmin @u`',         value: 'Agregar admin (solo SuperAdmin)',         inline: true },
-      { name: ' `.removeadmin @u`',      value: 'Quitar admin (solo SuperAdmin)',          inline: true },
-      { name: ' `.admins`',              value: 'Ver lista de admins',                    inline: true },
-      { name: ' `.anuncio <msg>`',       value: 'Anuncio oficial en el canal',            inline: true },
-      { name: ' `.adminhelp`',           value: 'Ver panel expandido de admin',           inline: true },
+      { name: '`.giveme <n>`',          value: 'Darte monedas a ti mismo',               inline: true },
+      { name: '`.give @u <n>`',         value: 'Dar monedas a usuario',                  inline: true },
+      { name: '`.take @u <n>`',         value: 'Quitar monedas a usuario',               inline: true },
+      { name: '`.givecard @u <jug>`',   value: 'Dar carta específica',                   inline: true },
+      { name: '`.givepack @u <t> [n]`', value: 'Dar pack(s) a usuario',                  inline: true },
+      { name: '`.profile @u`',          value: 'Ver perfil completo',                    inline: true },
+      { name: '`.resetuser @u`',        value: 'Resetear cuenta completa',               inline: true },
+      { name: '`.setelo @u <n>`',       value: 'Ajustar ELO',                            inline: true },
+      { name: '`.resetdaily @u`',       value: 'Resetear daily/racha',                   inline: true },
+      { name: '`.clearteam @u`',        value: 'Limpiar equipo activo',                  inline: true },
+      { name: '`.clearclub @u`',        value: 'Limpiar club y equipo completo',         inline: true },
+      { name: '`.removelogo @u`',       value: 'Eliminar logo del club',                 inline: true },
+      { name: '`.info`',                value: 'Estadísticas globales del bot',          inline: true },
+      { name: '`.addadmin @u`',         value: 'Agregar admin (solo SuperAdmin)',         inline: true },
+      { name: '`.removeadmin @u`',      value: 'Quitar admin (solo SuperAdmin)',          inline: true },
+      { name: '`.admins`',              value: 'Ver lista de admins',                    inline: true },
+      { name: '`.anuncio <msg>`',       value: 'Anuncio oficial en el canal',            inline: true },
+      { name: '`.adminhelp`',           value: 'Ver panel expandido de admin',           inline: true },
     ],
     footer: '⬅️ Anterior  |  Fin  ·  Navega con los botones'
   }
@@ -2151,7 +2151,7 @@ function findArenaMatch(userId, userElo) {
 async function fetchClubLogo(url) {
   const cleanUrl = url.split('?')[0].toLowerCase();
   if (!cleanUrl.endsWith('.png') && !cleanUrl.endsWith('.jpg') && !cleanUrl.endsWith('.jpeg') && !cleanUrl.endsWith('.webp')) {
-    return { ok: false, reason: 'El URL debe terminar en `.png`, `.jpg`, `.jpeg` o `.webp`.' };
+    return { ok: false, reason: 'El URL debe terminar en`.png`,`.jpg`,`.jpeg` o`.webp`.' };
   }
   let buffer;
   try {
@@ -2167,7 +2167,7 @@ async function fetchClubLogo(url) {
       }).on('error', reject).on('timeout', () => reject(new Error('timeout')));
     });
   } catch (e) {
-    return { ok: false, reason: `No se pudo descargar la imagen. ¿El URL es público y directo? (${e.message})` };
+    return { ok: false, reason:`.o se pudo descargar la imagen. ¿El URL es público y directo? (${e.message})` };
   }
   try {
     await loadImage(buffer);
@@ -2271,21 +2271,21 @@ if (isBanned(message.author.id)) {
     return message.reply({
       embeds: [{
         color: 0x2b2d31,
-        description: `<@${userId}> has a transfer budget of **${coins.toLocaleString()}** ${EMOJI_COIN}`,
+        description:`.@${userId}> has a transfer budget of **${coins.toLocaleString()}** ${EMOJI_COIN}`,
         thumbnail: user.clubLogo ? { url: 'attachment://club-logo.png' } : undefined,
         fields: [
           {
             name: '',
             value: [
-              `👥  **Players Value:**　　　　${totalMarketValue.toLocaleString()}`,
-              `💸  **Players Sell Value:**　　${totalSellValue.toLocaleString()}`,
-              `🏦  **Club Resources:**　　　　${(coins + totalSellValue).toLocaleString()}`,
+`.  **Players Value:**　　　　${totalMarketValue.toLocaleString()}`,
+`.  **Players Sell Value:**　　${totalSellValue.toLocaleString()}`,
+`.  **Club Resources:**　　　　${(coins + totalSellValue).toLocaleString()}`,
             ].join('\n'),
             inline: false
           }
         ],
         footer: {
-          text: `${clubName}  ·  ${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}`
+          text:`.{clubName}  ·  ${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}`
         },
         timestamp: new Date().toISOString()
       }],
@@ -2323,26 +2323,26 @@ if (isBanned(message.author.id)) {
     let streakBar = '';
     if (nextMilestone) {
       const filled = Math.floor(((newStreak % nextMilestone) / nextMilestone) * 10);
-      streakBar = `\n🎯 Próximo hito: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
+      streakBar =`.n🎯 Próximo hito: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
     }
 
     let lines = [
-      `🎁 **¡Asistencia registrada!**`, ``,
-      `🔥 Racha actual: **${newStreak}** día${newStreak!==1?'s':''} consecutivo${newStreak!==1?'s':''}`,
-      `💡 Usa \ `.claim\` para recoger tus monedas del día`,
-      `📅 Mañana podrás reclamar: **${nextReward}** 💰`,
+`. **¡Asistencia registrada!**`,`.,
+`. Racha actual: **${newStreak}** día${newStreak!==1?'s':''} consecutivo${newStreak!==1?'s':''}`,
+`. Usa \`.claim\` para recoger tus monedas del día`,
+`. Mañana podrás reclamar: **${nextReward}** 💰`,
     ];
 
-    if (!isStreak && lastClaim > 0) lines.push(``, `💔 ¡Rompiste tu racha! Empieza de nuevo desde 1.`);
+    if (!isStreak && lastClaim > 0) lines.push(``,`. ¡Rompiste tu racha! Empieza de nuevo desde 1.`);
 
     const nextClaimMilestone = Object.keys(CLAIM_MILESTONES).map(Number).sort((a,b)=>a-b).find(m => !(user.daily.claimedMilestones||[]).includes(m));
     if (nextClaimMilestone) {
       const daysLeft = Math.max(0, nextClaimMilestone - newStreak);
-      lines.push(``, `🎁 Próxima recompensa con \ `.claim\`: Día **${nextClaimMilestone}** (faltan **${daysLeft}** día${daysLeft!==1?'s':''})`);
+      lines.push(``,`. Próxima recompensa con \`.claim\`: Día **${nextClaimMilestone}** (faltan **${daysLeft}** día${daysLeft!==1?'s':''})`);
     }
 
     if (streakBar) lines.push(streakBar);
-    lines.push(``, `💡 Usa \ `.claim\` para recoger tus recompensas diarias de monedas.`);
+    lines.push(``,`. Usa \`.claim\` para recoger tus recompensas diarias de monedas.`);
 
     return message.reply(lines.join('\n'));
   }
@@ -2395,21 +2395,21 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     let streakBar = '';
     if (nextMilestone) {
       const filled = Math.floor(((streak % nextMilestone) / nextMilestone) * 10);
-      streakBar = `\n🎯 Próximo hito de monedas: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
+      streakBar =`.n🎯 Próximo hito de monedas: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
     }
 
     let lines = [
-      `🎁 **¡Recompensa diaria reclamada!**`, ``,
-      `💰 Recibiste **+${reward}** monedas`,
-      `💼 Balance actual: **${user.coins}** 💰`, ``,
-      `🔥 Racha: **${streak}** día${streak!==1?'s':''} consecutivo${streak!==1?'s':''}`,
-      `📅 Mañana recibirás: **${nextReward}** 💰`,
+`. **¡Recompensa diaria reclamada!**`,`.,
+`. Recibiste **+${reward}** monedas`,
+`. Balance actual: **${user.coins}** 💰`,`.,
+`. Racha: **${streak}** día${streak!==1?'s':''} consecutivo${streak!==1?'s':''}`,
+`. Mañana recibirás: **${nextReward}** 💰`,
     ];
 
     if (bonusLines.length > 0) lines.push(``, ...bonusLines);
-    if (packLines.length > 0) lines.push(``, `🎉 **¡Packs desbloqueados por racha!**`, ...packLines, ``, `📦 Revisa tu inventario con \ `.inventory\``);
+    if (packLines.length > 0) lines.push(``,`. **¡Packs desbloqueados por racha!**`, ...packLines,`.,`. Revisa tu inventario con \`.inventory\``);
     if (streakBar) lines.push(streakBar);
-    if (streak === 0) lines.push(``, `💡 Usa \ `.daily\` cada día para acumular racha y desbloquear mejores recompensas.`);
+    if (streak === 0) lines.push(``,`. Usa \`.daily\` cada día para acumular racha y desbloquear mejores recompensas.`);
 
     return message.reply(lines.join('\n'));
   }
@@ -2440,9 +2440,9 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     const shopMsg = await message.reply({
       embeds: [{
         color: 0x1a1a2e,
-        author: { name: `🏪 Tienda de Packs · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        author: { name:`. Tienda de Packs · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
         image: { url: 'attachment://shop.png' },
-        footer: { text: `${EMOJI_COIN} Balance: ${user.coins} monedas  ·  Usa los botones para comprar rápido` },
+        footer: { text:`.{EMOJI_COIN} Balance: ${user.coins} monedas  ·  Usa los botones para comprar rápido` },
         timestamp: new Date().toISOString()
       }],
       files: [{ attachment: shopCanvas.toBuffer(), name: 'shop.png' }],
@@ -2453,7 +2453,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     shopCollector.on('collect', async interaction => {
       if (interaction.user.id !== userId) return interaction.reply({ content: '❌ Esta tienda no es tuya.', ephemeral: true });
 
-      if (interaction.customId === `shop_info_${userId}`) {
+      if (interaction.customId ===`.hop_info_${userId}`) {
         const balCanvas = await generateBalanceCanvas(user, message.author.username);
         return interaction.reply({
           files: [{ attachment: balCanvas.toBuffer(), name: 'balance.png' }],
@@ -2468,8 +2468,8 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
         return interaction.reply({
           embeds: [{
             color: 0xFF4444,
-            title: `❌ Monedas insuficientes`,
-            description: `Necesitas **${packs[packType].price} ${EMOJI_COIN}** para un pack **${packs[packType].label}**.\nTienes **${user.coins} ${EMOJI_COIN}**.`,
+            title:`. Monedas insuficientes`,
+            description:`.ecesitas **${packs[packType].price} ${EMOJI_COIN}** para un pack **${packs[packType].label}**.\nTienes **${user.coins} ${EMOJI_COIN}**.`,
             footer: { text: 'Gana monedas con !daily, !arena y !friendly' }
           }],
           ephemeral: true
@@ -2478,7 +2478,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
 
       if (user.players.length >= MAX_CLUB_SIZE) {
         return interaction.reply({
-          content: `❌ Tu club está lleno (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}**). Vende jugadores con \ `.sell <nombre>\`.`,
+          content:`. Tu club está lleno (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}**). Vende jugadores con \`.sell <nombre>\`.`,
           ephemeral: true
         });
       }
@@ -2490,9 +2490,9 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
       await interaction.update({
         embeds: [{
           color: 0x1a1a2e,
-          author: { name: `🏪 Tienda de Packs · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          author: { name:`. Tienda de Packs · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
           image: { url: 'attachment://shop.png' },
-          footer: { text: `${EMOJI_COIN} Balance: ${user.coins} monedas  ·  Pack ${packs[packType].label} comprado ✅` },
+          footer: { text:`.{EMOJI_COIN} Balance: ${user.coins} monedas  ·  Pack ${packs[packType].label} comprado ✅` },
           timestamp: new Date().toISOString()
         }],
         files: [{ attachment: shopCanvas.toBuffer(), name: 'shop.png' }],
@@ -2501,12 +2501,12 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
       await interaction.followUp({
         embeds: [{
           color: 0x00C851,
-          title: `✅ Pack ${packs[packType].emoji} ${packs[packType].label} comprado`,
-          description: `Ahora tienes **${user.packs[packType]}** pack(s) **${packs[packType].label}**.\nÚsalos con \ `.open ${packType}\``,
+          title:`. Pack ${packs[packType].emoji} ${packs[packType].label} comprado`,
+          description:`.hora tienes **${user.packs[packType]}** pack(s) **${packs[packType].label}**.\nÚsalos con \`.open ${packType}\``,
           fields: [
-            { name: `${EMOJI_COIN} Gastaste`, value: `${packs[packType].price} ${EMOJI_COIN}`, inline: true },
-            { name: '💳 Balance', value: `${user.coins} ${EMOJI_COIN}`, inline: true },
-            { name: '🎒 Packs', value: `🥈${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0} 🏆${user.packs.worldcup||0}`, inline: true },
+            { name:`.{EMOJI_COIN} Gastaste`, value:`.{packs[packType].price} ${EMOJI_COIN}`, inline: true },
+            { name: '💳 Balance', value:`.{user.coins} ${EMOJI_COIN}`, inline: true },
+            { name: '🎒 Packs', value:`.${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0} 🏆${user.packs.worldcup||0}`, inline: true },
           ],
           footer: { text: '¡Ábrelo con !open ' + packType + '.' }
         }],
@@ -2525,7 +2525,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     let amount = 1, type = '';
     if (!isNaN(args[1])) { amount = parseInt(args[1]); type = (args[2]||'').toLowerCase(); }
     else type = (args[1]||'').toLowerCase();
-    if (!packs[type]) return message.reply('❌ Ese pack no existe. Usa `silver`, `bronze`, `gold` , `legend`o `WorldCup`.');
+    if (!packs[type]) return message.reply('❌ Ese pack no existe. Usa`.ilver`,`.ronze`,`.old` ,`.egend`o`.orldCup`.');
     if (amount < 1) return message.reply('❌ Cantidad inválida.');
     const totalPrice = packs[type].price * amount;
     if (user.coins < totalPrice) return message.reply(`❌ No tienes monedas suficientes. Necesitas **${totalPrice}** ${EMOJI_COIN} y tienes **${user.coins}** ${EMOJI_COIN}.`);
@@ -2540,12 +2540,12 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   if (cmd === '.inventory') {
     return message.reply(
-      `🎒 **Tus packs:**\n` +
-      `⚪ Silver: **${user.packs.silver||0}**\n` +
-      `🥉 Bronze: **${user.packs.bronze||0}**\n` +
-      `🥇 Gold: **${user.packs.gold||0}**\n` +
-      `💎 Legend: **${user.packs.legend||0}**\n` +
-      `🏆 World Cup: **${user.packs.worldcup||0}**`
+`. **Tus packs:**\n` +
+`. Silver: **${user.packs.silver||0}**\n` +
+`. Bronze: **${user.packs.bronze||0}**\n` +
+`. Gold: **${user.packs.gold||0}**\n` +
+`. Legend: **${user.packs.legend||0}**\n` +
+`. World Cup: **${user.packs.worldcup||0}**`
     );
   }
 
@@ -2557,22 +2557,22 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
 if (type === 'wc') type = 'worldcup';
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
-        { name: '🥉  `.open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
-        { name: '⚪  `.open silver`', value: 'Jugadores Raros — **2500 💰**', inline: true },
-        { name: '🥇  `.open gold`',   value: 'Jugadores Épicos — **7500 💰**', inline: true },
-        { name: '💎  `.open legend`', value: 'Jugadores Legendarios — **15000 💰**', inline: true },
-        { name: '💎  `.open worldcup/wc`', value: 'Jugadores WC — **95000 💰**', inline: true },
+        { name: '🥉`.open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
+        { name: '⚪`.open silver`', value: 'Jugadores Raros — **2500 💰**', inline: true },
+        { name: '🥇`.open gold`',   value: 'Jugadores Épicos — **7500 💰**', inline: true },
+        { name: '💎`.open legend`', value: 'Jugadores Legendarios — **15000 💰**', inline: true },
+        { name: '💎`.open worldcup/wc`', value: 'Jugadores WC — **95000 💰**', inline: true },
       ], footer: { text: 'Compra packs con !buy · Ver tienda con !packs' } }] });
     }
     if ((user.packs[type] || 0) <= 0) {
       const pv = PACK_VISUAL[type];
-      return message.reply({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: `${packs[type].emoji} Sin packs ${packs[type].label}`, description: `No tienes packs **${packs[type].label}** disponibles.\nCómpralos con \ `.buy ${type}\` por **${packs[type].price} 💰**`, fields: [
-        { name: `${EMOJI_COIN} Tu balance`, value: `**${user.coins}** monedas`, inline: true },
-        { name: '🎒 Inventario', value: `⚪${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0}`, inline: true }
+      return message.reply({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title:`.{packs[type].emoji} Sin packs ${packs[type].label}`, description:`.o tienes packs **${packs[type].label}** disponibles.\nCómpralos con \`.buy ${type}\` por **${packs[type].price} 💰**`, fields: [
+        { name:`.{EMOJI_COIN} Tu balance`, value:`.*${user.coins}** monedas`, inline: true },
+        { name: '🎒 Inventario', value:`.${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0}`, inline: true }
       ], footer: { text: 'Usa !packs para ver la tienda completa' } }] });
     }
     if (user.players.length >= MAX_CLUB_SIZE) {
-      return message.reply({ embeds: [{ color: 0xFF4444, title: '🏟️ Club lleno', description: `Tu club está al límite (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}** jugadores).\nVende con \ `.sell <nombre>\` para hacer espacio.`, footer: { text: 'Usa !club para ver tu plantilla completa' } }] });
+      return message.reply({ embeds: [{ color: 0xFF4444, title: '🏟️ Club lleno', description:`.u club está al límite (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}** jugadores).\nVende con \`.sell <nombre>\` para hacer espacio.`, footer: { text: 'Usa !club para ver tu plantilla completa' } }] });
     }
 
     user.packs[type]--;
@@ -2599,12 +2599,12 @@ progressQuest(userId, 'pack_opened', 1);
 
     const phase1Embed = {
       color: parseInt(pv.primary.replace('#',''), 16),
-      author: { name: `${packs[type].emoji} Pack ${packs[type].label} de ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-      title: `🎁 ¡Tu pack está listo!`,
-      description: `**${message.author.username}**, tienes un pack **${packs[type].label}** esperando.\n\n🔒 Adentro hay un jugador misterioso...\n⚡ Pulsa el botón para descubrir quién es.`,
+      author: { name:`.{packs[type].emoji} Pack ${packs[type].label} de ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title:`. ¡Tu pack está listo!`,
+      description:`.*${message.author.username}**, tienes un pack **${packs[type].label}** esperando.\n\n🔒 Adentro hay un jugador misterioso...\n⚡ Pulsa el botón para descubrir quién es.`,
       fields: [
-        { name: '🎒 Packs restantes', value: `${packs[type].emoji} **${user.packs[type]}**`, inline: true },
-        { name: '💰 Tu balance',      value: `**${user.coins}** monedas`,                    inline: true },
+        { name: '🎒 Packs restantes', value:`.{packs[type].emoji} **${user.packs[type]}**`, inline: true },
+        { name: '💰 Tu balance',      value:`.*${user.coins}** monedas`,                    inline: true },
       ],
       image: shakeGif ? { url: 'attachment://pack-shake.gif' } : undefined,
       footer: { text: '⚡ ¡Pulsa ABRIR para descubrir tu carta!' },
@@ -2620,18 +2620,18 @@ progressQuest(userId, 'pack_opened', 1);
 
     openCollector.on('collect', async interaction => {
       if (interaction.user.id !== userId) return interaction.reply({ content: '❌ Este pack no es tuyo.', ephemeral: true });
-      if (interaction.customId === `open_cancel_${userId}`) {
+      if (interaction.customId ===`.pen_cancel_${userId}`) {
         openCollector.stop('cancelled');
-        return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Pack cancelado', description: `El pack fue cancelado. El jugador permanece en tu club.` }], files: [], components: [] });
+        return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Pack cancelado', description:`.l pack fue cancelado. El jugador permanece en tu club.` }], files: [], components: [] });
       }
-      if (interaction.customId === `open_reveal_${userId}`) {
+      if (interaction.customId ===`.pen_reveal_${userId}`) {
         openCollector.stop('opened');
-        await interaction.update({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: '💥 ¡ABRIENDO PACK!', description: `⚡ **${message.author.username}** está abriendo su pack...\n\n🌟 _Generando la carta..._`, footer: { text: '✨ Un momento...' }, timestamp: new Date().toISOString() }], files: [], components: [] });
+        await interaction.update({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: '💥 ¡ABRIENDO PACK!', description:`. **${message.author.username}** está abriendo su pack...\n\n🌟 _Generando la carta..._`, footer: { text: '✨ Un momento...' }, timestamp: new Date().toISOString() }], files: [], components: [] });
 
         let explosionGif = null;
         try { explosionGif = await generateExplosionGIF(type, newPlayer); } catch(e) { console.error('Error GIF explosion:', e); }
 
-        await packMsg.edit({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: '💥 ¡EL PACK SE ABRE!', description: `**${message.author.username}** abre su pack **${packs[type].label}**...\n\n✨ La carta está saliendo...\n🎭 ¿Quién será?`, image: explosionGif ? { url: 'attachment://explosion.gif' } : undefined, footer: { text: '🌟 Revelando en unos segundos...' }, timestamp: new Date().toISOString() }], files: explosionGif ? [{ attachment: explosionGif, name: 'explosion.gif' }] : [], components: [] });
+        await packMsg.edit({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: '💥 ¡EL PACK SE ABRE!', description:`.*${message.author.username}** abre su pack **${packs[type].label}**...\n\n✨ La carta está saliendo...\n🎭 ¿Quién será?`, image: explosionGif ? { url: 'attachment://explosion.gif' } : undefined, footer: { text: '🌟 Revelando en unos segundos...' }, timestamp: new Date().toISOString() }], files: explosionGif ? [{ attachment: explosionGif, name: 'explosion.gif' }] : [], components: [] });
         await new Promise(r => setTimeout(r, 3500));
 
         const c = getRarityColors(newPlayer.rarity);
@@ -2649,19 +2649,19 @@ progressQuest(userId, 'pack_opened', 1);
         silCtx.lineWidth = 2;
         silCtx.stroke();
         silCtx.restore();
-        silCtx.font = `bold 160px ${FIFA_FONT}`;
+        silCtx.font =`.old 160px ${FIFA_FONT}`;
         silCtx.fillStyle = c.glow + '50';
         silCtx.textAlign = 'center';
         silCtx.shadowColor = c.glow;
         silCtx.shadowBlur = 50;
         silCtx.fillText('?', 220, 310);
         silCtx.shadowBlur = 0;
-        silCtx.font = `bold 13px ${FIFA_FONT}`;
+        silCtx.font =`.old 13px ${FIFA_FONT}`;
         silCtx.fillStyle = c.shine;
         silCtx.textAlign = 'center';
         silCtx.fillText(newPlayer.rarity.toUpperCase(), 220, 450);
 
-        await packMsg.edit({ embeds: [{ color: rarityColors[newPlayer.rarity] || 0x888888, title: `${rarityEmojis[newPlayer.rarity]} ¡CARTA ${newPlayer.rarity.toUpperCase()}!`, description: `**${message.author.username}**, tu carta está casi aquí...\n\n🔮 Rareza detectada: **${rarityBadge[newPlayer.rarity]}**\n❓ Identidad: _???_\n\n_¿Quién será el jugador?_`, image: { url: 'attachment://silhouette.png' }, footer: { text: '🎭 Revelando identidad...' }, timestamp: new Date().toISOString() }], files: [{ attachment: silCanvas.toBuffer(), name: 'silhouette.png' }], components: [] });
+        await packMsg.edit({ embeds: [{ color: rarityColors[newPlayer.rarity] || 0x888888, title:`.{rarityEmojis[newPlayer.rarity]} ¡CARTA ${newPlayer.rarity.toUpperCase()}!`, description:`.*${message.author.username}**, tu carta está casi aquí...\n\n🔮 Rareza detectada: **${rarityBadge[newPlayer.rarity]}**\n❓ Identidad: _???_\n\n_¿Quién será el jugador?_`, image: { url: 'attachment://silhouette.png' }, footer: { text: '🎭 Revelando identidad...' }, timestamp: new Date().toISOString() }], files: [{ attachment: silCanvas.toBuffer(), name: 'silhouette.png' }], components: [] });
         await new Promise(r => setTimeout(r, 3000));
 
         let showcaseCanvas = null;
@@ -2670,18 +2670,18 @@ progressQuest(userId, 'pack_opened', 1);
         const stats = newPlayer.stats || {};
         const statLines = Object.entries(stats).map(([k, v]) => {
           const dot = v >= 88 ? '🟢' : v >= 75 ? '🟡' : v >= 60 ? '🟠' : '🔴';
-          return `${dot} **${k}** · **${v}**`;
+          return`.{dot} **${k}** · **${v}**`;
         }).join('  ·  ');
 
         const phase4Embed = {
           color: rarityColors[newPlayer.rarity] || 0x888888,
-          author: { name: `${packs[type].emoji} Pack ${packs[type].label} abierto por ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${rarityBadge[newPlayer.rarity]}  ·  ${newPlayer.name}  ·  ${newPlayer.rating} OVR`,
-          description: `**Posición:** ${newPlayer.position}  ·  **Rareza:** ${newPlayer.rarity}\n\n${statLines}`,
+          author: { name:`.{packs[type].emoji} Pack ${packs[type].label} abierto por ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{rarityBadge[newPlayer.rarity]}  ·  ${newPlayer.name}  ·  ${newPlayer.rating} OVR`,
+          description:`.*Posición:** ${newPlayer.position}  ·  **Rareza:** ${newPlayer.rarity}\n\n${statLines}`,
           fields: [
-          { name: '💸 Valor de venta',  value: `**${sellPrice}** ${EMOJI_COIN}`, inline: true },
-            { name: '🏟️ En tu club',      value: `**${user.players.length}/${MAX_CLUB_SIZE}**`, inline: true },
-            { name: '🎒 Packs restantes', value: `${packs[type].emoji} **${user.packs[type]}**`, inline: true },
+          { name: '💸 Valor de venta',  value:`.*${sellPrice}** ${EMOJI_COIN}`, inline: true },
+            { name: '🏟️ En tu club',      value:`.*${user.players.length}/${MAX_CLUB_SIZE}**`, inline: true },
+            { name: '🎒 Packs restantes', value:`.{packs[type].emoji} **${user.packs[type]}**`, inline: true },
           ],
           image: showcaseCanvas ? { url: 'attachment://reveal.png' } : undefined,
           footer: { text: '💡 Añade al equipo o vende con los botones de abajo' },
@@ -2696,14 +2696,14 @@ progressQuest(userId, 'pack_opened', 1);
         );
 
         const revealFiles = showcaseCanvas ? [{ attachment: showcaseCanvas.toBuffer(), name: 'reveal.png' }] : [];
-        await packMsg.edit({ content: `🎉 ¡**${newPlayer.name}** salió del pack! ${rarityBadge[newPlayer.rarity]}`, embeds: [phase4Embed], files: revealFiles, components: [phase4Row] });
+        await packMsg.edit({ content:`. ¡**${newPlayer.name}** salió del pack! ${rarityBadge[newPlayer.rarity]}`, embeds: [phase4Embed], files: revealFiles, components: [phase4Row] });
 
         const revealCollector = packMsg.createMessageComponentCollector({ time: 90000 });
         revealCollector.on('collect', async btn => {
           if (btn.user.id !== userId) return btn.reply({ content: '❌ Este pack no es tuyo.', ephemeral: true });
-          if (btn.customId === `pack_add_${userId}`) {
+          if (btn.customId ===`.ack_add_${userId}`) {
             if (user.team.length >= 4) return btn.reply({ content: '❌ Tu equipo ya tiene 4 jugadores.', ephemeral: true });
-            if (user.team.some(p => p.name === newPlayer.name)) return btn.reply({ content: `❌ **${newPlayer.name}** ya está en tu equipo.`, ephemeral: true });
+            if (user.team.some(p => p.name === newPlayer.name)) return btn.reply({ content:`. **${newPlayer.name}** ya está en tu equipo.`, ephemeral: true });
             user.team.push(deepCopyPlayer(newPlayer)); saveData();
             const updRow = new ActionRowBuilder().addComponents(
               new ButtonBuilder().setCustomId(`pack_add_${userId}`).setLabel('✅ En el equipo').setStyle(ButtonStyle.Secondary).setDisabled(true),
@@ -2711,28 +2711,28 @@ progressQuest(userId, 'pack_opened', 1);
               new ButtonBuilder().setCustomId(`pack_show_${userId}`).setLabel('🖼️ Ver carta').setStyle(ButtonStyle.Secondary),
               new ButtonBuilder().setCustomId(`pack_another_${userId}_${type}`).setLabel(`🎁 Abrir otro`).setStyle(ButtonStyle.Primary).setDisabled((user.packs[type]||0)<=0)
             );
-            return btn.update({ content: `✅ **${newPlayer.name}** añadido al equipo! (${user.team.length}/4)`, components: [updRow] });
+            return btn.update({ content:`. **${newPlayer.name}** añadido al equipo! (${user.team.length}/4)`, components: [updRow] });
           }
-          if (btn.customId === `pack_sell_${userId}`) {
+          if (btn.customId ===`.ack_sell_${userId}`) {
             const idx = user.players.findLastIndex(p => p.name === newPlayer.name);
             if (idx !== -1) user.players.splice(idx, 1);
             user.coins += sellPrice; saveData();
             const sellCanvas = await generateSellCanvas(newPlayer, sellPrice, user.coins, 1);
             await btn.update({
               content: null,
-              embeds: [{ color: 0x00C851, author: { name: `💸 Venta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, image: { url: 'attachment://sell.png' }, timestamp: new Date().toISOString() }],
+              embeds: [{ color: 0x00C851, author: { name:`. Venta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, image: { url: 'attachment://sell.png' }, timestamp: new Date().toISOString() }],
               files: [{ attachment: sellCanvas.toBuffer(), name: 'sell.png' }],
               components: []
             });
             revealCollector.stop();
           }
-          if (btn.customId === `pack_show_${userId}`) {
+          if (btn.customId ===`.ack_show_${userId}`) {
             const sc = await drawShowcaseCard(newPlayer);
-            await btn.reply({ content: `🖼️ **${newPlayer.name}** — ${newPlayer.rarity}`, files: [{ attachment: sc.toBuffer(), name: 'showcase.png' }], ephemeral: true });
+            await btn.reply({ content:`.️ **${newPlayer.name}** — ${newPlayer.rarity}`, files: [{ attachment: sc.toBuffer(), name: 'showcase.png' }], ephemeral: true });
           }
-          if (btn.customId === `pack_another_${userId}_${type}`) {
-            if ((user.packs[type] || 0) <= 0) return btn.reply({ content: `❌ No tienes más packs ${packs[type].label}.`, ephemeral: true });
-            await btn.update({ content: `🎁 ¡Usa \ `.o ${type}\` para abrir tu siguiente pack ${packs[type].emoji}!`, components: [] });
+          if (btn.customId ===`.ack_another_${userId}_${type}`) {
+            if ((user.packs[type] || 0) <= 0) return btn.reply({ content:`. No tienes más packs ${packs[type].label}.`, ephemeral: true });
+            await btn.update({ content:`. ¡Usa \`.o ${type}\` para abrir tu siguiente pack ${packs[type].emoji}!`, components: [] });
           }
         });
         revealCollector.on('end', (_, reason) => { if (reason !== 'user') packMsg.edit({ components: [] }).catch(() => {}); });
@@ -2747,7 +2747,7 @@ progressQuest(userId, 'pack_opened', 1);
   // ─────────────────────────────────────────
   if (cmd === '.show') {
     const playerName = args.slice(1).join(' ').trim();
-    if (!playerName) return message.reply('❌ Escribe el nombre del jugador. Ej:  `.show Veil`');
+    if (!playerName) return message.reply('❌ Escribe el nombre del jugador. Ej:`.show Veil`');
  
     // Buscar primero en el club del usuario
     const ownedPlayer = (user.players || []).find(p => p.name.toLowerCase() === playerName.toLowerCase());
@@ -2762,8 +2762,8 @@ progressQuest(userId, 'pack_opened', 1);
  
     if (!found) {
       return message.reply(
-        `❌ No existe ningún jugador llamado **${playerName}**.\n` +
-        `💡 Si lo tienes en tu club, usa \ `.club\` para ver el nombre exacto.`
+`. No existe ningún jugador llamado **${playerName}**.\n` +
+`. Si lo tienes en tu club, usa \`.club\` para ver el nombre exacto.`
       );
     }
  
@@ -2815,18 +2815,18 @@ progressQuest(userId, 'pack_opened', 1);
     }
  
     const ownedNote = isOwned
-      ? `${inTeam ? '✅ En tu equipo' : '🔓 En tu plantilla'} · Valor de venta: ${sellPrice} ${EMOJI_COIN}`
-      : `❌ No tienes esta carta · Puedes buscarla en \ `.market ${found.name}\``;
+      ?`.{inTeam ? '✅ En tu equipo' : '🔓 En tu plantilla'} · Valor de venta: ${sellPrice} ${EMOJI_COIN}`
+      :`. No tienes esta carta · Puedes buscarla en \`.market ${found.name}\``;
  
     await loadingMsg.edit({
       content: '',
       embeds: [{
         color: rarityColors[found.rarity] || 0x888888,
-        author: { name: `🖼️ Carta — ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-        title: `${found.name} — ${found.rarity}`,
-        description: `**Posición:** ${found.position}  ·  **OVR:** ${found.rating}\n**Promedio stats:** ${avgStat}  ·  **Mejor stat:** ${maxStatKey} **${maxStat}**\n${ownedNote}`,
+        author: { name:`.️ Carta — ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title:`.{found.name} — ${found.rarity}`,
+        description:`.*Posición:** ${found.position}  ·  **OVR:** ${found.rating}\n**Promedio stats:** ${avgStat}  ·  **Mejor stat:** ${maxStatKey} **${maxStat}**\n${ownedNote}`,
         image: { url: 'attachment://showcase.png' },
-        footer: { text: `Club: ${user.teamName || message.author.username + "'s FC"}  ·  ELO: ${user.elo || 1000} ${tier.emoji}` },
+        footer: { text:`.lub: ${user.teamName || message.author.username + "'s FC"}  ·  ELO: ${user.elo || 1000} ${tier.emoji}` },
         timestamp: new Date().toISOString()
       }],
       files: [{ attachment: showcaseCanvas.toBuffer(), name: 'showcase.png' }],
@@ -2838,41 +2838,41 @@ progressQuest(userId, 'pack_opened', 1);
       if (interaction.user.id !== userId) return interaction.reply({ content: '❌ Esta carta no es tuya.', ephemeral: true });
  
       // Buscar en market
-      if (interaction.customId === `show_market_${userId}_${found.name}`) {
+      if (interaction.customId ===`.how_market_${userId}_${found.name}`) {
         const marketMatch = marketListings
           .filter(l => l.player.name.toLowerCase() === found.name.toLowerCase() && l.sellerId !== userId)
           .sort((a, b) => a.price - b.price);
         if (!marketMatch.length) {
-          return interaction.reply({ content: `❌ **${found.name}** no está en el market ahora mismo. Prueba \ `.market\` para ver todo el catálogo.`, ephemeral: true });
+          return interaction.reply({ content:`. **${found.name}** no está en el market ahora mismo. Prueba \`.market\` para ver todo el catálogo.`, ephemeral: true });
         }
         const cheapest = marketMatch[0];
         return interaction.reply({
-          content: `🏪 **${found.name}** está disponible en el market por **${cheapest.price.toLocaleString()} 💰** (vendedor: @${cheapest.sellerName}).\nUsa \ `.market ${found.name}\` para comprarlo.`,
+          content:`. **${found.name}** está disponible en el market por **${cheapest.price.toLocaleString()} 💰** (vendedor: @${cheapest.sellerName}).\nUsa \`.market ${found.name}\` para comprarlo.`,
           ephemeral: true
         });
       }
  
       // Stats detallados
-      if (interaction.customId === `show_stats_${userId}_${found.name}`) {
+      if (interaction.customId ===`.how_stats_${userId}_${found.name}`) {
         const statLines = Object.entries(found.stats || {}).map(([k, v]) => {
           const filled = Math.round(v / 10);
           const bar = '█'.repeat(filled) + '░'.repeat(10 - filled);
           const color = v >= 88 ? '🟢' : v >= 75 ? '🟡' : v >= 60 ? '🟠' : '🔴';
-          return `${color} **${k}** \`${bar}\` **${v}**`;
+          return`.{color} **${k}** \`${bar}\` **${v}**`;
         }).join('\n');
         return interaction.reply({
           embeds: [{
             color: rarityColors[found.rarity] || 0x888888,
-            title: `📊 Stats completos — ${found.name}`,
+            title:`. Stats completos — ${found.name}`,
             description: statLines,
-            footer: { text: `${found.rarity}  ·  ${found.position}  ·  ${found.rating} OVR` }
+            footer: { text:`.{found.rarity}  ·  ${found.position}  ·  ${found.rating} OVR` }
           }],
           ephemeral: true
         });
       }
  
       // Solo si la posee: añadir al equipo
-      if (interaction.customId === `show_addteam_${userId}_${found.name}`) {
+      if (interaction.customId ===`.how_addteam_${userId}_${found.name}`) {
         if (!isOwned) return interaction.reply({ content: '❌ No tienes esta carta.', ephemeral: true });
         if ((user.team || []).length >= 4) return interaction.reply({ content: '❌ Equipo lleno.', ephemeral: true });
         if ((user.team || []).some(p => p.name === found.name)) return interaction.reply({ content: '❌ Ya está en el equipo.', ephemeral: true });
@@ -2882,11 +2882,11 @@ progressQuest(userId, 'pack_opened', 1);
           new ButtonBuilder().setCustomId(`show_sell_${userId}_${found.name}`).setLabel(`💸 Vender (${sellPrice} 💰)`).setStyle(ButtonStyle.Danger),
           new ButtonBuilder().setCustomId(`show_stats_${userId}_${found.name}`).setLabel('📊 Stats detallados').setStyle(ButtonStyle.Primary)
         );
-        return interaction.update({ content: `✅ **${found.name}** añadido al equipo! (${user.team.length}/4)`, components: [newRow] });
+        return interaction.update({ content:`. **${found.name}** añadido al equipo! (${user.team.length}/4)`, components: [newRow] });
       }
  
       // Solo si la posee: vender
-      if (interaction.customId === `show_sell_${userId}_${found.name}`) {
+      if (interaction.customId ===`.how_sell_${userId}_${found.name}`) {
         if (!isOwned) return interaction.reply({ content: '❌ No tienes esta carta.', ephemeral: true });
         const idx = (user.players || []).findLastIndex(p => p.name === found.name);
         if (idx === -1) return interaction.reply({ content: '❌ No encontrado en tu club.', ephemeral: true });
@@ -2898,7 +2898,7 @@ progressQuest(userId, 'pack_opened', 1);
         const sellCanvas = await generateSellCanvas(soldPlayer, sp, user.coins, 1);
         await interaction.update({
           content: null,
-          embeds: [{ color: 0x00C851, author: { name: `💸 Venta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, image: { url: 'attachment://sell.png' }, timestamp: new Date().toISOString() }],
+          embeds: [{ color: 0x00C851, author: { name:`. Venta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, image: { url: 'attachment://sell.png' }, timestamp: new Date().toISOString() }],
           files: [{ attachment: sellCanvas.toBuffer(), name: 'sell.png' }],
           components: []
         });
@@ -2927,14 +2927,14 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
         color: 0x1a56db,
         title: '🖼️ Logo de club',
         description: [
-          '**Uso:**  `.club logo <url>`',
-          '**Eliminar:**  `.club logo remove`',
+          '**Uso:**`.club logo <url>`',
+          '**Eliminar:**`.club logo remove`',
           '',
           '**Formatos aceptados:** PNG, JPG, JPEG, WEBP',
           '**Tips:**',
           '• Sube la imagen a [imgur.com](https://imgur.com) y copia el link directo',
-          '• El link debe terminar en `.png` o `.jpg`',
-          '• Ejemplo:  `.club logo https://i.imgur.com/abc123.png`',
+          '• El link debe terminar en`.png` o`.jpg`',
+          '• Ejemplo:`.club logo https://i.imgur.com/abc123.png`',
         ].join('\n'),
         footer: { text: 'El logo aparecerá en !team, !club, !bal y resultados de partidos' }
       }]
@@ -2951,7 +2951,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
         title: '❌ Logo inválido',
         description: result.reason,
         fields: [
-          { name: '💡 Cómo hacerlo bien', value: '1. Sube tu imagen a **imgur.com**\n2. Abre la imagen sola\n3. Clic derecho → "Copiar dirección de imagen"\n4. Usa ese link con  `.club logo <link>`' }
+          { name: '💡 Cómo hacerlo bien', value: '1. Sube tu imagen a **imgur.com**\n2. Abre la imagen sola\n3. Clic derecho → "Copiar dirección de imagen"\n4. Usa ese link con`.club logo <link>`' }
         ]
       }],
       content: ''
@@ -2966,7 +2966,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
     embeds: [{
       color: 0x00C851,
       title: '✅ Logo de club actualizado',
-      description: `El logo de **${user.teamName || message.author.username + "'s FC"}** fue actualizado.\nAparece en \ `.team\`, \ `.club\`, \ `.bal\` y partidos.`,
+      description:`.l logo de **${user.teamName || message.author.username + "'s FC"}** fue actualizado.\nAparece en \`.team\`, \`.club\`, \`.bal\` y partidos.`,
       thumbnail: { url },
       footer: { text: 'Usa !club logo remove para eliminarlo' }
     }],
@@ -2980,7 +2980,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
   // ─────────────────────────────────────────
   if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'rename') {
     const newName = args.slice(2).join(' ').trim();
-    if (!newName) return message.reply('❌ Escribe el nuevo nombre. Ej:  `.club rename FC Locos`');
+    if (!newName) return message.reply('❌ Escribe el nuevo nombre. Ej:`.club rename FC Locos`');
     if (newName.length > 30) return message.reply('❌ El nombre no puede tener más de 30 caracteres.');
     const oldName = user.teamName || message.author.username + "'s FC";
     user.teamName = newName; saveData();
@@ -2999,11 +2999,11 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
       const start = p * perPage;
       const slice = (user.players||[]).slice(start, start+perPage);
       const fields = slice.map((pl,i) => ({
-        name: `${start+i+1}. ${rarityEmoji[pl.rarity]||'⚫'} ${posEmoji[pl.position]||'👤'} **${pl.name}**`,
-        value: `\`${pl.rating} OVR\` · ${pl.position} · ${pl.rarity}${user.team&&user.team.some(t=>t.name===pl.name)?' · ✅ En equipo':''}`,
+        name:`.{start+i+1}. ${rarityEmoji[pl.rarity]||'⚫'} ${posEmoji[pl.position]||'👤'} **${pl.name}**`,
+        value:`.`${pl.rating} OVR\` · ${pl.position} · ${pl.rarity}${user.team&&user.team.some(t=>t.name===pl.name)?' · ✅ En equipo':''}`,
         inline: true
       }));
-      if (fields.length === 0) fields.push({name:'😔 Sin jugadores', value:'Abre packs con  `.open silver`', inline:false});
+      if (fields.length === 0) fields.push({name:'😔 Sin jugadores', value:'Abre packs con`.open silver`', inline:false});
  return { embeds:[{ color:0x1a56db, author:{name:`🏟️  ${clubName}`,icon_url:message.author.displayAvatarURL({dynamic:true})}, thumbnail: user.clubLogo ? { url: 'attachment://club-logo.png' } : undefined, title:`📋 Club de ${message.author.username}`, description:`**${totalPlayers}/${MAX_CLUB_SIZE}** jugadores · Página **${p+1}/${totalPages}**`, fields, footer:{text:`${EMOJI_COIN} ${user.coins} monedas  ·  ELO ${user.elo||1000}`}, timestamp:new Date().toISOString() }] };
     }
     function buildRow(p) {
@@ -3037,7 +3037,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
   if (cmd === '.add') {
     const name = args.slice(1).join(' ');
     if (!name) return message.reply('❌ Escribe el nombre del jugador.');
-    if (user.team.length >= 4) return message.reply('❌ Tu equipo ya tiene 4 jugadores. Usa  `.remove <nombre>` para hacer espacio.');
+    if (user.team.length >= 4) return message.reply('❌ Tu equipo ya tiene 4 jugadores. Usa`.remove <nombre>` para hacer espacio.');
     const index = user.players.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
     if (index === -1) return message.reply(`❌ No tienes a **${name}** en tu club.`);
     if (user.team.some(p => p.name.toLowerCase() === name.toLowerCase())) return message.reply(`❌ **${name}** ya está en tu equipo.`);
@@ -3087,12 +3087,12 @@ if (cmd === '.swap') {
 
     function buildSwapEmbed(selected) {
       const fields = user.team.map(p => ({
-        name: `${selected === p.name ? '▶ ' : ''}${posEmoji[p.position]||'👤'} ${p.position}`,
-        value: `**${p.name}** · ${p.rating} OVR`,
+        name:`.{selected === p.name ? '▶ ' : ''}${posEmoji[p.position]||'👤'} ${p.position}`,
+        value:`.*${p.name}** · ${p.rating} OVR`,
         inline: true
       }));
       return { embeds:[{ color: selected ? 0xFF6B00 : 0x5865F2,
-        title: selected ? `🔄 Swap · Seleccionaste **${selected}** — elige el destino` : '🔄 Swap · Elige el primer jugador',
+        title: selected ?`. Swap · Seleccionaste **${selected}** — elige el destino` : '🔄 Swap · Elige el primer jugador',
         fields, footer:{ text:'Intercambia posiciones en el lineup' } }] };
     }
 
@@ -3197,8 +3197,8 @@ saveData();
 
       function drawHeaderCol(colIndex, label, value, valueColor) {
         const cx = colW*colIndex + colW/2; ctx.textAlign = 'center';
-        ctx.font = `bold 9px ${FIFA_FONT}`; ctx.fillStyle = '#888888'; ctx.fillText(label.toUpperCase(), cx, 18);
-        ctx.font = `bold 24px ${FIFA_FONT}`; ctx.fillStyle = valueColor || '#ffffff';
+        ctx.font =`.old 9px ${FIFA_FONT}`; ctx.fillStyle = '#888888'; ctx.fillText(label.toUpperCase(), cx, 18);
+        ctx.font =`.old 24px ${FIFA_FONT}`; ctx.fillStyle = valueColor || '#ffffff';
         ctx.shadowColor = valueColor ? valueColor+'66' : '#00000066'; ctx.shadowBlur = 6;
         ctx.fillText(value, cx, 52); ctx.shadowBlur = 0; ctx.shadowColor = 'transparent'; ctx.textAlign = 'left';
       }
@@ -3209,9 +3209,9 @@ saveData();
       if (logoBuffer) {
         await drawClubLogo(ctx, logoBuffer, colW * 0 + 18, HH / 2, 18);
         ctx.textAlign = 'center';
-        ctx.font = `bold 9px ${FIFA_FONT}`; ctx.fillStyle = '#888888';
+        ctx.font =`.old 9px ${FIFA_FONT}`; ctx.fillStyle = '#888888';
         ctx.fillText('JUGADOR', colW * 0 + colW / 2, 18);
-        ctx.font = `bold 18px ${FIFA_FONT}`; ctx.fillStyle = '#FFD700';
+        ctx.font =`.old 18px ${FIFA_FONT}`; ctx.fillStyle = '#FFD700';
         ctx.shadowColor = '#FFD70066'; ctx.shadowBlur = 6;
         ctx.fillText(displayUser, colW * 0 + colW / 2 + 10, 52);
         ctx.shadowBlur = 0; ctx.shadowColor = 'transparent'; ctx.textAlign = 'left';
@@ -3219,7 +3219,7 @@ saveData();
         drawHeaderCol(0, 'jugador', displayUser, '#FFD700');
       }
 
-      drawHeaderCol(1, 'OVR Value', `${teamData&&teamData.length>0?teamData.reduce((s,p)=>s+p.rating,0):0}.0`, '#ffffff');
+      drawHeaderCol(1, 'OVR Value',`.{teamData&&teamData.length>0?teamData.reduce((s,p)=>s+p.rating,0):0}.0`, '#ffffff');
       const clubDisplay = clubName.length>13 ? clubName.substring(0,12)+'…' : clubName;
       ctx.textAlign='center'; ctx.font=`bold 9px ${FIFA_FONT}`; ctx.fillStyle='#888888'; ctx.fillText('CLUB',colW*2+colW/2,18);
       ctx.font=`bold ${clubDisplay.length>9?15:20}px ${FIFA_FONT}`; ctx.fillStyle='#ffffff';
@@ -3253,7 +3253,7 @@ saveData();
       const rarityEmoji={"Legendario":"🟡","Epico":"🟣","Raro":"🔵","Comun":"⚪"};
       const teamInfo=(user.team||[]).map((p,i)=>{
         const slotLabel = slotLabels[i] || '?';
-        return `${posEmoji[slotLabel]||'👤'} ${rarityEmoji[p.rarity]||'⚫'} **${p.name}** · ${p.rating} OVR · ${p.position} _(slot ${slotLabel})_`;
+        return`.{posEmoji[slotLabel]||'👤'} ${rarityEmoji[p.rarity]||'⚫'} **${p.name}** · ${p.rating} OVR · ${p.position} _(slot ${slotLabel})_`;
       }).join('\n')||'_Equipo vacío_';
       const avg=user.team.length>0?Math.round(user.team.reduce((s,p)=>s+p.rating,0)/user.team.length):0;
       const chemistry=user.team.length===4?Math.round(calculateTeam(user.team)):'—';
@@ -3391,7 +3391,7 @@ saveData();
   if (cmd === '.sell') {
     const sub = args.slice(1);
     if (!sub.length) return message.reply(
-      '❌ Uso:  `.sell <nombre> [precio]`\n' +
+      '❌ Uso:`.sell <nombre> [precio]`\n' +
       '💡 El precio mínimo por rareza:\n' +
       '• Común: **500** 💰 · Raro: **2.500** 💰 · Épico: **7.500** 💰 · Legendario: **17.000** · WorldCup: **100.000**💰\n' +
       '• Si no pones precio, se publica al mínimo automáticamente.\n' +
@@ -3412,7 +3412,7 @@ saveData();
 
     // Buscar jugador en el club (no en el equipo activo)
     const playerIdx = user.players.findIndex(p => p.name.toLowerCase() === nombre.toLowerCase());
-    if (playerIdx === -1) return message.reply(`❌ No tienes a **${nombre}** en tu club.\n💡 Usa \ `.club\` para ver tu plantilla.`);
+    if (playerIdx === -1) return message.reply(`❌ No tienes a **${nombre}** en tu club.\n💡 Usa \`.club\` para ver tu plantilla.`);
 
     const playerToSell = user.players[playerIdx];
     const minPrice = MARKET_MIN_PRICE[playerToSell.rarity] || 500;
@@ -3423,8 +3423,8 @@ saveData();
     } else {
       if (isNaN(precio) || precio < minPrice) {
         return message.reply(
-          `❌ El precio mínimo para una carta **${playerToSell.rarity}** es **${minPrice.toLocaleString()} 💰**.\n` +
-          `💡 Usa \ `.sell ${playerToSell.name} ${minPrice}\` para publicarla al mínimo.`
+`. El precio mínimo para una carta **${playerToSell.rarity}** es **${minPrice.toLocaleString()} 💰**.\n` +
+`. Usa \`.sell ${playerToSell.name} ${minPrice}\` para publicarla al mínimo.`
         );
       }
     }
@@ -3440,7 +3440,7 @@ saveData();
     user.team = user.team.filter(p => p.name !== playerToSell.name);
 
     // Crear listing
-    const listingId = `${userId}_${Date.now()}`;
+    const listingId =`.{userId}_${Date.now()}`;
     const listing = {
       id: listingId,
       sellerId: userId,
@@ -3465,23 +3465,23 @@ saveData();
     return message.reply({
       embeds: [{
         color: rarityColors[playerToSell.rarity] || 0x00C851,
-        author: { name: `🏪 Publicado en el Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-        title: `${playerToSell.name} — ${playerToSell.rarity} · ${playerToSell.rating} OVR`,
+        author: { name:`. Publicado en el Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title:`.{playerToSell.name} — ${playerToSell.rarity} · ${playerToSell.rating} OVR`,
         description: [
-          `**Posición:** ${playerToSell.position}`,
-          `**Precio:** **${precio.toLocaleString()} 💰**`,
-          ``,
-          `✅ La carta fue publicada en el market.`,
-          `⏱️ Expira en **${hoursLeft}h** — si no se vende, regresa a tu club.`,
-          ``,
-          `💡 Otros jugadores pueden comprarla con \ `.market ${playerToSell.name}\`.`,
+`.*Posición:** ${playerToSell.position}`,
+`.*Precio:** **${precio.toLocaleString()} 💰**`,
+`.,
+`. La carta fue publicada en el market.`,
+`.️ Expira en **${hoursLeft}h** — si no se vende, regresa a tu club.`,
+`.,
+`. Otros jugadores pueden comprarla con \`.market ${playerToSell.name}\`.`,
         ].join('\n'),
         fields: [
-          { name: '🏟️ Club restante', value: `${user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
-          { name: '💳 Balance actual', value: `${user.coins.toLocaleString()} 💰`, inline: true },
-          { name: '📋 Mis listings',  value: `${myListings.length + 1}/5`, inline: true },
+          { name: '🏟️ Club restante', value:`.{user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
+          { name: '💳 Balance actual', value:`.{user.coins.toLocaleString()} 💰`, inline: true },
+          { name: '📋 Mis listings',  value:`.{myListings.length + 1}/5`, inline: true },
         ],
-        footer: { text: `ID listing: ${listingId}  ·  Usa !market para ver todos los jugadores en venta` },
+        footer: { text:`.D listing: ${listingId}  ·  Usa !market para ver todos los jugadores en venta` },
         timestamp: new Date().toISOString()
       }]
     });
@@ -3500,7 +3500,7 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
         embeds: [{
           color: 0xFF6600,
           title: '📋 Sin listings activos',
-          description: 'No tienes cartas publicadas en el market ahora mismo.\n\nUsa  `.sell <nombre> [precio]` para publicar una carta.',
+          description: 'No tienes cartas publicadas en el market ahora mismo.\n\nUsa`.sell <nombre> [precio]` para publicar una carta.',
           footer: { text: 'Usa !market para ver el catálogo completo' }
         }]
       });
@@ -3525,14 +3525,14 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
       const msLeft = MARKET_LISTING_TTL - (now - l.listedAt);
       const hh = Math.max(0, Math.floor(msLeft / 3600000));
       const mm = Math.max(0, Math.floor((msLeft % 3600000) / 60000));
-      return `**${i + 1}.** ${posEmoji[l.player.position] || '👤'} ${rarityEmoji[l.player.rarity]} **${l.player.name}** · ${l.player.rarity} · ${l.player.rating} OVR\n💰 Precio: **${l.price.toLocaleString()}** · ⏱️ Expira en ${hh}h ${mm}m`;
+      return`.*${i + 1}.** ${posEmoji[l.player.position] || '👤'} ${rarityEmoji[l.player.rarity]} **${l.player.name}** · ${l.player.rarity} · ${l.player.rating} OVR\n💰 Precio: **${l.price.toLocaleString()}** · ⏱️ Expira en ${hh}h ${mm}m`;
     }).join('\n\n');
  
     const cancelMsg = await message.reply({
       embeds: [{
         color: 0xFF6600,
-        author: { name: `📋 Mis listings en el market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-        title: `Tienes ${myListings.length} carta(s) publicada(s)`,
+        author: { name:`. Mis listings en el market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title:`.ienes ${myListings.length} carta(s) publicada(s)`,
         description: lines + '\n\n⚠️ Pulsa el botón de la carta que quieres **retirar del market**.\nLa carta regresará inmediatamente a tu club.',
         footer: { text: 'Los listings sin vender regresan solos en 24h' },
         timestamp: new Date().toISOString()
@@ -3564,16 +3564,16 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
       await interaction.update({
         embeds: [{
           color: 0x00C851,
-          author: { name: `✅ Listing cancelado · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${listing.player.name} de vuelta en tu club`,
+          author: { name:`. Listing cancelado · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{listing.player.name} de vuelta en tu club`,
           description: [
-            `**${listing.player.name}** (${listing.player.rarity} · ${listing.player.rating} OVR · ${listing.player.position}) fue retirado del market.`,
-            ``,
-            `La carta está de vuelta en tu club. Puedes verla con \ `.club\` o añadirla al equipo con \ `.add ${listing.player.name}\`.`,
+`.*${listing.player.name}** (${listing.player.rarity} · ${listing.player.rating} OVR · ${listing.player.position}) fue retirado del market.`,
+`.,
+`.a carta está de vuelta en tu club. Puedes verla con \`.club\` o añadirla al equipo con \`.add ${listing.player.name}\`.`,
           ].join('\n'),
           fields: [
-            { name: '🏟️ Club', value: `${user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
-            { name: '📋 Listings restantes', value: `${marketListings.filter(l => l.sellerId === userId).length}/5`, inline: true },
+            { name: '🏟️ Club', value:`.{user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
+            { name: '📋 Listings restantes', value:`.{marketListings.filter(l => l.sellerId === userId).length}/5`, inline: true },
           ],
           footer: { text: 'Usa !sell <nombre> [precio] para volver a publicarla' },
           timestamp: new Date().toISOString()
@@ -3595,7 +3595,7 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
 // ─────────────────────────────────────────
 if (cmd === '.trade') {
   const target = message.mentions.users.first();
-  if (!target) return message.reply('❌ Uso:  `.trade @usuario <tu carta> por <su carta>`\nEj:  `.trade @Luntek Veil por Compass`');
+  if (!target) return message.reply('❌ Uso:`.trade @usuario <tu carta> por <su carta>`\nEj:`.trade @Luntek Veil por Compass`');
   if (target.id === userId) return message.reply('❌ No puedes tradear contigo mismo.');
   if (target.bot) return message.reply('❌ No puedes tradear con un bot.');
 
@@ -3606,8 +3606,8 @@ if (cmd === '.trade') {
   if (splitByPor.length < 2) {
     return message.reply(
       '❌ Formato incorrecto.\n' +
-      '✅ Uso:  `.trade @usuario <tu carta> por <su carta>`\n' +
-      'Ej:  `.trade @Luntek Veil por Compass`'
+      '✅ Uso:`.trade @usuario <tu carta> por <su carta>`\n' +
+      'Ej:`.trade @Luntek Veil por Compass`'
     );
   }
 
@@ -3620,7 +3620,7 @@ if (cmd === '.trade') {
   // Buscar en clubs
   const myCardIdx  = (user.players || []).findIndex(p => p.name.toLowerCase() === myCardName.toLowerCase());
   if (myCardIdx === -1)
-    return message.reply(`❌ No tienes a **${myCardName}** en tu club.\nUsa \ `.club\` para ver tu plantilla.`);
+    return message.reply(`❌ No tienes a **${myCardName}** en tu club.\nUsa \`.club\` para ver tu plantilla.`);
 
   if (!data[target.id])
     return message.reply('❌ Ese usuario no tiene perfil registrado todavía.');
@@ -3640,12 +3640,12 @@ if (cmd === '.trade') {
         color: 0xFF4444,
         title: '❌ Rareza incompatible',
         description: [
-          `Las cartas deben tener la **misma rareza** para poder tradearse.`,
-          ``,
-          `🃏 **${myCard.name}** — ${myCard.rarity}`,
-          `🃏 **${hisCard.name}** — ${hisCard.rarity}`,
-          ``,
-          `💡 Solo puedes tradear cartas de la misma rareza. Ej: Épico con Épico.`,
+`.as cartas deben tener la **misma rareza** para poder tradearse.`,
+`.,
+`. **${myCard.name}** — ${myCard.rarity}`,
+`. **${hisCard.name}** — ${hisCard.rarity}`,
+`.,
+`. Solo puedes tradear cartas de la misma rareza. Ej: Épico con Épico.`,
         ].join('\n'),
       }]
     });
@@ -3673,24 +3673,24 @@ if (cmd === '.trade') {
       .setStyle(ButtonStyle.Danger)
   );
 
-  const myCardStats  = Object.entries(myCard.stats  || {}).map(([k,v]) => `${k}: **${v}**`).join(' · ');
-  const hisCardStats = Object.entries(hisCard.stats || {}).map(([k,v]) => `${k}: **${v}**`).join(' · ');
+  const myCardStats  = Object.entries(myCard.stats  || {}).map(([k,v]) =>`.{k}: **${v}**`).join(' · ');
+  const hisCardStats = Object.entries(hisCard.stats || {}).map(([k,v]) =>`.{k}: **${v}**`).join(' · ');
 
   const proposalEmbed = {
     color: 0x5865F2,
-    author: { name: `🔄 Trade — ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-    title: `${myCard.name} ↔ ${hisCard.name}`,
+    author: { name:`. Trade — ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+    title:`.{myCard.name} ↔ ${hisCard.name}`,
     description: [
-      `¿Confirmas enviar esta propuesta de trade a <@${target.id}>?`,
-      ``,
-      `🏠 **Tú ofreces:** ${rarityEmoji[myCard.rarity]} **${myCard.name}** · ${myCard.rating} OVR · ${myCard.position} · ${myCard.rarity}`,
-      `${myCardStats}`,
-      ``,
-      `✈️ **Pides a cambio:** ${rarityEmoji[hisCard.rarity]} **${hisCard.name}** · ${hisCard.rating} OVR · ${hisCard.position} · ${hisCard.rarity}`,
-      `${hisCardStats}`,
+`.Confirmas enviar esta propuesta de trade a <@${target.id}>?`,
+`.,
+`. **Tú ofreces:** ${rarityEmoji[myCard.rarity]} **${myCard.name}** · ${myCard.rating} OVR · ${myCard.position} · ${myCard.rarity}`,
+`.{myCardStats}`,
+`.,
+`.️ **Pides a cambio:** ${rarityEmoji[hisCard.rarity]} **${hisCard.name}** · ${hisCard.rating} OVR · ${hisCard.position} · ${hisCard.rarity}`,
+`.{hisCardStats}`,
     ].join('\n'),
     fields: [
-      { name: '⚖️ Rareza', value: `Ambas cartas son **${myCard.rarity}** ✅`, inline: true },
+      { name: '⚖️ Rareza', value:`.mbas cartas son **${myCard.rarity}** ✅`, inline: true },
       { name: '⏱️ Timeout', value: '**120 segundos** para que acepte', inline: true },
     ],
     footer: { text: 'El rival recibirá una notificación para aceptar o rechazar' },
@@ -3711,7 +3711,7 @@ if (cmd === '.trade') {
     if (interaction.user.id !== userId)
       return interaction.reply({ content: '❌ Esta propuesta no es tuya.', ephemeral: true });
 
-    if (interaction.customId === `trade_cancel_${userId}`) {
+    if (interaction.customId ===`.rade_cancel_${userId}`) {
       initCollector.stop();
       return interaction.update({
         embeds: [{ color: 0x555555, title: '❌ Trade cancelado', description: 'Cancelaste la propuesta de trade.' }],
@@ -3719,7 +3719,7 @@ if (cmd === '.trade') {
       });
     }
 
-    if (interaction.customId === `trade_confirm_${userId}_${target.id}`) {
+    if (interaction.customId ===`.rade_confirm_${userId}_${target.id}`) {
       initCollector.stop();
 
       // Re-validar que ambos sigan teniendo las cartas
@@ -3737,7 +3737,7 @@ if (cmd === '.trade') {
         embeds: [{
           color: 0xFFAA00,
           title: '⏳ Propuesta enviada...',
-          description: `Esperando respuesta de <@${target.id}>...\n\n⏱️ Tiene **120 segundos** para aceptar o rechazar.`,
+          description:`.sperando respuesta de <@${target.id}>...\n\n⏱️ Tiene **120 segundos** para aceptar o rechazar.`,
         }],
         files: [], components: []
       });
@@ -3758,21 +3758,21 @@ if (cmd === '.trade') {
       if (hisCardCanvas) hisCardFiles.push({ attachment: hisCardCanvas.toBuffer(), name: 'his-card.png' });
 
       const tradeNotif = await message.channel.send({
-        content: `<@${target.id}> tienes una propuesta de trade de <@${userId}>!`,
+        content:`.@${target.id}> tienes una propuesta de trade de <@${userId}>!`,
         embeds: [{
           color: 0x5865F2,
-          author: { name: `🔄 Trade recibido de ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${myCard.name} ↔ ${hisCard.name}`,
+          author: { name:`. Trade recibido de ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{myCard.name} ↔ ${hisCard.name}`,
           description: [
-            `**${message.author.username}** quiere tu carta y ofrece la suya a cambio:`,
-            ``,
-            `✈️ **Te piden:** ${rarityEmoji[hisCard.rarity]} **${hisCard.name}** · ${hisCard.rating} OVR · ${hisCard.position} · ${hisCard.rarity}`,
-            `${hisCardStats}`,
-            ``,
-            `🏠 **Te ofrecen:** ${rarityEmoji[myCard.rarity]} **${myCard.name}** · ${myCard.rating} OVR · ${myCard.position} · ${myCard.rarity}`,
-            `${myCardStats}`,
-            ``,
-            `⚖️ Ambas cartas son **${myCard.rating} OVR**`,
+`.*${message.author.username}** quiere tu carta y ofrece la suya a cambio:`,
+`.,
+`.️ **Te piden:** ${rarityEmoji[hisCard.rarity]} **${hisCard.name}** · ${hisCard.rating} OVR · ${hisCard.position} · ${hisCard.rarity}`,
+`.{hisCardStats}`,
+`.,
+`. **Te ofrecen:** ${rarityEmoji[myCard.rarity]} **${myCard.name}** · ${myCard.rating} OVR · ${myCard.position} · ${myCard.rarity}`,
+`.{myCardStats}`,
+`.,
+`.️ Ambas cartas son **${myCard.rating} OVR**`,
           ].join('\n'),
           image: hisCardCanvas ? { url: 'attachment://his-card.png' } : undefined,
           footer: { text: '⏱️ Tienes 120 segundos para responder' },
@@ -3790,20 +3790,20 @@ if (cmd === '.trade') {
 
         rivalCollector.stop();
 
-        if (rivalInteraction.customId === `trade_reject_${userId}_${target.id}`) {
+        if (rivalInteraction.customId ===`.rade_reject_${userId}_${target.id}`) {
           await rivalInteraction.update({
-            embeds: [{ color: 0xFF4444, title: '❌ Trade rechazado', description: `**${target.username}** rechazó la propuesta.` }],
+            embeds: [{ color: 0xFF4444, title: '❌ Trade rechazado', description:`.*${target.username}** rechazó la propuesta.` }],
             files: [], components: []
           });
           // Notificar al iniciador
           await confirmMsg.edit({
-            embeds: [{ color: 0xFF4444, title: '❌ Trade rechazado', description: `<@${target.id}> rechazó tu propuesta de trade.\n\nTu carta **${myCard.name}** sigue en tu club.` }],
+            embeds: [{ color: 0xFF4444, title: '❌ Trade rechazado', description:`.@${target.id}> rechazó tu propuesta de trade.\n\nTu carta **${myCard.name}** sigue en tu club.` }],
             files: [], components: []
           }).catch(() => {});
           return;
         }
 
-        if (rivalInteraction.customId === `trade_accept_${userId}_${target.id}`) {
+        if (rivalInteraction.customId ===`.rade_accept_${userId}_${target.id}`) {
           // Re-validar una última vez antes de ejecutar
           const finalMyIdx  = (user.players || []).findIndex(p => p.name.toLowerCase() === myCard.name.toLowerCase());
           const finalHisIdx = (oppData.players || []).findIndex(p => p.name.toLowerCase() === hisCard.name.toLowerCase());
@@ -3849,18 +3849,18 @@ if (cmd === '.trade') {
           await rivalInteraction.update({
             embeds: [{
               color: 0x00C851,
-              author: { name: `✅ Trade completado` },
-              title: `¡Recibiste a ${tradedMyCard.name}!`,
+              author: { name:`. Trade completado` },
+              title:`.Recibiste a ${tradedMyCard.name}!`,
               description: [
-                `El trade se realizó con éxito.`,
-                ``,
-                `📥 **Recibiste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR · ${tradedMyCard.position} · ${tradedMyCard.rarity}`,
-                `📤 **Entregaste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR`,
-                ``,
-                `Usa \ `.club\` para ver tu plantilla actualizada.`,
+`.l trade se realizó con éxito.`,
+`.,
+`. **Recibiste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR · ${tradedMyCard.position} · ${tradedMyCard.rarity}`,
+`. **Entregaste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR`,
+`.,
+`.sa \`.club\` para ver tu plantilla actualizada.`,
               ].join('\n'),
               image: finalHisCanvas ? { url: 'attachment://traded-card.png' } : undefined,
-              footer: { text: `Club: ${oppData.players.length}/${MAX_CLUB_SIZE} jugadores` },
+              footer: { text:`.lub: ${oppData.players.length}/${MAX_CLUB_SIZE} jugadores` },
               timestamp: new Date().toISOString()
             }],
             files: rivalFiles,
@@ -3875,18 +3875,18 @@ if (cmd === '.trade') {
           await confirmMsg.edit({
             embeds: [{
               color: 0x00C851,
-              author: { name: `✅ Trade completado` },
-              title: `¡Recibiste a ${tradedHisCard.name}!`,
+              author: { name:`. Trade completado` },
+              title:`.Recibiste a ${tradedHisCard.name}!`,
               description: [
-                `<@${target.id}> aceptó el trade.`,
-                ``,
-                `📥 **Recibiste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR · ${tradedHisCard.position} · ${tradedHisCard.rarity}`,
-                `📤 **Entregaste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR`,
-                ``,
-                `Usa \ `.club\` para ver tu plantilla actualizada.`,
+`.@${target.id}> aceptó el trade.`,
+`.,
+`. **Recibiste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR · ${tradedHisCard.position} · ${tradedHisCard.rarity}`,
+`. **Entregaste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR`,
+`.,
+`.sa \`.club\` para ver tu plantilla actualizada.`,
               ].join('\n'),
               image: finalMyCanvas ? { url: 'attachment://received-card.png' } : undefined,
-              footer: { text: `Club: ${user.players.length}/${MAX_CLUB_SIZE} jugadores` },
+              footer: { text:`.lub: ${user.players.length}/${MAX_CLUB_SIZE} jugadores` },
               timestamp: new Date().toISOString()
             }],
             files: initiatorFiles,
@@ -3898,11 +3898,11 @@ if (cmd === '.trade') {
       rivalCollector.on('end', (_, reason) => {
         if (reason === 'time') {
           tradeNotif.edit({
-            embeds: [{ color: 0x555555, title: '⏱️ Trade expirado', description: `No respondió a tiempo. El trade fue cancelado.` }],
+            embeds: [{ color: 0x555555, title: '⏱️ Trade expirado', description:`.o respondió a tiempo. El trade fue cancelado.` }],
             files: [], components: []
           }).catch(() => {});
           confirmMsg.edit({
-            embeds: [{ color: 0x555555, title: '⏱️ Trade expirado', description: `<@${target.id}> no respondió a tiempo.` }],
+            embeds: [{ color: 0x555555, title: '⏱️ Trade expirado', description:`.@${target.id}> no respondió a tiempo.` }],
             files: [], components: []
           }).catch(() => {});
         }
@@ -3956,7 +3956,7 @@ progressQuest(userId, 'market_visited', 1);
               '**No hay cartas en venta ahora mismo.**',
               '',
               '💡 Para vender una carta usa:',
-              ' `.sell <nombre> [precio]`',
+              '`.sell <nombre> [precio]`',
               '',
               '• El precio mínimo es el precio del sobre correspondiente.',
               '• Las cartas duran **24h** en el market.',
@@ -4001,13 +4001,13 @@ progressQuest(userId, 'market_visited', 1);
 
         // Header
         ctx.save();
-        ctx.font = `bold 32px ${FIFA_FONT}`;
+        ctx.font =`.old 32px ${FIFA_FONT}`;
         ctx.textAlign = 'center';
         ctx.fillStyle = '#FFD700';
         ctx.shadowColor = '#FFD700'; ctx.shadowBlur = 18;
         ctx.fillText('  MARKET DE JUGADORES', W / 2, 48);
         ctx.shadowBlur = 0;
-        ctx.font = `13px ${FIFA_FONT}`;
+        ctx.font =`.3px ${FIFA_FONT}`;
         ctx.fillStyle = '#ffffff44';
         ctx.fillText(`${sorted.length} carta${sorted.length !== 1 ? 's' : ''} en venta  ·  Página ${page + 1} / ${totalPages}  ·  !market <nombre> para comprar`, W / 2, 68);
         ctx.restore();
@@ -4026,7 +4026,7 @@ progressQuest(userId, 'market_visited', 1);
         // Headers de columna
         const cols = { num: 42, name: 66, pos: 280, rarity: 360, ovr: 490, seller: 570, price: 700, ttl: 800 };
         ctx.save();
-        ctx.font = `bold 11px ${FIFA_FONT}`;
+        ctx.font =`.old 11px ${FIFA_FONT}`;
         ctx.fillStyle = '#ffffff55';
         ctx.textAlign = 'left';
         ctx.fillText('#',       cols.num,    100);
@@ -4057,7 +4057,7 @@ progressQuest(userId, 'market_visited', 1);
           const msLeft = MARKET_LISTING_TTL - (now - listing.listedAt);
           const hLeft  = Math.max(0, Math.floor(msLeft / 3600000));
           const mLeft  = Math.max(0, Math.floor((msLeft % 3600000) / 60000));
-          const ttlStr = hLeft > 0 ? `${hLeft}h ${mLeft}m` : `${mLeft}m`;
+          const ttlStr = hLeft > 0 ?`.{hLeft}h ${mLeft}m` :`.{mLeft}m`;
 
           // Fondo de fila
           ctx.save();
@@ -4077,7 +4077,7 @@ progressQuest(userId, 'market_visited', 1);
 
           // Número
           ctx.save();
-          ctx.font = `11px ${FIFA_FONT}`;
+          ctx.font =`.1px ${FIFA_FONT}`;
           ctx.fillStyle = '#ffffff30';
           ctx.textAlign = 'right';
           ctx.fillText(`${page * PAGE_SIZE + i + 1}.`, cols.name - 6, rowY + 28);
@@ -4085,7 +4085,7 @@ progressQuest(userId, 'market_visited', 1);
 
           // Nombre
           ctx.save();
-          ctx.font = `bold 15px ${FIFA_FONT}`;
+          ctx.font =`.old 15px ${FIFA_FONT}`;
           ctx.fillStyle = isMine ? '#FFD70099' : '#ffffff';
           ctx.textAlign = 'left';
           ctx.fillText(p.name + (isMine ? ' (tuyo)' : ''), cols.name, rowY + 28);
@@ -4093,14 +4093,14 @@ progressQuest(userId, 'market_visited', 1);
 
           // Posición
           ctx.save();
-          ctx.font = `bold 12px ${FIFA_FONT}`;
+          ctx.font =`.old 12px ${FIFA_FONT}`;
           ctx.fillStyle = '#cccccc';
           ctx.fillText(`${posEmoji[p.position] || ''} ${p.position}`, cols.pos, rowY + 28);
           ctx.restore();
 
           // Rareza
           ctx.save();
-          ctx.font = `bold 12px ${FIFA_FONT}`;
+          ctx.font =`.old 12px ${FIFA_FONT}`;
           ctx.fillStyle = rarityColor[p.rarity] || '#888888';
           ctx.shadowColor = rarityColor[p.rarity] || '#888888';
           ctx.shadowBlur = 6;
@@ -4110,14 +4110,14 @@ progressQuest(userId, 'market_visited', 1);
 
           // OVR
           ctx.save();
-          ctx.font = `bold 16px ${FIFA_FONT}`;
+          ctx.font =`.old 16px ${FIFA_FONT}`;
           ctx.fillStyle = p.rating >= 90 ? '#FFD700' : p.rating >= 80 ? '#ffffff' : '#aaaaaa';
           ctx.fillText(String(p.rating), cols.ovr, rowY + 28);
           ctx.restore();
 
           // Vendedor
           ctx.save();
-          ctx.font = `12px ${FIFA_FONT}`;
+          ctx.font =`.2px ${FIFA_FONT}`;
           ctx.fillStyle = isMine ? '#FFD70099' : '#aaaaaa';
           const sellerDisplay = listing.sellerName.length > 10 ? listing.sellerName.slice(0, 9) + '…' : listing.sellerName;
           ctx.fillText(sellerDisplay, cols.seller, rowY + 28);
@@ -4125,14 +4125,14 @@ progressQuest(userId, 'market_visited', 1);
 
           // Precio
           ctx.save();
-          ctx.font = `bold 14px ${FIFA_FONT}`;
+          ctx.font =`.old 14px ${FIFA_FONT}`;
           ctx.fillStyle = isMine ? '#FFD700' : (canAfford ? '#00ff88' : '#ff4444');
           ctx.fillText(`${(listing.price ?? 0).toLocaleString()} 💰`, cols.price, rowY + 28);
           ctx.restore();
 
           // TTL
           ctx.save();
-          ctx.font = `11px ${FIFA_FONT}`;
+          ctx.font =`.1px ${FIFA_FONT}`;
           ctx.fillStyle = hLeft < 2 ? '#ff6644' : '#888888';
           ctx.fillText(`⏱ ${ttlStr}`, cols.ttl, rowY + 28);
           ctx.restore();
@@ -4148,7 +4148,7 @@ progressQuest(userId, 'market_visited', 1);
 
         // Footer
         ctx.save();
-        ctx.font = `12px ${FIFA_FONT}`;
+        ctx.font =`.2px ${FIFA_FONT}`;
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff25';
         ctx.fillText(`💰 Tu balance: ${user.coins.toLocaleString()} monedas  ·  Usa !sell <nombre> [precio] para publicar`, W / 2, FULL_H - 14);
@@ -4170,9 +4170,9 @@ progressQuest(userId, 'market_visited', 1);
       const mktMsg = await message.reply({
         embeds: [{
           color: 0x1a1a2e,
-          author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          author: { name:`. Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
           image: { url: 'attachment://market.png' },
-          footer: { text:  `.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
+          footer: { text:`.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
           timestamp: new Date().toISOString()
         }],
         files: [{ attachment: canvas0.toBuffer(), name: 'market.png' }],
@@ -4183,19 +4183,19 @@ progressQuest(userId, 'market_visited', 1);
       col.on('collect', async interaction => {
         if (interaction.user.id !== userId) return interaction.reply({ content: '❌ Este market no es tuyo.', ephemeral: true });
 
-        if (interaction.customId === `mkt_mylistings_${userId}`) {
+        if (interaction.customId ===`.kt_mylistings_${userId}`) {
           const mine = marketListings.filter(l => l.sellerId === userId && l.price != null && l.player != null);
           if (!mine.length) return interaction.reply({ content: '❌ No tienes cartas en el market ahora mismo.', ephemeral: true });
           const lines = mine.map((l, i) => {
             const msLeft = MARKET_LISTING_TTL - (Date.now() - l.listedAt);
             const hh = Math.max(0, Math.floor(msLeft / 3600000));
             const mm = Math.max(0, Math.floor((msLeft % 3600000) / 60000));
-            return `${i + 1}. **${l.player.name}** · ${l.player.rarity} · **${l.price.toLocaleString()} 💰** · expira en ${hh}h ${mm}m`;
+            return`.{i + 1}. **${l.player.name}** · ${l.player.rarity} · **${l.price.toLocaleString()} 💰** · expira en ${hh}h ${mm}m`;
           }).join('\n');
           return interaction.reply({
             embeds: [{
               color: 0xFFD700,
-              title: `📋 Tus listings en el market (${mine.length}/5)`,
+              title:`. Tus listings en el market (${mine.length}/5)`,
               description: lines,
               footer: { text: 'Las cartas regresan a tu club si expiran sin venderse' }
             }],
@@ -4203,16 +4203,16 @@ progressQuest(userId, 'market_visited', 1);
           });
         }
 
-        if (interaction.customId === `mkt_next_${userId}` && mPage < totalPages - 1) mPage++;
-        if (interaction.customId === `mkt_prev_${userId}` && mPage > 0) mPage--;
+        if (interaction.customId ===`.kt_next_${userId}` && mPage < totalPages - 1) mPage++;
+        if (interaction.customId ===`.kt_prev_${userId}` && mPage > 0) mPage--;
 
         const nc = await buildMarketCanvas(mPage);
         await interaction.update({
           embeds: [{
             color: 0x1a1a2e,
-            author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+            author: { name:`. Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
             image: { url: 'attachment://market.png' },
-            footer: { text:  `.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
+            footer: { text:`.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
             timestamp: new Date().toISOString()
           }],
           files: [{ attachment: nc.toBuffer(), name: 'market.png' }],
@@ -4241,10 +4241,10 @@ progressQuest(userId, 'market_visited', 1);
           color: 0xFF4444,
           title: '❌ No encontrado en el market',
           description: [
-            `No hay cartas de **${playerName}** en venta ahora mismo.`,
+`.o hay cartas de **${playerName}** en venta ahora mismo.`,
             '',
-            '💡 Usa  `.market` para ver todas las cartas disponibles.',
-            '💡 Usa  `.sell <nombre> [precio]` para publicar la tuya.',
+            '💡 Usa`.market` para ver todas las cartas disponibles.',
+            '💡 Usa`.sell <nombre> [precio]` para publicar la tuya.',
           ].join('\n')
         }]
       });
@@ -4255,7 +4255,7 @@ progressQuest(userId, 'market_visited', 1);
         embeds: [{
           color: 0xFF6600,
           title: '⚠️ Es tu propia carta',
-          description: `Tienes **${myOwnListings.length}** carta(s) de **${myOwnListings[0].player.name}** en el market pero no puedes comprarte a ti mismo.\n\nLas cartas expirarán y regresarán a tu club si nadie las compra.`
+          description:`.ienes **${myOwnListings.length}** carta(s) de **${myOwnListings[0].player.name}** en el market pero no puedes comprarte a ti mismo.\n\nLas cartas expirarán y regresarán a tu club si nadie las compra.`
         }]
       });
     }
@@ -4280,13 +4280,13 @@ progressQuest(userId, 'market_visited', 1);
       const stats = p.stats || {};
       const statLines = Object.entries(stats).map(([k, v]) => {
         const dot = v >= 88 ? '🟢' : v >= 75 ? '🟡' : v >= 60 ? '🟠' : '🔴';
-        return `${dot} **${k}** · **${v}**`;
+        return`.{dot} **${k}** · **${v}**`;
       }).join('  ·  ');
 
       let descExtra = '';
-      if (clubFull)        descExtra = `\n\n❌ **Tu club está lleno (${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}).** Vende jugadores primero.`;
-      else if (!canAfford) descExtra = `\n\n❌ **Sin monedas suficientes.** Te faltan **${(listing.price - user.coins).toLocaleString()} 💰**.`;
-      else                 descExtra = `\n\n✅ **Puedes comprar.** Te quedarán **${(user.coins - listing.price).toLocaleString()} 💰**.`;
+      if (clubFull)        descExtra =`.n\n❌ **Tu club está lleno (${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}).** Vende jugadores primero.`;
+      else if (!canAfford) descExtra =`.n\n❌ **Sin monedas suficientes.** Te faltan **${(listing.price - user.coins).toLocaleString()} 💰**.`;
+      else                 descExtra =`.n\n✅ **Puedes comprar.** Te quedarán **${(user.coins - listing.price).toLocaleString()} 💰**.`;
 
       const confirmRow = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
@@ -4309,16 +4309,16 @@ progressQuest(userId, 'market_visited', 1);
         content: null,
         embeds: [{
           color: rarityColors[p.rarity] || 0x1a1a2e,
-          author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${rarityEmoji[p.rarity]}  ·  ${p.name}  ·  ${p.rating} OVR`,
-          description: `**Posición:** ${p.position}  ·  **Rareza:** ${p.rarity}\n\n${statLines}${descExtra}`,
+          author: { name:`. Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{rarityEmoji[p.rarity]}  ·  ${p.name}  ·  ${p.rating} OVR`,
+          description:`.*Posición:** ${p.position}  ·  **Rareza:** ${p.rarity}\n\n${statLines}${descExtra}`,
           fields: [
-            { name: '💸 Precio',       value: `**${listing.price.toLocaleString()}** 💰`,      inline: true },
-            { name: '💰 Tu balance',   value: `**${user.coins.toLocaleString()}** 💰`,          inline: true },
-            { name: '👤 Vendedor',     value: `@${listing.sellerName}`,                          inline: true },
-            { name: '⏱️ Expira en',   value: `${hLeft}h ${mLeft}m`,                             inline: true },
-            { name: '🏟️ Tu club',     value: `${(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
-            { name: '📋 Disponibles', value: `${matches.length} listing(s)`,                    inline: true },
+            { name: '💸 Precio',       value:`.*${listing.price.toLocaleString()}** 💰`,      inline: true },
+            { name: '💰 Tu balance',   value:`.*${user.coins.toLocaleString()}** 💰`,          inline: true },
+            { name: '👤 Vendedor',     value:`.${listing.sellerName}`,                          inline: true },
+            { name: '⏱️ Expira en',   value:`.{hLeft}h ${mLeft}m`,                             inline: true },
+            { name: '🏟️ Tu club',     value:`.{(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
+            { name: '📋 Disponibles', value:`.{matches.length} listing(s)`,                    inline: true },
           ],
           image: showcaseCanvas ? { url: 'attachment://mkt-card.png' } : undefined,
           footer: { text: '⏱️ Tienes 60 segundos para confirmar' },
@@ -4363,18 +4363,18 @@ progressQuest(userId, 'market_visited', 1);
         const mL  = Math.max(0, Math.floor((msL % 3600000) / 60000));
         const canAffordThis = user.coins >= l.price;
         const icon = canAffordThis ? '✅' : '❌';
-        return `${icon} **${i + 1}.** @${l.sellerName} — **${l.price.toLocaleString()} 💰** · expira en ${hL}h ${mL}m`;
+        return`.{icon} **${i + 1}.** @${l.sellerName} — **${l.price.toLocaleString()} 💰** · expira en ${hL}h ${mL}m`;
       }).join('\n');
 
       const selectorMsg = await message.reply({
         embeds: [{
           color: rarityColors[matches[0].player.rarity] || 0x1a1a2e,
-          author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${matches[0].player.name} — ${matches[0].player.rarity} · ${matches[0].player.rating} OVR`,
-          description: `Hay **${matches.length}** listing(s) disponibles. Elige a qué vendedor comprársela:\n\n${listLines}${matches.length > 5 ? `\n_...y ${matches.length - 5} más_` : ''}`,
+          author: { name:`. Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{matches[0].player.name} — ${matches[0].player.rarity} · ${matches[0].player.rating} OVR`,
+          description:`.ay **${matches.length}** listing(s) disponibles. Elige a qué vendedor comprársela:\n\n${listLines}${matches.length > 5 ?`.n_...y ${matches.length - 5} más_` : ''}`,
           fields: [
-            { name: '💰 Tu balance', value: `**${user.coins.toLocaleString()}** 💰`, inline: true },
-            { name: '🏟️ Tu club',   value: `${(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
+            { name: '💰 Tu balance', value:`.*${user.coins.toLocaleString()}** 💰`, inline: true },
+            { name: '🏟️ Tu club',   value:`.{(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
           ],
           footer: { text: 'Selecciona el vendedor al que quieres comprarle' },
           timestamp: new Date().toISOString()
@@ -4386,10 +4386,10 @@ progressQuest(userId, 'market_visited', 1);
       selCol.on('collect', async interaction => {
         if (interaction.user.id !== userId) return interaction.reply({ content: '❌ No es tuyo.', ephemeral: true });
 
-        if (interaction.customId === `mktsel_cancel_${userId}`) {
+        if (interaction.customId ===`.ktsel_cancel_${userId}`) {
           selCol.stop();
           return interaction.update({
-            embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description: `Cancelaste la compra de **${matches[0].player.name}**.` }],
+            embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description:`.ancelaste la compra de **${matches[0].player.name}**.` }],
             files: [], components: []
           });
         }
@@ -4411,23 +4411,23 @@ progressQuest(userId, 'market_visited', 1);
         buyCol2.on('collect', async btn => {
           if (btn.user.id !== userId) return btn.reply({ content: '❌ No es tuyo.', ephemeral: true });
 
-          if (btn.customId === `mktbuy_cancel_${userId}`) {
+          if (btn.customId ===`.ktbuy_cancel_${userId}`) {
             buyCol2.stop();
-            return btn.update({ embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description: `Cancelaste la compra de **${selectedListing.player.name}**.` }], files: [], components: [] });
+            return btn.update({ embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description:`.ancelaste la compra de **${selectedListing.player.name}**.` }], files: [], components: [] });
           }
 
-          if (btn.customId === `mktbuy_back_${userId}`) {
+          if (btn.customId ===`.ktbuy_back_${userId}`) {
             buyCol2.stop();
             // Volver al selector
             await btn.update({
               embeds: [{
                 color: rarityColors[matches[0].player.rarity] || 0x1a1a2e,
-                author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-                title: `${matches[0].player.name} — ${matches[0].player.rarity} · ${matches[0].player.rating} OVR`,
-                description: `Hay **${matches.length}** listing(s) disponibles. Elige a qué vendedor comprársela:\n\n${listLines}${matches.length > 5 ? `\n_...y ${matches.length - 5} más_` : ''}`,
+                author: { name:`. Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+                title:`.{matches[0].player.name} — ${matches[0].player.rarity} · ${matches[0].player.rating} OVR`,
+                description:`.ay **${matches.length}** listing(s) disponibles. Elige a qué vendedor comprársela:\n\n${listLines}${matches.length > 5 ?`.n_...y ${matches.length - 5} más_` : ''}`,
                 fields: [
-                  { name: '💰 Tu balance', value: `**${user.coins.toLocaleString()}** 💰`, inline: true },
-                  { name: '🏟️ Tu club',   value: `${(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
+                  { name: '💰 Tu balance', value:`.*${user.coins.toLocaleString()}** 💰`, inline: true },
+                  { name: '🏟️ Tu club',   value:`.{(user.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
                 ],
                 footer: { text: 'Selecciona el vendedor al que quieres comprarle' },
                 timestamp: new Date().toISOString()
@@ -4439,7 +4439,7 @@ progressQuest(userId, 'market_visited', 1);
             const selCol2 = selectorMsg.createMessageComponentCollector({ time: 60000 });
             selCol2.on('collect', async i2 => {
               if (i2.user.id !== userId) return i2.reply({ content: '❌', ephemeral: true });
-              if (i2.customId === `mktsel_cancel_${userId}`) {
+              if (i2.customId ===`.ktsel_cancel_${userId}`) {
                 selCol2.stop();
                 return i2.update({ embeds: [{ color: 0x555555, title: '❌ Cancelado' }], files: [], components: [] });
               }
@@ -4455,7 +4455,7 @@ progressQuest(userId, 'market_visited', 1);
             return;
           }
 
-          if (btn.customId === `mktbuy_confirm_${userId}_${selectedListing.id}`) {
+          if (btn.customId ===`.ktbuy_confirm_${userId}_${selectedListing.id}`) {
             await executePurchase(btn, selectorMsg, selectedListing);
             buyCol2.stop();
           }
@@ -4472,11 +4472,11 @@ progressQuest(userId, 'market_visited', 1);
       const buyCol = buyMsg.createMessageComponentCollector({ time: 60000 });
       buyCol.on('collect', async interaction => {
         if (interaction.user.id !== userId) return interaction.reply({ content: '❌ No es tuyo.', ephemeral: true });
-        if (interaction.customId === `mktbuy_cancel_${userId}`) {
+        if (interaction.customId ===`.ktbuy_cancel_${userId}`) {
           buyCol.stop();
-          return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description: `Cancelaste la compra de **${matches[0].player.name}**.` }], files: [], components: [] });
+          return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Compra cancelada', description:`.ancelaste la compra de **${matches[0].player.name}**.` }], files: [], components: [] });
         }
-        if (interaction.customId === `mktbuy_confirm_${userId}_${matches[0].id}`) {
+        if (interaction.customId ===`.ktbuy_confirm_${userId}_${matches[0].id}`) {
           await executePurchase(interaction, buyMsg, matches[0]);
           buyCol.stop();
         }
@@ -4504,7 +4504,7 @@ progressQuest(userId, 'market_visited', 1);
       try {
         const seller = await client.users.fetch(listing.sellerId);
         if (seller) {
-          seller.send({ embeds: [{ color: 0x00C851, title: '💸 ¡Tu carta se vendió!', description: `**${p.name}** fue comprada por **@${message.author.username}**.\n\n💰 Recibiste **+${listing.price.toLocaleString()} 💰**.`, footer: { text: 'Usa !bal para ver tu balance' } }] }).catch(() => {});
+          seller.send({ embeds: [{ color: 0x00C851, title: '💸 ¡Tu carta se vendió!', description:`.*${p.name}** fue comprada por **@${message.author.username}**.\n\n💰 Recibiste **+${listing.price.toLocaleString()} 💰**.`, footer: { text: 'Usa !bal para ver tu balance' } }] }).catch(() => {});
         }
       } catch (e) {}
 
@@ -4517,16 +4517,16 @@ progressQuest(userId, 'market_visited', 1);
       );
 
       await interaction.update({
-        content: `🎉 ¡**${p.name}** es tuyo!`,
+        content:`. ¡**${p.name}** es tuyo!`,
         embeds: [{
           color: rarityColors[p.rarity] || 0x00C851,
-          author: { name: `✅ Compra exitosa · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `${p.name} — ${p.rarity}  ·  ${p.rating} OVR`,
-          description: `**Posición:** ${p.position}  ·  Comprado a @${listing.sellerName}`,
+          author: { name:`. Compra exitosa · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`.{p.name} — ${p.rarity}  ·  ${p.rating} OVR`,
+          description:`.*Posición:** ${p.position}  ·  Comprado a @${listing.sellerName}`,
           fields: [
-            { name: '💸 Pagaste',       value: `**${listing.price.toLocaleString()}** 💰`, inline: true },
-            { name: '💰 Nuevo balance', value: `**${user.coins.toLocaleString()}** 💰`,     inline: true },
-            { name: '🏟️ Club',         value: `**${user.players.length}/${MAX_CLUB_SIZE}**`, inline: true },
+            { name: '💸 Pagaste',       value:`.*${listing.price.toLocaleString()}** 💰`, inline: true },
+            { name: '💰 Nuevo balance', value:`.*${user.coins.toLocaleString()}** 💰`,     inline: true },
+            { name: '🏟️ Club',         value:`.*${user.players.length}/${MAX_CLUB_SIZE}**`, inline: true },
           ],
           image: finalCanvas ? { url: 'attachment://bought.png' } : undefined,
           footer: { text: '¡Añádelo al equipo o vuélvelo a vender!' },
@@ -4539,14 +4539,14 @@ progressQuest(userId, 'market_visited', 1);
       const postCol = msgRef.createMessageComponentCollector({ time: 60000 });
       postCol.on('collect', async btn => {
         if (btn.user.id !== userId) return btn.reply({ content: '❌ No es tuyo.', ephemeral: true });
-        if (btn.customId === `mktpost_add_${userId}_${p.name}`) {
+        if (btn.customId ===`.ktpost_add_${userId}_${p.name}`) {
           if ((user.team || []).length >= 4) return btn.reply({ content: '❌ Equipo lleno.', ephemeral: true });
-          if ((user.team || []).some(t => t.name === p.name)) return btn.reply({ content: `❌ **${p.name}** ya está en tu equipo.`, ephemeral: true });
+          if ((user.team || []).some(t => t.name === p.name)) return btn.reply({ content:`. **${p.name}** ya está en tu equipo.`, ephemeral: true });
           user.team.push({ ...p }); saveData();
-          return btn.update({ content: `✅ **${p.name}** añadido al equipo! (${user.team.length}/4)`, components: [] });
+          return btn.update({ content:`. **${p.name}** añadido al equipo! (${user.team.length}/4)`, components: [] });
         }
-        if (btn.customId === `mktpost_sell_${userId}`) {
-          return btn.reply({ content: `💡 Usa \ `.sell ${p.name} <precio>\` para venderla de nuevo.`, ephemeral: true });
+        if (btn.customId ===`.ktpost_sell_${userId}`) {
+          return btn.reply({ content:`. Usa \`.sell ${p.name} <precio>\` para venderla de nuevo.`, ephemeral: true });
         }
       });
       postCol.on('end', () => msgRef.edit({ components: [] }).catch(() => {}));
@@ -4561,7 +4561,7 @@ progressQuest(userId, 'market_visited', 1);
   // ─────────────────────────────────────────
   if (cmd === '.friendly') {
   const opponent = message.mentions.users.first();
-  if (!opponent) return message.reply('❌ Menciona a tu rival. Ej:  `.friendly @usuario`');
+  if (!opponent) return message.reply('❌ Menciona a tu rival. Ej:`.friendly @usuario`');
   if (opponent.id===userId) return message.reply('❌ No puedes jugar contra ti mismo.');
   if (!data[opponent.id]||(data[opponent.id].team||[]).length<4) return message.reply('❌ El rival no tiene equipo armado (necesita 4 jugadores).');
   if (user.team.length<4) return message.reply('❌ Necesitas 4 jugadores en tu equipo.');
@@ -4588,7 +4588,7 @@ progressQuest(userId, 'market_visited', 1);
   // ⚔️ ARENA
   // ─────────────────────────────────────────
   if (cmd === '.arena') {
-    if ((user.team||[]).length < 4) return message.reply('❌ Necesitas **4 jugadores** en tu equipo para entrar a la Arena.\nUsa  `.team` para armar tu equipo.');
+    if ((user.team||[]).length < 4) return message.reply('❌ Necesitas **4 jugadores** en tu equipo para entrar a la Arena.\nUsa`.team` para armar tu equipo.');
     if (!isAdmin(userId)) {
   const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
   const elapsed = Date.now() - lastArena;
@@ -4610,7 +4610,7 @@ progressQuest(userId, 'market_visited', 1);
     });
 
     if (candidates.length === 0) {
-      return message.reply(`❌ No hay rivales disponibles con equipo completo.\nPide a tus amigos que armen sus equipos con \ `.team\`.`);
+      return message.reply(`❌ No hay rivales disponibles con equipo completo.\nPide a tus amigos que armen sus equipos con \`.team\`.`);
     }
 
     // Ordenar por ELO más cercano
@@ -4641,15 +4641,15 @@ progressQuest(userId, 'market_visited', 1);
     ranking.forEach(([uid, udata], i) => {
       const elo = udata.elo || 1000;
       const tier = getEloTier(elo);
-      const num = i < 3 ? medals[i] : `**${i+1}**`;
-      description += `${num} <@${uid}> — **${elo}** ${tier.emoji}\n`;
+      const num = i < 3 ? medals[i] :`.*${i+1}**`;
+      description +=`.{num} <@${uid}> — **${elo}** ${tier.emoji}\n`;
     });
 
     return message.reply({ embeds: [{ 
       color: 0xFFD700,
       title: '🏆 Top 10 — Arena',
       description,
-      footer: { text: `Jugadores registrados: ${Object.keys(data).length}` },
+      footer: { text:`.ugadores registrados: ${Object.keys(data).length}` },
       timestamp: new Date().toISOString()
     }]});
   }
@@ -4672,8 +4672,8 @@ if (cmd === '.stats') {
       return message.reply({
         embeds: [{
           color: 0x2b2d31,
-          title: `📊 Sin enfrentamientos`,
-          description: `No tienes partidos registrados contra **${targetMention.username}**.`,
+          title:`. Sin enfrentamientos`,
+          description:`.o tienes partidos registrados contra **${targetMention.username}**.`,
           footer: { text: 'El historial solo registra partidos jugados desde la última actualización' }
         }]
       });
@@ -4695,7 +4695,7 @@ if (cmd === '.stats') {
       const icon = m.result === 'win' ? '✅' : m.result === 'draw' ? '🟡' : '❌';
       const date = new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
       const typeIcon = m.type === 'arena' ? '⚔️' : '🤝';
-      return `${icon} ${typeIcon} **${m.myGoals}-${m.oppGoals}** · ${date}`;
+      return`.{icon} ${typeIcon} **${m.myGoals}-${m.oppGoals}** · ${date}`;
     }).join('\n');
 
     // Barra de dominio visual
@@ -4713,22 +4713,22 @@ if (cmd === '.stats') {
       embeds: [{
         color: wins > losses ? 0x00C851 : wins < losses ? 0xFF4444 : 0xFFAA00,
         author: {
-          name: `⚔️ Enfrentamientos directos`,
+          name:`.️ Enfrentamientos directos`,
           icon_url: message.author.displayAvatarURL({ dynamic: true })
         },
-        title: `${myClubName}  vs  ${rivalClub}`,
-        description: `${dominance}\n\n${dominanceBar}`,
+        title:`.{myClubName}  vs  ${rivalClub}`,
+        description:`.{dominance}\n\n${dominanceBar}`,
         fields: [
-          { name: '✅ Victorias',  value: `**${wins}**`,   inline: true },
-          { name: '🟡 Empates',   value: `**${draws}**`,  inline: true },
-          { name: '❌ Derrotas',  value: `**${losses}**`, inline: true },
-          { name: '⚽ Goles a favor',  value: `**${goalsFor}**`,     inline: true },
-          { name: '🥅 Goles en contra', value: `**${goalsAgainst}**`, inline: true },
-          { name: '📈 % Victoria',  value: `**${winRate}%**`,        inline: true },
-          { name: '🎮 Partidos',    value: `⚔️ Arena: **${arenaCount}** · 🤝 Friendly: **${friendlyCount}**`, inline: false },
-          { name: `📋 Últimos ${Math.min(5, vsMatches.length)} enfrentamientos`, value: last5, inline: false },
+          { name: '✅ Victorias',  value:`.*${wins}**`,   inline: true },
+          { name: '🟡 Empates',   value:`.*${draws}**`,  inline: true },
+          { name: '❌ Derrotas',  value:`.*${losses}**`, inline: true },
+          { name: '⚽ Goles a favor',  value:`.*${goalsFor}**`,     inline: true },
+          { name: '🥅 Goles en contra', value:`.*${goalsAgainst}**`, inline: true },
+          { name: '📈 % Victoria',  value:`.*${winRate}%**`,        inline: true },
+          { name: '🎮 Partidos',    value:`.️ Arena: **${arenaCount}** · 🤝 Friendly: **${friendlyCount}**`, inline: false },
+          { name:`. Últimos ${Math.min(5, vsMatches.length)} enfrentamientos`, value: last5, inline: false },
         ],
-        footer: { text: `Total: ${vsMatches.length} partido${vsMatches.length !== 1 ? 's' : ''} entre ambos` },
+        footer: { text:`.otal: ${vsMatches.length} partido${vsMatches.length !== 1 ? 's' : ''} entre ambos` },
         timestamp: new Date().toISOString()
       }]
     });
@@ -4741,8 +4741,8 @@ if (cmd === '.stats') {
     return message.reply({
       embeds: [{
         color: 0x2b2d31,
-        title: `📊 Sin historial`,
-        description: `No tienes partidos registrados aún.\n\nJuega con \ `.arena\` o \ `.friendly @rival\` para empezar.`,
+        title:`. Sin historial`,
+        description:`.o tienes partidos registrados aún.\n\nJuega con \`.arena\` o \`.friendly @rival\` para empezar.`,
         footer: { text: 'El historial registra todos tus partidos desde la última actualización' }
       }]
     });
@@ -4774,7 +4774,7 @@ if (cmd === '.stats') {
   }
   const streakEmoji = streakType === 'win' ? '🔥' : streakType === 'draw' ? '🟡' : '❄️';
   const streakLabel = streakType === 'win' ? 'victorias' : streakType === 'draw' ? 'empates' : 'derrotas';
-  const streakText  = currentStreak >= 2 ? `${streakEmoji} **${currentStreak}** ${streakLabel} seguidas` : 'Sin racha activa';
+  const streakText  = currentStreak >= 2 ?`.{streakEmoji} **${currentStreak}** ${streakLabel} seguidas` : 'Sin racha activa';
 
   // Rival más enfrentado
   const rivalCount = {};
@@ -4789,14 +4789,14 @@ if (cmd === '.stats') {
     winsVsRival[m.oppName] = (winsVsRival[m.oppName] || 0) + 1;
   });
   const topVictimEntry = Object.entries(winsVsRival).sort((a, b) => b[1] - a[1])[0];
-  const topVictim = topVictimEntry ? `@${topVictimEntry[0]} (${topVictimEntry[1]}V)` : '—';
+  const topVictim = topVictimEntry ?`.${topVictimEntry[0]} (${topVictimEntry[1]}V)` : '—';
 
   // Últimos 8 partidos — badges
   const last8 = myHistory.slice(0, 8).map(m => {
     const icon = m.result === 'win' ? '✅' : m.result === 'draw' ? '🟡' : '❌';
     const typeIcon = m.type === 'arena' ? '⚔️' : '🤝';
     const date = new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
-    return `${icon}${typeIcon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${date}`;
+    return`.{icon}${typeIcon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${date}`;
   }).join('\n');
 
   // Forma (últimos 5) — W/D/L
@@ -4822,25 +4822,25 @@ if (cmd === '.stats') {
         const icon = m.result === 'win' ? '✅' : m.result === 'draw' ? '🟡' : '❌';
         const typeIcon = m.type === 'arena' ? '⚔️ Arena' : '🤝 Friendly';
         const date = new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
-        const rewardStr = m.reward ? `+${m.reward} 💰` : '';
-        return `${icon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${typeIcon} · ${date} · ${rewardStr}`;
+        const rewardStr = m.reward ?`.${m.reward} 💰` : '';
+        return`.{icon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${typeIcon} · ${date} · ${rewardStr}`;
       }).join('\n');
 
       return {
         embeds: [{
           color: 0x2b2d31,
           author: {
-            name: `📋 Historial de partidos · ${message.author.username}`,
+            name:`. Historial de partidos · ${message.author.username}`,
             icon_url: message.author.displayAvatarURL({ dynamic: true })
           },
-          title: `${clubName} — ${totalGames} partidos jugados`,
+          title:`.{clubName} — ${totalGames} partidos jugados`,
           description: lines || '_Sin partidos_',
           fields: [
-            { name: '✅ V', value: `**${wins}**`,  inline: true },
-            { name: '🟡 E', value: `**${draws}**`, inline: true },
-            { name: '❌ D', value: `**${losses}**`, inline: true },
+            { name: '✅ V', value:`.*${wins}**`,  inline: true },
+            { name: '🟡 E', value:`.*${draws}**`, inline: true },
+            { name: '❌ D', value:`.*${losses}**`, inline: true },
           ],
-          footer: { text: `Página ${p + 1}/${totalPages}  ·  !stats para resumen  ·  !stats @usuario para H2H` },
+          footer: { text:`.ágina ${p + 1}/${totalPages}  ·  !stats para resumen  ·  !stats @usuario para H2H` },
           timestamp: new Date().toISOString()
         }]
       };
@@ -4861,9 +4861,9 @@ if (cmd === '.stats') {
     const histCol = histMsg.createMessageComponentCollector({ time: 120000 });
     histCol.on('collect', async interaction => {
       if (interaction.user.id !== userId) return interaction.reply({ content: '❌ No es tuyo.', ephemeral: true });
-      if (interaction.customId === `stats_next_${userId}` && page < totalPages - 1) page++;
-      if (interaction.customId === `stats_prev_${userId}` && page > 0) page--;
-      if (interaction.customId === `stats_back_${userId}`) {
+      if (interaction.customId ===`.tats_next_${userId}` && page < totalPages - 1) page++;
+      if (interaction.customId ===`.tats_prev_${userId}` && page > 0) page--;
+      if (interaction.customId ===`.tats_back_${userId}`) {
         histCol.stop();
         return interaction.update({ components: [] });
       }
@@ -4894,35 +4894,35 @@ if (cmd === '.stats') {
     const wBars = history.length > 0 ? Math.round((mWins  / history.length) * totalBars2) : 0;
     const dBars = history.length > 0 ? Math.round((mDraws / history.length) * totalBars2) : 0;
     const lBars = Math.max(0, totalBars2 - wBars - dBars);
-    const wdlBar = `\`${'█'.repeat(wBars)}${'▒'.repeat(dBars)}${'░'.repeat(lBars)}\` ${mRate}% wins`;
+    const wdlBar =`.`${'█'.repeat(wBars)}${'▒'.repeat(dBars)}${'░'.repeat(lBars)}\` ${mRate}% wins`;
 
     return {
       embeds: [{
         color: mWins > mLosses ? 0x00C851 : mWins < mLosses ? 0xFF4444 : 0xFFAA00,
         author: {
-          name: `📊 Estadísticas ${modeLabel} · ${message.author.username}`,
+          name:`. Estadísticas ${modeLabel} · ${message.author.username}`,
           icon_url: message.author.displayAvatarURL({ dynamic: true })
         },
         title: clubName,
         description: wdlBar,
         fields: [
-          { name: '✅ Victorias',    value: `**${mWins}**`,            inline: true },
-          { name: '🟡 Empates',      value: `**${mDraws}**`,           inline: true },
-          { name: '❌ Derrotas',     value: `**${mLosses}**`,          inline: true },
-          { name: '⚽ Goles favor',  value: `**${mFor}**`,             inline: true },
-          { name: '🥅 Goles contra', value: `**${mAgainst}**`,         inline: true },
-          { name: '🎮 Partidos',     value: `**${history.length}**`,   inline: true },
+          { name: '✅ Victorias',    value:`.*${mWins}**`,            inline: true },
+          { name: '🟡 Empates',      value:`.*${mDraws}**`,           inline: true },
+          { name: '❌ Derrotas',     value:`.*${mLosses}**`,          inline: true },
+          { name: '⚽ Goles favor',  value:`.*${mFor}**`,             inline: true },
+          { name: '🥅 Goles contra', value:`.*${mAgainst}**`,         inline: true },
+          { name: '🎮 Partidos',     value:`.*${history.length}**`,   inline: true },
           ...(mode === 'all' ? [
             { name: '🔥 Forma (últ. 5)', value: form || '—',          inline: false },
             { name: '📈 Racha actual',   value: streakText,            inline: true  },
-            { name: '💰 Monedas ganadas',value: `**${totalReward.toLocaleString()}** 💰`, inline: true },
-            { name: '🥊 Rival frecuente',value: topRival ? `@${topRival[0]} (${topRival[1]} veces)` : '—', inline: true },
+            { name: '💰 Monedas ganadas',value:`.*${totalReward.toLocaleString()}** 💰`, inline: true },
+            { name: '🥊 Rival frecuente',value: topRival ?`.${topRival[0]} (${topRival[1]} veces)` : '—', inline: true },
             { name: '🏆 Víctima fav.',   value: topVictim,            inline: true  },
-            { name: `📋 Últimos ${Math.min(8, myHistory.length)}`, value: last8 || '—', inline: false },
+            { name:`. Últimos ${Math.min(8, myHistory.length)}`, value: last8 || '—', inline: false },
           ] : [])
         ],
         footer: {
-          text: `${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}  ·  !stats h para historial completo  ·  !stats @usuario para H2H`
+          text:`.{tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}  ·  !stats h para historial completo  ·  !stats @usuario para H2H`
         },
         timestamp: new Date().toISOString()
       }]
@@ -4935,7 +4935,7 @@ if (cmd === '.stats') {
   statsCol.on('collect', async interaction => {
     if (interaction.user.id !== userId) return interaction.reply({ content: '❌ No es tuyo.', ephemeral: true });
 
-    if (interaction.customId === `stats_history_${userId}`) {
+    if (interaction.customId ===`.tats_history_${userId}`) {
       statsCol.stop();
       // Relanzar historial paginado
       page = 0;
@@ -4947,9 +4947,9 @@ if (cmd === '.stats') {
           const icon = m.result === 'win' ? '✅' : m.result === 'draw' ? '🟡' : '❌';
           const typeIcon = m.type === 'arena' ? '⚔️' : '🤝';
           const date = new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
-          return `${icon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${typeIcon} · ${date} · +${m.reward || 0} 💰`;
+          return`.{icon} **${m.myGoals}-${m.oppGoals}** vs @${m.oppName} · ${typeIcon} · ${date} · +${m.reward || 0} 💰`;
         }).join('\n');
-        return { embeds: [{ color: 0x2b2d31, author: { name: `📋 Historial · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, description: lines || '—', footer: { text: `Página ${p+1}/${totalPages}` }, timestamp: new Date().toISOString() }] };
+        return { embeds: [{ color: 0x2b2d31, author: { name:`. Historial · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) }, description: lines || '—', footer: { text:`.ágina ${p+1}/${totalPages}` }, timestamp: new Date().toISOString() }] };
       }
       function buildHRow(p) {
         return new ActionRowBuilder().addComponents(
@@ -4962,18 +4962,18 @@ if (cmd === '.stats') {
       const hCol2 = statsMsg.createMessageComponentCollector({ time: 120000 });
       hCol2.on('collect', async i2 => {
         if (i2.user.id !== userId) return i2.reply({ content: '❌', ephemeral: true });
-        if (i2.customId === `sh_next_${userId}` && page < totalPages - 1) page++;
-        if (i2.customId === `sh_prev_${userId}` && page > 0) page--;
+        if (i2.customId ===`.h_next_${userId}` && page < totalPages - 1) page++;
+        if (i2.customId ===`.h_prev_${userId}` && page > 0) page--;
         i2.update({ ...buildH(page), components: [buildHRow(page)] });
       });
       hCol2.on('end', () => statsMsg.edit({ components: [] }).catch(() => {}));
       return;
     }
 
-    if (interaction.customId === `stats_arena_${userId}`) {
+    if (interaction.customId ===`.tats_arena_${userId}`) {
       return interaction.update({ ...buildStatsEmbed('arena'), components: [statsRow] });
     }
-    if (interaction.customId === `stats_friendly_${userId}`) {
+    if (interaction.customId ===`.tats_friendly_${userId}`) {
       return interaction.update({ ...buildStatsEmbed('friendly'), components: [statsRow] });
     }
   });
@@ -5033,16 +5033,16 @@ if (cmd === '.players') {
 
     // Header
     const filterLabel = filterArg
-      ? ` · Filtro: ${args[1].toUpperCase()}`
+      ?`.· Filtro: ${args[1].toUpperCase()}`
       : '';
     ctx.save();
-    ctx.font = `bold 32px ${FIFA_FONT}`;
+    ctx.font =`.old 32px ${FIFA_FONT}`;
     ctx.textAlign = 'center';
     ctx.fillStyle = '#FFD700';
     ctx.shadowColor = '#FFD700'; ctx.shadowBlur = 18;
     ctx.fillText('🎮  JUGADORES DISPONIBLES', W / 2, 48);
     ctx.shadowBlur = 0;
-    ctx.font = `13px ${FIFA_FONT}`;
+    ctx.font =`.3px ${FIFA_FONT}`;
     ctx.fillStyle = '#ffffff44';
     ctx.fillText(`${filteredPlayers.length} jugador${filteredPlayers.length !== 1 ? 'es' : ''}${filterLabel}  ·  Página ${page + 1} / ${totalPages}  ·  !show <nombre> para ver la carta`, W / 2, 68);
     ctx.restore();
@@ -5061,7 +5061,7 @@ if (cmd === '.players') {
     // Columnas
     const cols = { num: 42, name: 66, pos: 280, rarity: 360, ovr: 500, pac: 570, sho: 630, pas: 690, dri: 750, pack: 800 };
     ctx.save();
-    ctx.font = `bold 11px ${FIFA_FONT}`;
+    ctx.font =`.old 11px ${FIFA_FONT}`;
     ctx.fillStyle = '#ffffff55';
     ctx.textAlign = 'left';
     ctx.fillText('#',       cols.num,  100);
@@ -5108,7 +5108,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
       // Número
       ctx.save();
-      ctx.font = `11px ${FIFA_FONT}`;
+      ctx.font =`.1px ${FIFA_FONT}`;
       ctx.fillStyle = '#ffffff30';
       ctx.textAlign = 'right';
       ctx.fillText(`${globalIdx + 1}.`, cols.name - 6, rowY + 26);
@@ -5116,7 +5116,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
       // Nombre
       ctx.save();
-      ctx.font = `bold 15px ${FIFA_FONT}`;
+      ctx.font =`.old 15px ${FIFA_FONT}`;
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'left';
       ctx.fillText(p.name, cols.name, rowY + 26);
@@ -5124,14 +5124,14 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
       // Posición
       ctx.save();
-      ctx.font = `bold 12px ${FIFA_FONT}`;
+      ctx.font =`.old 12px ${FIFA_FONT}`;
       ctx.fillStyle = '#cccccc';
       ctx.fillText(`${posEmoji[p.position] || ''} ${p.position}`, cols.pos, rowY + 26);
       ctx.restore();
 
       // Rareza
       ctx.save();
-      ctx.font = `bold 12px ${FIFA_FONT}`;
+      ctx.font =`.old 12px ${FIFA_FONT}`;
       ctx.fillStyle = rarityColor[p.rarity] || '#888888';
       ctx.shadowColor = rarityColor[p.rarity] || '#888888';
       ctx.shadowBlur = 6;
@@ -5141,7 +5141,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
       // OVR
       ctx.save();
-      ctx.font = `bold 16px ${FIFA_FONT}`;
+      ctx.font =`.old 16px ${FIFA_FONT}`;
       ctx.fillStyle = p.rating >= 90 ? '#FFD700' : p.rating >= 80 ? '#ffffff' : '#aaaaaa';
       ctx.fillText(String(p.rating), cols.ovr, rowY + 26);
       ctx.restore();
@@ -5158,7 +5158,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
         const val = stats[key];
         if (val === undefined) return;
         ctx.save();
-        ctx.font = `bold 13px ${FIFA_FONT}`;
+        ctx.font =`.old 13px ${FIFA_FONT}`;
         const statColor = val >= 88 ? '#00ff88' : val >= 75 ? '#FFD700' : val >= 60 ? '#ffaa44' : '#ff6666';
         ctx.fillStyle = statColor;
         ctx.textAlign = 'left';
@@ -5168,7 +5168,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
       // Pack necesario
       ctx.save();
-      ctx.font = `11px ${FIFA_FONT}`;
+      ctx.font =`.1px ${FIFA_FONT}`;
       ctx.fillStyle = '#888888';
       ctx.textAlign = 'left';
       ctx.fillText(packForRarity[p.rarity] || '—', cols.pack, rowY + 26);
@@ -5185,7 +5185,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 
     // Footer
     ctx.save();
-    ctx.font = `12px ${FIFA_FONT}`;
+    ctx.font =`.2px ${FIFA_FONT}`;
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff25';
     ctx.fillText(`Filtros: !players legendario · !players epico · !players raro · !players comun · !players gk · !players st · !players am · !players dm`, W / 2, FULL_H - 14);
@@ -5195,7 +5195,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
   }
 
   function buildPlayersNavRow(uid, page) {
-    const filterLabel = filterArg ? ` [${args[1].toUpperCase()}]` : '';
+    const filterLabel = filterArg ?`.[${args[1].toUpperCase()}]` : '';
     return new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId(`players_prev_${uid}`).setLabel('◀ Anterior').setStyle(ButtonStyle.Primary).setDisabled(page === 0),
       new ButtonBuilder().setCustomId(`players_page_${uid}`).setLabel(`${page + 1} / ${totalPages}${filterLabel}`).setStyle(ButtonStyle.Secondary).setDisabled(true),
@@ -5205,16 +5205,16 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
   }
 
   if (filteredPlayers.length === 0) {
-    return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Sin resultados', description: `No hay jugadores con el filtro **${args[1]}**.\n\n**Filtros válidos:** legendario · epico · raro · comun · gk · dm · am · st` }] });
+    return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Sin resultados', description:`.o hay jugadores con el filtro **${args[1]}**.\n\n**Filtros válidos:** legendario · epico · raro · comun · gk · dm · am · st` }] });
   }
 
   const canvas0 = await buildPlayersCanvas(pPage);
   const playersMsg = await message.reply({
     embeds: [{
       color: 0x1a1a2e,
-      author: { name: `🎮 Jugadores · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      author: { name:`. Jugadores · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
       image: { url: 'attachment://players.png' },
-      footer: { text: `Total: ${filteredPlayers.length} jugadores  ·  !show <nombre> para ver carta  ·  !market para comprar/vender` },
+      footer: { text:`.otal: ${filteredPlayers.length} jugadores  ·  !show <nombre> para ver carta  ·  !market para comprar/vender` },
       timestamp: new Date().toISOString()
     }],
     files: [{ attachment: canvas0.toBuffer(), name: 'players.png' }],
@@ -5227,11 +5227,11 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
   col.on('collect', async interaction => {
     if (interaction.user.id !== userId) return interaction.reply({ content: '❌ Este panel no es tuyo.', ephemeral: true });
 
-    if (interaction.customId === `players_random_${userId}`) {
+    if (interaction.customId ===`.layers_random_${userId}`) {
       pPage = Math.floor(Math.random() * totalPages);
-    } else if (interaction.customId === `players_next_${userId}` && pPage < totalPages - 1) {
+    } else if (interaction.customId ===`.layers_next_${userId}` && pPage < totalPages - 1) {
       pPage++;
-    } else if (interaction.customId === `players_prev_${userId}` && pPage > 0) {
+    } else if (interaction.customId ===`.layers_prev_${userId}` && pPage > 0) {
       pPage--;
     }
 
@@ -5239,9 +5239,9 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
     await interaction.update({
       embeds: [{
         color: 0x1a1a2e,
-        author: { name: `🎮 Jugadores · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        author: { name:`. Jugadores · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
         image: { url: 'attachment://players.png' },
-        footer: { text: `Total: ${filteredPlayers.length} jugadores  ·  !show <nombre> para ver carta  ·  !market para comprar/vender` },
+        footer: { text:`.otal: ${filteredPlayers.length} jugadores  ·  !show <nombre> para ver carta  ·  !market para comprar/vender` },
         timestamp: new Date().toISOString()
       }],
       files: [{ attachment: nc.toBuffer(), name: 'players.png' }],
@@ -5276,7 +5276,7 @@ if (cmd === '.send') {
   const target = message.mentions.users.first();
   const amount = parseInt(args[2]);
 
-  if (!target) return message.reply('❌ Uso:  `.send @usuario cantidad`\nEj:  `.send @Luntek 500`');
+  if (!target) return message.reply('❌ Uso:`.send @usuario cantidad`\nEj:`.send @Luntek 500`');
   if (target.id === userId) return message.reply('❌ No puedes enviarte monedas a ti mismo.');
   if (target.bot) return message.reply('❌ No puedes enviar monedas a un bot.');
   if (isNaN(amount) || amount <= 0) return message.reply('❌ Escribe una cantidad válida mayor a 0.');
@@ -5307,18 +5307,18 @@ if (cmd === '.send') {
     embeds: [{
       color: 0x2b2d31,
       author: {
-        name: `💸 Transferencia · ${message.author.username}`,
+        name:`. Transferencia · ${message.author.username}`,
         icon_url: message.author.displayAvatarURL({ dynamic: true })
       },
       description: [
-        `¿Confirmas el envío de **${amount.toLocaleString()} 💰** a <@${target.id}>?`,
-        ``,
-        `💰 Tu balance actual: **${user.coins.toLocaleString()}** 💰`,
-        `💳 Tu balance después: **${(user.coins - amount).toLocaleString()}** 💰`,
+`.Confirmas el envío de **${amount.toLocaleString()} 💰** a <@${target.id}>?`,
+`.,
+`. Tu balance actual: **${user.coins.toLocaleString()}** 💰`,
+`. Tu balance después: **${(user.coins - amount).toLocaleString()}** 💰`,
       ].join('\n'),
       fields: [
-        { name: '👤 Destinatario', value: `<@${target.id}>`,               inline: true },
-        { name: '💸 Monto',        value: `${amount.toLocaleString()} 💰`,  inline: true },
+        { name: '👤 Destinatario', value:`.@${target.id}>`,               inline: true },
+        { name: '💸 Monto',        value:`.{amount.toLocaleString()} 💰`,  inline: true },
       ],
       footer: { text: '⏱️ Tienes 30 segundos para confirmar' },
       timestamp: new Date().toISOString()
@@ -5332,7 +5332,7 @@ if (cmd === '.send') {
     if (interaction.user.id !== userId)
       return interaction.reply({ content: '❌ Esta transferencia no es tuya.', ephemeral: true });
 
-    if (interaction.customId === `send_cancel_${userId}`) {
+    if (interaction.customId ===`.end_cancel_${userId}`) {
       sendCollector.stop();
       return interaction.update({
         embeds: [{
@@ -5344,7 +5344,7 @@ if (cmd === '.send') {
       });
     }
 
-    if (interaction.customId === `send_confirm_${userId}_${target.id}_${amount}`) {
+    if (interaction.customId ===`.end_confirm_${userId}_${target.id}_${amount}`) {
       if (user.coins < amount) {
         sendCollector.stop();
         return interaction.update({
@@ -5366,18 +5366,18 @@ if (cmd === '.send') {
         embeds: [{
           color: 0x00C851,
           author: {
-            name: `✅ Transferencia completada · ${message.author.username}`,
+            name:`. Transferencia completada · ${message.author.username}`,
             icon_url: message.author.displayAvatarURL({ dynamic: true })
           },
           description: [
-            `Enviaste **${amount.toLocaleString()} 💰** a <@${target.id}> con éxito.`,
-            ``,
-            `💳 Tu nuevo balance: **${user.coins.toLocaleString()}** 💰`,
+`.nviaste **${amount.toLocaleString()} 💰** a <@${target.id}> con éxito.`,
+`.,
+`. Tu nuevo balance: **${user.coins.toLocaleString()}** 💰`,
           ].join('\n'),
           fields: [
-            { name: '👤 Destinatario',   value: `<@${target.id}>`,               inline: true },
-            { name: '💸 Enviado',        value: `${amount.toLocaleString()} 💰`,  inline: true },
-            { name: '💰 Balance actual', value: `${user.coins.toLocaleString()} 💰`, inline: true },
+            { name: '👤 Destinatario',   value:`.@${target.id}>`,               inline: true },
+            { name: '💸 Enviado',        value:`.{amount.toLocaleString()} 💰`,  inline: true },
+            { name: '💰 Balance actual', value:`.{user.coins.toLocaleString()} 💰`, inline: true },
           ],
           timestamp: new Date().toISOString()
         }],
@@ -5417,7 +5417,7 @@ if (cmd === '.cd') {
   const dailyHH = Math.floor(dailyRemaining / 3600000);
   const dailyMM = Math.floor((dailyRemaining % 3600000) / 60000);
   const dailySS = Math.floor((dailyRemaining % 60000) / 1000);
-  const dailyStr = dailyReady ? '✅ Ready' : `⏳ ${dailyHH}h ${dailyMM}m ${dailySS}s`;
+  const dailyStr = dailyReady ? '✅ Ready' :`. ${dailyHH}h ${dailyMM}m ${dailySS}s`;
   const nextDailyReward = DAILY_BASE_REWARD + ((user.daily?.streak || 0)) * DAILY_STREAK_BONUS;
 
   // --- Claim (12h) ---
@@ -5429,7 +5429,7 @@ if (cmd === '.cd') {
   const claimHH = Math.floor(claimRemaining / 3600000);
   const claimMM = Math.floor((claimRemaining % 3600000) / 60000);
   const claimSS = Math.floor((claimRemaining % 60000) / 1000);
-  const claimStr = claimReady ? '✅ Ready' : `⏳ ${claimHH}h ${claimMM}m ${claimSS}s`;
+  const claimStr = claimReady ? '✅ Ready' :`. ${claimHH}h ${claimMM}m ${claimSS}s`;
   const streak = user.daily?.streak || 0;
   const claimReward = DAILY_BASE_REWARD + (streak > 0 ? (streak - 1) * DAILY_STREAK_BONUS : 0);
 
@@ -5440,7 +5440,7 @@ if (cmd === '.cd') {
   const friendlyRemaining = FRIENDLY_COOLDOWN_MS - friendlyElapsed;
   const friendlyMM = Math.floor(friendlyRemaining / 60000);
   const friendlySS = Math.floor((friendlyRemaining % 60000) / 1000);
-  const friendlyStr = friendlyReady ? '✅ Ready' : `⏳ ${friendlyMM}m ${friendlySS}s`;
+  const friendlyStr = friendlyReady ? '✅ Ready' :`. ${friendlyMM}m ${friendlySS}s`;
 
   // --- Arena ---
   const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
@@ -5449,48 +5449,48 @@ if (cmd === '.cd') {
   const arenaRemaining = ARENA_COOLDOWN_MS - arenaElapsed;
   const arenaMM = Math.floor(arenaRemaining / 60000);
   const arenaSS = Math.floor((arenaRemaining % 60000) / 1000);
-  const arenaStr = arenaReady ? '✅ Ready' : `⏳ ${arenaMM}m ${arenaSS}s`;
+  const arenaStr = arenaReady ? '✅ Ready' :`. ${arenaMM}m ${arenaSS}s`;
   const tier = getEloTier(user.elo || 1000);
 
   return message.reply({
     embeds: [{
       color: 0x2b2d31,
       author: {
-        name: `⏱️ Cooldowns · ${message.author.username}`,
+        name:`.️ Cooldowns · ${message.author.username}`,
         icon_url: message.author.displayAvatarURL({ dynamic: true })
       },
       fields: [
         {
-          name: `📅 Daily — ${dailyStr}`,
+          name:`. Daily — ${dailyStr}`,
           value: dailyReady
-            ? `Usa \ `.daily\` para registrar tu asistencia diaria\n🔥 Racha actual: **${user.daily?.streak || 0}** días`
-            : `Vuelve en **${dailyHH}h ${dailyMM}m ${dailySS}s**\n🔥 Racha: **${user.daily?.streak || 0}** días`,
+            ?`.sa \`.daily\` para registrar tu asistencia diaria\n🔥 Racha actual: **${user.daily?.streak || 0}** días`
+            :`.uelve en **${dailyHH}h ${dailyMM}m ${dailySS}s**\n🔥 Racha: **${user.daily?.streak || 0}** días`,
           inline: false
         },
         {
-          name: `🎁 Claim — ${claimStr}`,
+          name:`. Claim — ${claimStr}`,
           value: claimReady
-            ? `Usa \ `.claim\` para recoger **${claimReward} 💰**`
-            : `Próxima recompensa: **${claimReward} 💰** · Vuelve en **${claimHH}h ${claimMM}m ${claimSS}s**`,
+            ?`.sa \`.claim\` para recoger **${claimReward} 💰**`
+            :`.róxima recompensa: **${claimReward} 💰** · Vuelve en **${claimHH}h ${claimMM}m ${claimSS}s**`,
           inline: false
         },
         {
-          name: `🤝 Friendly — ${friendlyStr}`,
+          name:`. Friendly — ${friendlyStr}`,
           value: friendlyReady
-            ? `Usa \ `.friendly @rival\` · Victoria: **+100 💰**`
-            : `Vuelve en **${friendlyMM}m ${friendlySS}s**`,
+            ?`.sa \`.friendly @rival\` · Victoria: **+100 💰**`
+            :`.uelve en **${friendlyMM}m ${friendlySS}s**`,
           inline: false
         },
         {
-          name: `⚔️ Arena — ${arenaStr}`,
+          name:`.️ Arena — ${arenaStr}`,
           value: arenaReady
-            ? `Usa \ `.arena\` · Victoria: **+400 💰** · ELO en juego`
-            : `Vuelve en **${arenaMM}m ${arenaSS}s**`,
+            ?`.sa \`.arena\` · Victoria: **+400 💰** · ELO en juego`
+            :`.uelve en **${arenaMM}m ${arenaSS}s**`,
           inline: false
         },
       ],
       footer: {
-        text: `💰 Balance: ${(user.coins || 0).toLocaleString()}  ·  ${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}`
+        text:`. Balance: ${(user.coins || 0).toLocaleString()}  ·  ${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}`
       },
       timestamp: new Date().toISOString()
     }]
@@ -5509,7 +5509,7 @@ if (cmd === '.cd') {
     if (args[1] === 'reclamar') {
       const idx = parseInt(args[2]) - 1;
       if (isNaN(idx) || idx < 0 || idx > 2)
-        return message.reply('❌ Uso:  `.quests reclamar <1|2|3>`');
+        return message.reply('❌ Uso:`.quests reclamar <1|2|3>`');
       const q = quests[idx];
       if (!q.completed) return message.reply(`❌ La misión **"${q.desc}"** aún no está completa. Progreso: **${q.progress}/${q.target}**`);
       if (q.claimed)    return message.reply(`❌ La misión **"${q.desc}"** ya fue reclamada hoy.`);
@@ -5518,8 +5518,8 @@ if (cmd === '.cd') {
       return message.reply({
         embeds: [{
           color: 0x00C851,
-          title: `✅ Misión reclamada — ${DIFF_EMOJI[q.difficulty]} ${DIFF_LABEL[q.difficulty]}`,
-          description: `**${q.desc}**\n\n💰 Recibiste **+${(q.reward.coins||0).toLocaleString()} 💰**\n💼 Balance: **${user.coins.toLocaleString()} 💰**`,
+          title:`. Misión reclamada — ${DIFF_EMOJI[q.difficulty]} ${DIFF_LABEL[q.difficulty]}`,
+          description:`.*${q.desc}**\n\n💰 Recibiste **+${(q.reward.coins||0).toLocaleString()} 💰**\n💼 Balance: **${user.coins.toLocaleString()} 💰**`,
           footer: { text: 'Las misiones se renuevan cada día a medianoche' },
           timestamp: new Date().toISOString()
         }]
@@ -5533,13 +5533,13 @@ if (cmd === '.cd') {
  
     const fields = quests.map((q, i) => {
       const bar = Math.round((q.progress / q.target) * 10);
-      const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${q.progress}/${q.target}**`;
+      const prog =`.`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${q.progress}/${q.target}**`;
       const status = q.claimed ? '✅ Reclamada'
-        : q.completed ? `🎁 **¡Lista!** — \ `.quests reclamar ${i+1}\``
+        : q.completed ?`. **¡Lista!** — \`.quests reclamar ${i+1}\``
         : '⏳ En progreso';
       return {
-        name: `${DIFF_EMOJI[q.difficulty]} Misión ${i+1} — ${DIFF_LABEL[q.difficulty]}`,
-        value: [`📋 **${q.desc}**`, prog, `💰 **${(q.reward.coins||0).toLocaleString()} 💰**`, status].join('\n'),
+        name:`.{DIFF_EMOJI[q.difficulty]} Misión ${i+1} — ${DIFF_LABEL[q.difficulty]}`,
+        value: [`📋 **${q.desc}**`, prog,`. **${(q.reward.coins||0).toLocaleString()} 💰**`, status].join('\n'),
         inline: false
       };
     });
@@ -5557,11 +5557,11 @@ if (cmd === '.cd') {
     const qMsg = await message.reply({
       embeds: [{
         color: 0x5865F2,
-        author: { name: `🎯 Misiones del día · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-        title: `📅 ${today}`,
+        author: { name:`. Misiones del día · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title:`. ${today}`,
         description: allClaimed
-          ? `✨ **¡Completaste todas las misiones de hoy!** (+${earned.toLocaleString()} 💰)\nVuelve mañana para nuevas misiones.`
-          : `Completa las 3 misiones para ganar hasta **${totalReward.toLocaleString()} 💰**\n💰 Ganado hoy: **${earned.toLocaleString()} / ${totalReward.toLocaleString()} 💰**`,
+          ?`. **¡Completaste todas las misiones de hoy!** (+${earned.toLocaleString()} 💰)\nVuelve mañana para nuevas misiones.`
+          :`.ompleta las 3 misiones para ganar hasta **${totalReward.toLocaleString()} 💰**\n💰 Ganado hoy: **${earned.toLocaleString()} / ${totalReward.toLocaleString()} 💰**`,
         fields,
         footer: { text: '.quests reclamar <1|2|3> · Misiones nuevas cada día' },
         timestamp: new Date().toISOString()
@@ -5593,23 +5593,23 @@ if (cmd === '.cd') {
       );
       const newFields = quests.map((qq, i) => {
         const bar = Math.round((qq.progress / qq.target) * 10);
-        const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${qq.progress}/${qq.target}**`;
+        const prog =`.`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${qq.progress}/${qq.target}**`;
         const status = qq.claimed ? '✅ Reclamada'
-          : qq.completed ? `🎁 **¡Lista!** — \ `.quests reclamar ${i+1}\``
+          : qq.completed ?`. **¡Lista!** — \`.quests reclamar ${i+1}\``
           : '⏳ En progreso';
-        return { name: `${DIFF_EMOJI[qq.difficulty]} Misión ${i+1} — ${DIFF_LABEL[qq.difficulty]}`,
-          value: [`📋 **${qq.desc}**`, prog, `💰 **${(qq.reward.coins||0).toLocaleString()} 💰**`, status].join('\n'), inline: false };
+        return { name:`.{DIFF_EMOJI[qq.difficulty]} Misión ${i+1} — ${DIFF_LABEL[qq.difficulty]}`,
+          value: [`📋 **${qq.desc}**`, prog,`. **${(qq.reward.coins||0).toLocaleString()} 💰**`, status].join('\n'), inline: false };
       });
       await interaction.update({
         embeds: [{
           color: 0x5865F2,
-          author: { name: `🎯 Misiones del día · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `📅 ${today}`,
+          author: { name:`. Misiones del día · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`. ${today}`,
           description: newAllCl
-            ? `✨ **¡Completaste todas las misiones!** (+${newEarned.toLocaleString()} 💰 total)\nVuelve mañana para nuevas misiones.`
-            : `💰 Ganado hoy: **${newEarned.toLocaleString()} / ${totalReward.toLocaleString()} 💰**`,
+            ?`. **¡Completaste todas las misiones!** (+${newEarned.toLocaleString()} 💰 total)\nVuelve mañana para nuevas misiones.`
+            :`. Ganado hoy: **${newEarned.toLocaleString()} / ${totalReward.toLocaleString()} 💰**`,
           fields: newFields,
-          footer: { text: `Reclamaste: ${q.desc} · +${coins.toLocaleString()} 💰` },
+          footer: { text:`.eclamaste: ${q.desc} · +${coins.toLocaleString()} 💰` },
           timestamp: new Date().toISOString()
         }],
         components: [newBtnRow]
@@ -5628,12 +5628,12 @@ if (cmd === '.cd') {
     // ── !torneo crear <nombre> <entrada> <maxJugadores> ──
     if (sub === 'crear') {
       if (!isAdmin(userId))
-        return message.reply('❌ Solo los admins pueden crear torneos.\nPídele a un admin que use  `.torneo crear <nombre> <entrada> <maxJugadores>`.');
+        return message.reply('❌ Solo los admins pueden crear torneos.\nPídele a un admin que use`.torneo crear <nombre> <entrada> <maxJugadores>`.');
       const maxPlayers = parseInt(args[args.length - 1]);
       const entryFee   = parseInt(args[args.length - 2]);
       const name       = args.slice(2, -2).join(' ').trim() || 'Torneo FIFA';
       if (isNaN(maxPlayers) || maxPlayers < 4 || maxPlayers > 32)
-        return message.reply('❌ Uso:  `.torneo crear <nombre> <entrada> <maxJugadores>`\nEj:  `.torneo crear Copa Semanal 1000 8` (entre 4 y 32 jugadores)');
+        return message.reply('❌ Uso:`.torneo crear <nombre> <entrada> <maxJugadores>`\nEj:`.torneo crear Copa Semanal 1000 8` (entre 4 y 32 jugadores)');
       if (isNaN(entryFee) || entryFee < 0)
         return message.reply('❌ La entrada debe ser 0 o más.');
  
@@ -5656,26 +5656,26 @@ if (cmd === '.cd') {
  
       function buildTEmbed(t) {
         const estPrize = getTournamentPrizes(t.entryFee * t.maxPlayers);
-        const pList = t.participants.map((p,i) => `${i+1}. @${p.username}`).join('\n') || '_Nadie aún_';
+        const pList = t.participants.map((p,i) =>`.{i+1}. @${p.username}`).join('\n') || '_Nadie aún_';
         return {
           color: 0xFFD700,
-          author: { name: `🏆 Torneo creado por ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-          title: `🏆 ${t.name}`,
+          author: { name:`. Torneo creado por ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title:`. ${t.name}`,
           description: [
-            `¡Inscríbete con **✅ Inscribirme**!`,
-            ``,
-            `📋 **Formato:** Eliminación directa`,
-            `💸 **Entrada:** ${t.entryFee.toLocaleString()} 💰`,
-            `🏆 **Premio máximo:** ${(t.entryFee * t.maxPlayers).toLocaleString()} 💰`,
-            ``,
-            `🥇 Campeón: **${estPrize.champion.toLocaleString()} 💰**`,
-            `🥈 Finalista: **${estPrize.runnerUp.toLocaleString()} 💰**`,
-            `🥉 Semifinalistas: **${estPrize.semifinal.toLocaleString()} 💰**`,
+`.Inscríbete con **✅ Inscribirme**!`,
+`.,
+`. **Formato:** Eliminación directa`,
+`. **Entrada:** ${t.entryFee.toLocaleString()} 💰`,
+`. **Premio máximo:** ${(t.entryFee * t.maxPlayers).toLocaleString()} 💰`,
+`.,
+`. Campeón: **${estPrize.champion.toLocaleString()} 💰**`,
+`. Finalista: **${estPrize.runnerUp.toLocaleString()} 💰**`,
+`. Semifinalistas: **${estPrize.semifinal.toLocaleString()} 💰**`,
           ].join('\n'),
           fields: [
-            { name: `👥 Inscritos (${t.participants.length}/${t.maxPlayers})`, value: pList, inline: false },
+            { name:`. Inscritos (${t.participants.length}/${t.maxPlayers})`, value: pList, inline: false },
           ],
-          footer: { text: `ID: ${tId}  ·  Necesitas equipo de 4 para participar` },
+          footer: { text:`.D: ${tId}  ·  Necesitas equipo de 4 para participar` },
           timestamp: new Date().toISOString()
         };
       }
@@ -5690,7 +5690,7 @@ if (cmd === '.cd') {
         if (!t || t.status !== 'waiting')
           return interaction.reply({ content: '❌ Este torneo ya no está disponible.', ephemeral: true });
  
-        if (interaction.customId === `tc_${tId}`) {
+        if (interaction.customId ===`.c_${tId}`) {
           if (interaction.user.id !== t.creatorId && !isAdmin(interaction.user.id))
             return interaction.reply({ content: '❌ Solo el creador puede cancelar.', ephemeral: true });
           for (const p of t.participants)
@@ -5700,17 +5700,17 @@ if (cmd === '.cd') {
           return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Torneo cancelado', description: 'Las monedas de inscripción fueron devueltas.' }], components: [] });
         }
  
-        if (interaction.customId === `tj_${tId}`) {
+        if (interaction.customId ===`.j_${tId}`) {
           const jId = interaction.user.id;
           if (t.participants.find(p => p.id === jId))
             return interaction.reply({ content: '❌ Ya estás inscrito.', ephemeral: true });
           if (t.participants.length >= t.maxPlayers)
             return interaction.reply({ content: '❌ El torneo está lleno.', ephemeral: true });
           if (!data[jId] || (data[jId].team||[]).length < 4)
-            return interaction.reply({ content: '❌ Necesitas **4 jugadores en tu equipo** ( `.team`).', ephemeral: true });
+            return interaction.reply({ content: '❌ Necesitas **4 jugadores en tu equipo** (`.team`).', ephemeral: true });
           if (t.entryFee > 0) {
             if ((data[jId]?.coins||0) < t.entryFee)
-              return interaction.reply({ content: `❌ Necesitas **${t.entryFee.toLocaleString()} 💰**. Tienes **${(data[jId]?.coins||0).toLocaleString()} 💰**.`, ephemeral: true });
+              return interaction.reply({ content:`. Necesitas **${t.entryFee.toLocaleString()} 💰**. Tienes **${(data[jId]?.coins||0).toLocaleString()} 💰**.`, ephemeral: true });
             data[jId].coins -= t.entryFee;
           }
           t.participants.push({ id: jId, username: interaction.user.username });
@@ -5718,13 +5718,13 @@ if (cmd === '.cd') {
           saveTournaments(); saveData();
           if (t.participants.length >= t.maxPlayers) {
             await interaction.update({ embeds: [buildTEmbed(t)], components: [tRow] });
-            await interaction.followUp({ content: `🏆 **¡${t.name} está lleno! Iniciando torneo automáticamente...** ` });
+            await interaction.followUp({ content:`. **¡${t.name} está lleno! Iniciando torneo automáticamente...**`.});
             return startTournament(tId, null, tMsg, tCol);
           }
           return interaction.update({ embeds: [buildTEmbed(t)], components: [tRow] });
         }
  
-        if (interaction.customId === `ts_${tId}`) {
+        if (interaction.customId ===`.s_${tId}`) {
           if (!isAdmin(interaction.user.id) && interaction.user.id !== t.creatorId)
             return interaction.reply({ content: '❌ Solo el creador puede iniciar.', ephemeral: true });
           if (t.participants.length < 2)
@@ -5740,13 +5740,13 @@ if (cmd === '.cd') {
     if (sub === 'listar' || sub === 'lista') {
       const list = Object.values(tournaments).filter(t => t.status !== 'finished');
       if (!list.length)
-        return message.reply({ embeds: [{ color: 0x2b2d31, title: '🏆 Sin torneos activos', description: 'No hay torneos en este momento.\n\nUsa  `.torneo crear <nombre> <entrada> <jugadores>` para crear uno (admins).' }] });
+        return message.reply({ embeds: [{ color: 0x2b2d31, title: '🏆 Sin torneos activos', description: 'No hay torneos en este momento.\n\nUsa`.torneo crear <nombre> <entrada> <jugadores>` para crear uno (admins).' }] });
       return message.reply({
         embeds: [{
           color: 0xFFD700,
           title: '🏆 Torneos activos',
           description: list.map(t =>
-            `**${t.name}** \`${t.id}\`\n${getTournamentStatus(t)} · ${t.participants.length}/${t.maxPlayers} jugadores · Premio: ${t.prizePool.toLocaleString()} 💰`
+`.*${t.name}** \`${t.id}\`\n${getTournamentStatus(t)} · ${t.participants.length}/${t.maxPlayers} jugadores · Premio: ${t.prizePool.toLocaleString()} 💰`
           ).join('\n\n'),
           footer: { text: '.torneo jugar <id> · !torneo bracket <id>' },
           timestamp: new Date().toISOString()
@@ -5758,10 +5758,10 @@ if (cmd === '.cd') {
 // ── !torneo iniciar <id> ──
     if (sub === 'iniciar') {
       const tId = args[2];
-      if (!tId) return message.reply('❌ Uso:  `.torneo iniciar <id>`\nEj:  `.torneo iniciar T1ABC123`');
+      if (!tId) return message.reply('❌ Uso:`.torneo iniciar <id>`\nEj:`.torneo iniciar T1ABC123`');
 
       const t = tournaments[tId];
-      if (!t) return message.reply('❌ Torneo no encontrado. Usa  `.torneo listar` para ver los IDs.');
+      if (!t) return message.reply('❌ Torneo no encontrado. Usa`.torneo listar` para ver los IDs.');
       if (t.status !== 'waiting') {
         if (t.status === 'active')   return message.reply('❌ El torneo ya está en curso.');
         if (t.status === 'finished') return message.reply('❌ El torneo ya terminó.');
@@ -5784,35 +5784,35 @@ if (cmd === '.cd') {
 
       const r = t.rounds[t.currentRound];
       const matchupLines = r.map((m, i) => {
-        const p1 = m.p1 ? `@${m.p1.username}` : 'BYE';
-        const p2 = m.p2 ? `@${m.p2.username}` : 'BYE';
-        if (m.winner) return `~~**Partido ${i+1}:** ${p1} vs ${p2}~~ (BYE)`;
-        return `**Partido ${i+1}:** ${p1}  vs  ${p2}`;
+        const p1 = m.p1 ?`.${m.p1.username}` : 'BYE';
+        const p2 = m.p2 ?`.${m.p2.username}` : 'BYE';
+        if (m.winner) return`.~**Partido ${i+1}:** ${p1} vs ${p2}~~ (BYE)`;
+        return`.*Partido ${i+1}:** ${p1}  vs  ${p2}`;
       }).join('\n');
 
-      const mentions = t.participants.map(p => `<@${p.id}>`).join(' ');
+      const mentions = t.participants.map(p =>`.@${p.id}>`).join(' ');
 
       return message.reply({
         content: mentions,
         embeds: [{
           color: 0x00C851,
-          title: `🏆 ¡${t.name} ha comenzado!`,
+          title:`. ¡${t.name} ha comenzado!`,
           description: [
-            `**${t.participants.length} jugadores** luchando por **${t.prizes.champion.toLocaleString()} 💰**!`,
+`.*${t.participants.length} jugadores** luchando por **${t.prizes.champion.toLocaleString()} 💰**!`,
             '',
-            `**📋 Ronda 1:**`,
+`.*📋 Ronda 1:**`,
             matchupLines,
             '',
-            `⚔️ Usa \ `.torneo jugar ${tId}\` para jugar tu partido.`,
-            `📊 Usa \ `.torneo bracket ${tId}\` para ver el bracket.`,
+`.️ Usa \`.torneo jugar ${tId}\` para jugar tu partido.`,
+`. Usa \`.torneo bracket ${tId}\` para ver el bracket.`,
           ].join('\n'),
           fields: [
-            { name: '🥇 Campeón',        value: `${t.prizes.champion.toLocaleString()} 💰`,  inline: true },
-            { name: '🥈 Finalista',      value: `${t.prizes.runnerUp.toLocaleString()} 💰`,  inline: true },
-            { name: '🥉 Semifinalistas', value: `${t.prizes.semifinal.toLocaleString()} 💰`, inline: true },
+            { name: '🥇 Campeón',        value:`.{t.prizes.champion.toLocaleString()} 💰`,  inline: true },
+            { name: '🥈 Finalista',      value:`.{t.prizes.runnerUp.toLocaleString()} 💰`,  inline: true },
+            { name: '🥉 Semifinalistas', value:`.{t.prizes.semifinal.toLocaleString()} 💰`, inline: true },
           ],
           image: bracketCanvas ? { url: 'attachment://bracket.png' } : undefined,
-          footer: { text: `ID del torneo: ${tId}  ·  Participantes: ${t.participants.length}` },
+          footer: { text:`.D del torneo: ${tId}  ·  Participantes: ${t.participants.length}` },
           timestamp: new Date().toISOString()
         }],
         files
@@ -5823,14 +5823,14 @@ if (cmd === '.cd') {
 // ── !torneo admin <id> ──
     if (sub === 'admin') {
       const tId = args[2];
-      if (!tId) return message.reply('❌ Uso:  `.torneo admin <id>`');
+      if (!tId) return message.reply('❌ Uso:`.torneo admin <id>`');
 
       const t = tournaments[tId];
-      if (!t) return message.reply('❌ Torneo no encontrado. Usa  `.torneo listar` para ver los IDs.');
+      if (!t) return message.reply('❌ Torneo no encontrado. Usa`.torneo listar` para ver los IDs.');
       if (!isAdmin(userId) && userId !== t.creatorId)
         return message.reply('❌ Solo el creador del torneo o un admin puede administrar partidos.');
       if (t.status !== 'active')
-        return message.reply('❌ El torneo debe estar en curso. Usa  `.torneo iniciar <id>` si aún no empezó.');
+        return message.reply('❌ El torneo debe estar en curso. Usa`.torneo iniciar <id>` si aún no empezó.');
 
       const curRound = t.rounds[t.currentRound];
       const pendingMatches = curRound.filter(m => m.winner === null && m.p1 && m.p2);
@@ -5842,27 +5842,27 @@ if (cmd === '.cd') {
       // Construir selector de partido
       function buildMatchSelectEmbed() {
         const lines = curRound.map((m, i) => {
-          const p1 = m.p1 ? `@${m.p1.username}` : 'BYE';
-          const p2 = m.p2 ? `@${m.p2.username}` : 'BYE';
+          const p1 = m.p1 ?`.${m.p1.username}` : 'BYE';
+          const p2 = m.p2 ?`.${m.p2.username}` : 'BYE';
           if (m.winner) {
             const winner = t.participants.find(p => p.id === m.winner);
-            return `~~Partido ${i+1}: ${p1} vs ${p2}~~ ✅ Ganó **@${winner?.username || '?'}** ${m.score ? `(${m.score})` : ''}`;
+            return`.~Partido ${i+1}: ${p1} vs ${p2}~~ ✅ Ganó **@${winner?.username || '?'}** ${m.score ?`.${m.score})` : ''}`;
           }
-          if (!m.p1 || !m.p2) return `Partido ${i+1}: BYE automático`;
-          return `**Partido ${i+1}:** ${p1} vs ${p2} ⏳ Pendiente`;
+          if (!m.p1 || !m.p2) return`.artido ${i+1}: BYE automático`;
+          return`.*Partido ${i+1}:** ${p1} vs ${p2} ⏳ Pendiente`;
         }).join('\n');
 
         return {
           color: 0xFF6B00,
-          title: `⚙️ Admin Torneo — ${t.name}`,
+          title:`.️ Admin Torneo — ${t.name}`,
           description: [
-            `**Ronda ${t.currentRound + 1} / ${t.rounds.length}**`,
+`.*Ronda ${t.currentRound + 1} / ${t.rounds.length}**`,
             '',
             lines,
             '',
             '**Selecciona el partido que quieres resolver:**',
           ].join('\n'),
-          footer: { text: `ID: ${tId}  ·  Solo puedes editar partidos pendientes` },
+          footer: { text:`.D: ${tId}  ·  Solo puedes editar partidos pendientes` },
           timestamp: new Date().toISOString()
         };
       }
@@ -5904,7 +5904,7 @@ if (cmd === '.cd') {
           return interaction.reply({ content: '❌ Este panel no es tuyo.', ephemeral: true });
 
         // Cancelar
-        if (interaction.customId === `tadmin_cancel_${userId}`) {
+        if (interaction.customId ===`.admin_cancel_${userId}`) {
           adminCol.stop();
           return interaction.update({
             embeds: [{ color: 0x555555, title: '❌ Administración cancelada' }],
@@ -5953,11 +5953,11 @@ if (cmd === '.cd') {
           return interaction.update({
             embeds: [{
               color: 0xFF6B00,
-              title: `⚙️ Partido ${matchIdx + 1} — Elige el ganador`,
+              title:`.️ Partido ${matchIdx + 1} — Elige el ganador`,
               description: [
-                `**@${p1.username}** ${t1.emoji} ${p1Elo} ELO`,
-                `vs`,
-                `**@${p2.username}** ${t2.emoji} ${p2Elo} ELO`,
+`.*@${p1.username}** ${t1.emoji} ${p1Elo} ELO`,
+`.s`,
+`.*@${p2.username}** ${t2.emoji} ${p2Elo} ELO`,
                 '',
                 '¿Quién avanza a la siguiente ronda?',
               ].join('\n'),
@@ -5968,7 +5968,7 @@ if (cmd === '.cd') {
         }
 
         // Volver al selector de partidos
-        if (interaction.customId === `tadmin_back_${userId}`) {
+        if (interaction.customId ===`.admin_back_${userId}`) {
           const stillPending = curRound.filter(m => m.winner === null && m.p1 && m.p2);
           if (stillPending.length === 0) {
             adminCol.stop();
@@ -6057,21 +6057,21 @@ if (cmd === '.cd') {
             : 0;
 
           const finishedDesc = t.status === 'finished'
-            ? `\n\n🏆 **¡El torneo terminó! Campeón: <@${t.champion}>** (+${t.prizes.champion.toLocaleString()} 💰)`
-            : `\n\n⏳ Partidos pendientes en esta ronda: **${stillPending2}**\nUsa \ `.torneo admin ${tId}\` para continuar.`;
+            ?`.n\n🏆 **¡El torneo terminó! Campeón: <@${t.champion}>** (+${t.prizes.champion.toLocaleString()} 💰)`
+            :`.n\n⏳ Partidos pendientes en esta ronda: **${stillPending2}**\nUsa \`.torneo admin ${tId}\` para continuar.`;
 
           return interaction.update({
             embeds: [{
               color: 0x00C851,
-              title: `✅ Resultado registrado`,
+              title:`. Resultado registrado`,
               description: [
-                `**@${winnerParticipant.username}** avanza a la siguiente ronda.`,
-                loserParticipant ? `**@${loserParticipant.username}** queda eliminado.` : '',
-                `📝 Registrado como resultado administrativo (ADM).`,
+`.*@${winnerParticipant.username}** avanza a la siguiente ronda.`,
+                loserParticipant ?`.*@${loserParticipant.username}** queda eliminado.` : '',
+`. Registrado como resultado administrativo (ADM).`,
                 finishedDesc,
               ].join('\n'),
               image: bracketCanvas ? { url: 'attachment://bracket.png' } : undefined,
-              footer: { text: `ID: ${tId}  ·  Admin: ${message.author.username}` },
+              footer: { text:`.D: ${tId}  ·  Admin: ${message.author.username}` },
               timestamp: new Date().toISOString()
             }],
             files: bFiles,
@@ -6101,13 +6101,13 @@ if (cmd === '.cd') {
       const pending = curRound.filter(m => m.winner === null && m.p1 && m.p2);
       if (pending.length > 0) {
         const lines = pending.map((m, i) => 
-          `⏳ **Partido pendiente:** @${m.p1.username} vs @${m.p2.username}`
+`. **Partido pendiente:** @${m.p1.username} vs @${m.p2.username}`
         ).join('\n');
         return message.reply({
           embeds: [{
             color: 0xFF6600,
             title: '⚠️ Hay partidos sin resultado',
-            description: `Aún faltan **${pending.length}** partido(s) por jugarse:\n\n${lines}\n\n¿Quieres forzar de todas formas? Usa \ `.torneo admin ${tId}\` para asignar resultados primero.`,
+            description:`.ún faltan **${pending.length}** partido(s) por jugarse:\n\n${lines}\n\n¿Quieres forzar de todas formas? Usa \`.torneo admin ${tId}\` para asignar resultados primero.`,
           }]
         });
       }
@@ -6151,23 +6151,23 @@ if (cmd === '.cd') {
 
       const r2 = t.rounds[t.currentRound];
       const matchupLines = r2 ? r2.map((m, i) => {
-        const p1 = m.p1 ? `@${m.p1.username}` : 'BYE';
-        const p2 = m.p2 ? `@${m.p2.username}` : 'BYE';
-        if (m.winner) return `~~**Partido ${i+1}:** ${p1} vs ${p2}~~ ✅`;
-        return `**Partido ${i+1}:** ${p1}  vs  ${p2}`;
+        const p1 = m.p1 ?`.${m.p1.username}` : 'BYE';
+        const p2 = m.p2 ?`.${m.p2.username}` : 'BYE';
+        if (m.winner) return`.~**Partido ${i+1}:** ${p1} vs ${p2}~~ ✅`;
+        return`.*Partido ${i+1}:** ${p1}  vs  ${p2}`;
       }).join('\n') : '—';
 
       return message.reply({
         embeds: [{
           color: t.status === 'finished' ? 0xFFD700 : 0x00C851,
           title: t.status === 'finished' 
-            ? `🏆 ¡Torneo finalizado! Campeón: <@${t.champion}>`
-            : `✅ Ronda avanzada — Ahora en Ronda ${t.currentRound + 1}`,
+            ?`. ¡Torneo finalizado! Campeón: <@${t.champion}>`
+            :`. Ronda avanzada — Ahora en Ronda ${t.currentRound + 1}`,
           description: t.status === 'finished'
-            ? `<@${t.champion}> gana **${t.prizes.champion.toLocaleString()} 💰**!`
-            : `**Partidos de esta ronda:**\n${matchupLines}\n\nUsa \ `.torneo admin ${tId}\` para asignar resultados o \ `.torneo jugar ${tId}\` para jugar.`,
+            ?`.@${t.champion}> gana **${t.prizes.champion.toLocaleString()} 💰**!`
+            :`.*Partidos de esta ronda:**\n${matchupLines}\n\nUsa \`.torneo admin ${tId}\` para asignar resultados o \`.torneo jugar ${tId}\` para jugar.`,
           image: bracketCanvas ? { url: 'attachment://bracket.png' } : undefined,
-          footer: { text: `ID: ${tId}` },
+          footer: { text:`.D: ${tId}` },
           timestamp: new Date().toISOString()
         }],
         files: bFiles
@@ -6178,17 +6178,17 @@ if (cmd === '.cd') {
     if (sub === 'bracket') {
       const tId2 = args[2];
       const t2 = tournaments[tId2];
-      if (!t2) return message.reply('❌ Torneo no encontrado. Usa  `.torneo listar` para ver los IDs.');
+      if (!t2) return message.reply('❌ Torneo no encontrado. Usa`.torneo listar` para ver los IDs.');
       if (t2.status === 'waiting') return message.reply('❌ El torneo aún no ha comenzado.');
       const canvas = await drawBracketCanvas(t2).catch(() => null);
       if (!canvas) return message.reply('❌ Error generando el bracket.');
       return message.reply({
         embeds: [{
           color: 0xFFD700,
-          title: `🏆 Bracket — ${t2.name}`,
-          description: `Ronda actual: **${Math.min(t2.currentRound+1, t2.rounds.length)} / ${t2.rounds.length}** · ${getTournamentStatus(t2)}`,
+          title:`. Bracket — ${t2.name}`,
+          description:`.onda actual: **${Math.min(t2.currentRound+1, t2.rounds.length)} / ${t2.rounds.length}** · ${getTournamentStatus(t2)}`,
           image: { url: 'attachment://bracket.png' },
-          footer: { text: `ID: ${tId2}  ·  !torneo jugar ${tId2} para jugar tu partido` },
+          footer: { text:`.D: ${tId2}  ·  !torneo jugar ${tId2} para jugar tu partido` },
           timestamp: new Date().toISOString()
         }],
         files: [{ attachment: canvas.toBuffer(), name: 'bracket.png' }]
@@ -6203,7 +6203,7 @@ if (cmd === '.cd') {
       if (t3.status !== 'active') return message.reply('❌ El torneo no está en curso.');
       const curMatches = t3.rounds[t3.currentRound];
       const myMatch = curMatches?.find(m => (m.p1?.id === userId || m.p2?.id === userId) && m.winner === null);
-      if (!myMatch) return message.reply('❌ No tienes un partido pendiente en esta ronda, o ya fue jugado.\n💡 Usa  `.torneo bracket ' + tId3 + '` para ver el estado.');
+      if (!myMatch) return message.reply('❌ No tienes un partido pendiente en esta ronda, o ya fue jugado.\n💡 Usa`.torneo bracket ' + tId3 + '` para ver el estado.');
  
       const iAmP1 = myMatch.p1?.id === userId;
       const opp   = iAmP1 ? myMatch.p2 : myMatch.p1;
@@ -6214,13 +6214,13 @@ if (cmd === '.cd') {
         const bCanvas = await drawBracketCanvas(t3).catch(() => null);
         const bFiles = bCanvas ? [{ attachment: bCanvas.toBuffer(), name: 'bracket.png' }] : [];
         return message.reply({
-          embeds: [{ color: 0x00C851, title: '✅ BYE — Avanzas automáticamente', description: `¡Avanzas a la siguiente ronda del torneo **${t3.name}**!`, image: bCanvas ? { url: 'attachment://bracket.png' } : undefined }],
+          embeds: [{ color: 0x00C851, title: '✅ BYE — Avanzas automáticamente', description:`.Avanzas a la siguiente ronda del torneo **${t3.name}**!`, image: bCanvas ? { url: 'attachment://bracket.png' } : undefined }],
           files: bFiles
         });
       }
  
       if (!data[opp.id] || (data[opp.id].team||[]).length < 4)
-        return message.reply(`❌ Tu rival **@${opp.username}** no tiene equipo completo (necesita `+" `.team`"+ ` con 4 jugadores).`);
+        return message.reply(`❌ Tu rival **@${opp.username}** no tiene equipo completo (necesita`."`.team`"+`.con 4 jugadores).`);
       if ((user.team||[]).length < 4)
         return message.reply('❌ Necesitas **4 jugadores en tu equipo** para jugar.');
  
@@ -6232,16 +6232,16 @@ if (cmd === '.cd') {
       const pMsg = await message.reply({
         embeds: [{
           color: 0xFF6B00,
-          title: `⚔️ Partido de torneo — ${t3.name}`,
+          title:`.️ Partido de torneo — ${t3.name}`,
           description: [
-            `🏠 **${user.teamName || message.author.username + "'s FC"}** (tú)`,
-            `vs`,
-            `✈️ **${data[opp.id]?.teamName || opp.username + "'s FC"}** (@${opp.username})`,
-            ``,
-            `🎯 Ronda: **${t3.currentRound + 1} / ${t3.rounds.length}**`,
-            `🏆 Premio campeón: **${t3.prizes.champion.toLocaleString()} 💰**`,
-            ``,
-            `⚠️ **El perdedor queda eliminado.**`,
+`. **${user.teamName || message.author.username + "'s FC"}** (tú)`,
+`.s`,
+`.️ **${data[opp.id]?.teamName || opp.username + "'s FC"}** (@${opp.username})`,
+`.,
+`. Ronda: **${t3.currentRound + 1} / ${t3.rounds.length}**`,
+`. Premio campeón: **${t3.prizes.champion.toLocaleString()} 💰**`,
+`.,
+`.️ **El perdedor queda eliminado.**`,
           ].join('\n'),
           footer: { text: '30 segundos para confirmar' },
           timestamp: new Date().toISOString()
@@ -6254,7 +6254,7 @@ if (cmd === '.cd') {
         if (interaction.user.id !== userId)
           return interaction.reply({ content: '❌ Este partido no es tuyo.', ephemeral: true });
         pCol.stop();
-        if (interaction.customId === `tpc_${userId}`)
+        if (interaction.customId ===`.pc_${userId}`)
           return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Partido cancelado' }], components: [] });
  
         await interaction.update({ embeds: [{ color: 0xFF6B00, title: '⚔️ Partido en curso...', description: '⏳ Simulando...' }], components: [] });
@@ -6274,7 +6274,7 @@ if (cmd === '.cd') {
         if (myG===oppG) { myG+=Math.random()<myW?1:0; oppG+=Math.random()<(1-myW)?1:0; }
         if (myG===oppG) myG++;
         const iWon = myG > oppG;
-        const score = `${myG}-${oppG}`;
+        const score =`.{myG}-${oppG}`;
         myMatch.winner = iWon ? userId : opp.id;
         myMatch.score  = score;
  
@@ -6313,14 +6313,14 @@ if (cmd === '.cd') {
         await pMsg.edit({
           embeds: [{
             color: iWon ? 0x00C851 : 0xFF4444,
-            title: iWon ? `🏆 ¡VICTORIA! ${score}` : `💀 Eliminado — ${score}`,
+            title: iWon ?`. ¡VICTORIA! ${score}` :`. Eliminado — ${score}`,
             description: [
-              `**${user.teamName||message.author.username+"'s FC"}** ${myG} - ${oppG} **${data[opp.id]?.teamName||opp.username+"'s FC"}**`,
-              iWon ? `\n✅ ¡Avanzas a la siguiente ronda!` : `\n💔 Fuiste eliminado del torneo.`,
-              t3.status==='finished' ? `\n🏆 **¡${t3.champion===userId?'¡ERES EL CAMPEÓN! 🎉':'El torneo terminó'}**` : ''
+`.*${user.teamName||message.author.username+"'s FC"}** ${myG} - ${oppG} **${data[opp.id]?.teamName||opp.username+"'s FC"}**`,
+              iWon ?`.n✅ ¡Avanzas a la siguiente ronda!` :`.n💔 Fuiste eliminado del torneo.`,
+              t3.status==='finished' ?`.n🏆 **¡${t3.champion===userId?'¡ERES EL CAMPEÓN! 🎉':'El torneo terminó'}**` : ''
             ].join('\n'),
             image: bCanvas2 ? { url:'attachment://bracket.png' } : undefined,
-            footer: { text: `.torneo bracket ${tId3} para ver el bracket` },
+            footer: { text:`.torneo bracket ${tId3} para ver el bracket` },
             timestamp: new Date().toISOString()
           }],
           files: bFiles2, components: []
@@ -6336,13 +6336,13 @@ if (cmd === '.cd') {
         color: 0xFFD700,
         title: '🏆 Torneos — Ayuda',
         fields: [
-          { name: ' `.torneo crear <nombre> <entrada> <maxJugadores>`', value: 'Crear torneo (solo admins)\nEj:  `.torneo crear Copa Semanal 1000 8`', inline: false },
-          { name: ' `.torneo listar`',          value: 'Ver torneos activos',                    inline: false },
-          { name: ' `.torneo bracket <id>`',    value: 'Ver el bracket visual',                  inline: false },
-          { name: ' `.torneo jugar <id>`',      value: 'Jugar tu partido pendiente',             inline: false },
-{ name: ' `.torneo forzar <id>`', value: 'Fuerza el avance a la siguiente ronda si todos los partidos ya tienen resultado (solo admins)', inline: false },
-{ name: ' `.torneo admin <id>`', value: 'Administrar resultados manualmente — elige quién pasa (creador o admin)', inline: false },
-{ name: ' `.torneo iniciar <id>`', value: 'Iniciar un torneo manualmente (creador o admin)', inline: false },
+          { name: '`.torneo crear <nombre> <entrada> <maxJugadores>`', value: 'Crear torneo (solo admins)\nEj:`.torneo crear Copa Semanal 1000 8`', inline: false },
+          { name: '`.torneo listar`',          value: 'Ver torneos activos',                    inline: false },
+          { name: '`.torneo bracket <id>`',    value: 'Ver el bracket visual',                  inline: false },
+          { name: '`.torneo jugar <id>`',      value: 'Jugar tu partido pendiente',             inline: false },
+{ name: '`.torneo forzar <id>`', value: 'Fuerza el avance a la siguiente ronda si todos los partidos ya tienen resultado (solo admins)', inline: false },
+{ name: '`.torneo admin <id>`', value: 'Administrar resultados manualmente — elige quién pasa (creador o admin)', inline: false },
+{ name: '`.torneo iniciar <id>`', value: 'Iniciar un torneo manualmente (creador o admin)', inline: false },
         ],
         footer: { text: 'Los premios se reparten automáticamente · Necesitas equipo de 4 para participar' }
       }]
@@ -6365,7 +6365,7 @@ if (cmd === '.cd') {
     if (cmd === '.give') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso:  `.give @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso:`.give @usuario cantidad`');
       if (!data[target.id]) data[target.id] = { coins: 0, players: [], team: [], packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       data[target.id].coins += amount; saveData();
       return message.reply(`✅ Le diste **${amount}** ${EMOJI_COIN} a **${target.username}**`);
@@ -6375,7 +6375,7 @@ if (cmd === '.cd') {
       const target = message.mentions.users.first();
       const type   = (args[2] || '').toLowerCase();
       const amount = parseInt(args[3]) || 1;
-      if (!target || !packs[type]) return message.reply('❌ Uso:  `.givepack @usuario silver/bronze/gold/legend/worldcup [cantidad]`');
+      if (!target || !packs[type]) return message.reply('❌ Uso:`.givepack @usuario silver/bronze/gold/legend/worldcup [cantidad]`');
       if (!data[target.id]) data[target.id] = { coins: 0, players: [], team: [], packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       if (!data[target.id].packs) data[target.id].packs = { silver: 0, bronze: 0, gold: 0, legend: 0 };
       data[target.id].packs[type] += amount; saveData();
@@ -6385,7 +6385,7 @@ if (cmd === '.cd') {
     if (cmd === '.givecard') {
       const target   = message.mentions.users.first();
       const cardName = args.slice(2).join(' ').trim();
-      if (!target || !cardName) return message.reply('❌ Uso:  `.givecard @usuario NombreJugador`');
+      if (!target || !cardName) return message.reply('❌ Uso:`.givecard @usuario NombreJugador`');
       const found = players.find(p => p.name.toLowerCase() === cardName.toLowerCase());
       if (!found) return message.reply(`❌ Jugador **${cardName}** no existe.`);
       if (!data[target.id]) data[target.id] = { coins: 1000, players: [], team: [], teamName: target.username + "'s FC", packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
@@ -6397,7 +6397,7 @@ if (cmd === '.cd') {
     if (cmd === '.take') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso:  `.take @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso:`.take @usuario cantidad`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].coins = Math.max(0, (data[target.id].coins || 0) - amount); saveData();
       return message.reply(`✅ Le quitaste **${amount}** ${EMOJI_COIN} a **${target.username}** (saldo: **${data[target.id].coins}** ${EMOJI_COIN})`);
@@ -6405,7 +6405,7 @@ if (cmd === '.cd') {
 
     if (cmd === '.resetuser') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.resetuser @usuario`');
+      if (!target) return message.reply('❌ Uso:`.resetuser @usuario`');
       data[target.id] = { coins: 1800, players: [], team: [], teamName: target.username + "'s FC", packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       saveData();
       return message.reply(`✅ Cuenta de **${target.username}** reseteada.`);
@@ -6413,25 +6413,25 @@ if (cmd === '.cd') {
 
     if (cmd === '.profile') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.profile @usuario`');
+      if (!target) return message.reply('❌ Uso:`.profile @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil todavía.');
       const tier = getEloTier(t.elo || 1000);
-      return message.reply({ embeds: [{ color: 0x9B59B6, title: `🔍 Perfil de ${target.username}`, fields: [
-        { name: '💰 Monedas',     value: `${t.coins || 0}`,                                  inline: true },
-        { name: `📊 ELO ${tier.emoji}`, value: `${t.elo || 1000} (${tier.name})`,            inline: true },
-        { name: '🃏 Club',        value: `${(t.players || []).length}/${MAX_CLUB_SIZE}`,      inline: true },
-        { name: '👥 Equipo',      value: `${(t.team || []).length}/4`,                        inline: true },
-        { name: '📦 Packs', value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
-        { name: '🔥 Racha',       value: `${(t.daily || {}).streak || 0} días`,               inline: true },
-        { name: '🏟️ Club',        value: t.teamName || `${target.username}'s FC`,             inline: false },
-      ], footer: { text: `ID: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` }, timestamp: new Date().toISOString() }] });
+      return message.reply({ embeds: [{ color: 0x9B59B6, title:`. Perfil de ${target.username}`, fields: [
+        { name: '💰 Monedas',     value:`.{t.coins || 0}`,                                  inline: true },
+        { name:`. ELO ${tier.emoji}`, value:`.{t.elo || 1000} (${tier.name})`,            inline: true },
+        { name: '🃏 Club',        value:`.{(t.players || []).length}/${MAX_CLUB_SIZE}`,      inline: true },
+        { name: '👥 Equipo',      value:`.{(t.team || []).length}/4`,                        inline: true },
+        { name: '📦 Packs', value:`.${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+        { name: '🔥 Racha',       value:`.{(t.daily || {}).streak || 0} días`,               inline: true },
+        { name: '🏟️ Club',        value: t.teamName ||`.{target.username}'s FC`,             inline: false },
+      ], footer: { text:`.D: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` }, timestamp: new Date().toISOString() }] });
     }
 
     if (cmd === '.setelo') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso:  `.setelo @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso:`.setelo @usuario cantidad`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].elo = amount; saveData();
       return message.reply(`✅ ELO de **${target.username}** establecido a **${amount}**`);
@@ -6439,7 +6439,7 @@ if (cmd === '.cd') {
 
     if (cmd === '.resetdaily') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.resetdaily @usuario`');
+      if (!target) return message.reply('❌ Uso:`.resetdaily @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].daily = { lastClaim: 0, streak: 0, claimedMilestones: [] }; saveData();
       return message.reply(`✅ Daily de **${target.username}** reseteado.`);
@@ -6447,7 +6447,7 @@ if (cmd === '.cd') {
 
     if (cmd === '.clearteam') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.clearteam @usuario`');
+      if (!target) return message.reply('❌ Uso:`.clearteam @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].team = []; saveData();
       return message.reply(`✅ Equipo de **${target.username}** limpiado.`);
@@ -6455,7 +6455,7 @@ if (cmd === '.cd') {
 
     if (cmd === '.clearclub') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.clearclub @usuario`');
+      if (!target) return message.reply('❌ Uso:`.clearclub @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].players = [];
       data[target.id].team    = []; saveData();
@@ -6464,7 +6464,7 @@ if (cmd === '.cd') {
 
     if (cmd === '.removelogo') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.removelogo @usuario`');
+      if (!target) return message.reply('❌ Uso:`.removelogo @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       if (!data[target.id].clubLogo) return message.reply(`❌ **${target.username}** no tiene logo.`);
       data[target.id].clubLogo = null; saveData();
@@ -6478,7 +6478,7 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     if (cmd === '.adminclub') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.adminclub @usuario`');
+      if (!target) return message.reply('❌ Uso:`.adminclub @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6493,19 +6493,19 @@ if (cmd === '.cd') {
         const slice = players_list.slice(start, start + 8);
         const totalSellValue = players_list.reduce((s, pl) => s + (SELL_PRICES[pl.rarity] || 90), 0);
         const fields = slice.map((pl, i) => ({
-          name: `${start + i + 1}. ${rarityEmoji[pl.rarity] || '⚫'} ${posEmoji[pl.position] || '👤'} **${pl.name}**`,
-          value: `\`${pl.rating} OVR\` · ${pl.position} · ${pl.rarity}${(t.team || []).some(tp => tp.name === pl.name) ? ' · ✅ En equipo' : ''}`,
+          name:`.{start + i + 1}. ${rarityEmoji[pl.rarity] || '⚫'} ${posEmoji[pl.position] || '👤'} **${pl.name}**`,
+          value:`.`${pl.rating} OVR\` · ${pl.position} · ${pl.rarity}${(t.team || []).some(tp => tp.name === pl.name) ? ' · ✅ En equipo' : ''}`,
           inline: true
         }));
         if (!fields.length) fields.push({ name: '😔 Sin jugadores', value: 'Club vacío', inline: false });
         return {
           embeds: [{
             color: 0x9B59B6,
-            author: { name: `👑 Admin · Club de ${target.username}` },
-            title: `🏟️ ${t.teamName || target.username + "'s FC"}`,
-            description: `**${players_list.length}/${MAX_CLUB_SIZE}** jugadores · Página **${p + 1}/${totalPages}**\n💰 Coins: **${(t.coins || 0).toLocaleString()}** · 💸 Sell value: **${totalSellValue.toLocaleString()}** · 📊 ELO: **${t.elo || 1000}**`,
+            author: { name:`. Admin · Club de ${target.username}` },
+            title:`.️ ${t.teamName || target.username + "'s FC"}`,
+            description:`.*${players_list.length}/${MAX_CLUB_SIZE}** jugadores · Página **${p + 1}/${totalPages}**\n💰 Coins: **${(t.coins || 0).toLocaleString()}** · 💸 Sell value: **${totalSellValue.toLocaleString()}** · 📊 ELO: **${t.elo || 1000}**`,
             fields,
-            footer: { text: `ID: ${target.id}` },
+            footer: { text:`.D: ${target.id}` },
             timestamp: new Date().toISOString()
           }]
         };
@@ -6525,8 +6525,8 @@ if (cmd === '.cd') {
       const col = clubMsg.createMessageComponentCollector({ time: 120000 });
       col.on('collect', interaction => {
         if (interaction.user.id !== userId) return interaction.reply({ content: '❌ No es tuyo.', ephemeral: true });
-        if (interaction.customId === `aclub_next_${userId}` && page < totalPages - 1) page++;
-        if (interaction.customId === `aclub_prev_${userId}` && page > 0) page--;
+        if (interaction.customId ===`.club_next_${userId}` && page < totalPages - 1) page++;
+        if (interaction.customId ===`.club_prev_${userId}` && page > 0) page--;
         interaction.update({ ...buildAdminClubEmbed(page), components: [buildAdminClubRow(page)] });
       });
       col.on('end', () => clubMsg.edit({ components: [] }).catch(() => {}));
@@ -6538,7 +6538,7 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     if (cmd === '.adminteam') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.adminteam @usuario`');
+      if (!target) return message.reply('❌ Uso:`.adminteam @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6549,7 +6549,7 @@ if (cmd === '.cd') {
       const tier        = getEloTier(t.elo || 1000);
 
       const teamInfo = team.map((p, i) =>
-        `${posEmoji[slotLabels[i]] || '👤'} ${rarityEmoji[p.rarity] || '⚫'} **${p.name}** · ${p.rating} OVR · ${p.position} _(slot ${slotLabels[i]})_`
+`.{posEmoji[slotLabels[i]] || '👤'} ${rarityEmoji[p.rarity] || '⚫'} **${p.name}** · ${p.rating} OVR · ${p.position} _(slot ${slotLabels[i]})_`
       ).join('\n') || '_Equipo vacío_';
 
       const avg = team.length > 0
@@ -6559,18 +6559,18 @@ if (cmd === '.cd') {
       return message.reply({
         embeds: [{
           color: 0x9B59B6,
-          author: { name: `👑 Admin · Equipo de ${target.username}` },
-          title: `⚽ ${t.teamName || target.username + "'s FC"}`,
+          author: { name:`. Admin · Equipo de ${target.username}` },
+          title:`. ${t.teamName || target.username + "'s FC"}`,
           description: teamInfo,
           fields: [
-            { name: '⭐ OVR Promedio',      value: `${avg}`,                                    inline: true },
-            { name: '👥 Jugadores',          value: `${team.length}/4`,                          inline: true },
-            { name: `📊 ELO ${tier.emoji}`, value: `${t.elo || 1000} (${tier.name})`,            inline: true },
-            { name: '💰 Coins',              value: `${(t.coins || 0).toLocaleString()}`,         inline: true },
-            { name: '🎒 Packs',              value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
-            { name: '🏟️ Club size',          value: `${(t.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
+            { name: '⭐ OVR Promedio',      value:`.{avg}`,                                    inline: true },
+            { name: '👥 Jugadores',          value:`.{team.length}/4`,                          inline: true },
+            { name:`. ELO ${tier.emoji}`, value:`.{t.elo || 1000} (${tier.name})`,            inline: true },
+            { name: '💰 Coins',              value:`.{(t.coins || 0).toLocaleString()}`,         inline: true },
+            { name: '🎒 Packs',              value:`.${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+            { name: '🏟️ Club size',          value:`.{(t.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
           ],
-          footer: { text: `ID: ${target.id}  ·  Racha: ${(t.daily || {}).streak || 0} días` },
+          footer: { text:`.D: ${target.id}  ·  Racha: ${(t.daily || {}).streak || 0} días` },
           timestamp: new Date().toISOString()
         }]
       });
@@ -6582,7 +6582,7 @@ if (cmd === '.cd') {
     if (cmd === '.adminremove') {
       const target     = message.mentions.users.first();
       const playerName = args.slice(2).join(' ').trim();
-      if (!target || !playerName) return message.reply('❌ Uso:  `.adminremove @usuario <nombre jugador>`');
+      if (!target || !playerName) return message.reply('❌ Uso:`.adminremove @usuario <nombre jugador>`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6598,12 +6598,12 @@ if (cmd === '.cd') {
         embeds: [{
           color: 0xFF4444,
           title: '🗑️ Jugador eliminado del club',
-          description: `**${removed.name}** (${removed.rarity} · ${removed.rating} OVR · ${removed.position}) fue eliminado del club de **${target.username}**.`,
+          description:`.*${removed.name}** (${removed.rarity} · ${removed.rating} OVR · ${removed.position}) fue eliminado del club de **${target.username}**.`,
           fields: [
-            { name: '🏟️ Club restante',   value: `${t.players.length}/${MAX_CLUB_SIZE} jugadores`, inline: true },
-            { name: '👥 Equipo restante', value: `${(t.team || []).length}/4 jugadores`,            inline: true },
+            { name: '🏟️ Club restante',   value:`.{t.players.length}/${MAX_CLUB_SIZE} jugadores`, inline: true },
+            { name: '👥 Equipo restante', value:`.{(t.team || []).length}/4 jugadores`,            inline: true },
           ],
-          footer: { text: `Admin: ${message.author.username}  ·  ID target: ${target.id}` },
+          footer: { text:`.dmin: ${message.author.username}  ·  ID target: ${target.id}` },
           timestamp: new Date().toISOString()
         }]
       });
@@ -6616,7 +6616,7 @@ if (cmd === '.cd') {
       const target        = message.mentions.users.first();
       const rarity        = args[2];
       const validRarities = ['Comun', 'Raro', 'Epico', 'Legendario'];
-      if (!target || !rarity) return message.reply('❌ Uso:  `.adminremoverarity @usuario <Comun/Raro/Epico/Legendario>`');
+      if (!target || !rarity) return message.reply('❌ Uso:`.adminremoverarity @usuario <Comun/Raro/Epico/Legendario>`');
       if (!validRarities.includes(rarity)) return message.reply(`❌ Rareza inválida. Usa: ${validRarities.join(', ')}`);
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
@@ -6629,13 +6629,13 @@ if (cmd === '.cd') {
       return message.reply({
         embeds: [{
           color: 0xFF6600,
-          title: `🗑️ Jugadores ${rarity} eliminados`,
-          description: `Se eliminaron **${removed.length}** jugadores de rareza **${rarity}** del club de **${target.username}**.`,
+          title:`.️ Jugadores ${rarity} eliminados`,
+          description:`.e eliminaron **${removed.length}** jugadores de rareza **${rarity}** del club de **${target.username}**.`,
           fields: [
-            { name: '🏟️ Club restante', value: `${t.players.length}/${MAX_CLUB_SIZE}`,                              inline: true },
+            { name: '🏟️ Club restante', value:`.{t.players.length}/${MAX_CLUB_SIZE}`,                              inline: true },
             { name: '📦 Eliminados',     value: removed.length ? removed.map(p => p.name).join(', ') : 'Ninguno', inline: false },
           ],
-          footer: { text: `Admin: ${message.author.username}` },
+          footer: { text:`.dmin: ${message.author.username}` },
           timestamp: new Date().toISOString()
         }]
       });
@@ -6646,7 +6646,7 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     if (cmd === '.admininfo') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.admininfo @usuario`');
+      if (!target) return message.reply('❌ Uso:`.admininfo @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6668,32 +6668,32 @@ if (cmd === '.cd') {
         : 0;
 
       const lastDaily = t.daily?.lastClaim
-        ? `<t:${Math.floor(t.daily.lastClaim / 1000)}:R>`
+        ?`.t:${Math.floor(t.daily.lastClaim / 1000)}:R>`
         : 'Nunca';
 
       return message.reply({
         embeds: [{
           color: 0x9B59B6,
-          author: { name: `👑 Admin · Info completa de ${target.username}` },
+          author: { name:`. Admin · Info completa de ${target.username}` },
           thumbnail: { url: target.displayAvatarURL({ dynamic: true }) },
           fields: [
-            { name: '💰 Coins',              value: `${(t.coins || 0).toLocaleString()}`,           inline: true },
-            { name: `📊 ELO ${tier.emoji}`,  value: `**${t.elo || 1000}** (${tier.name})`,          inline: true },
-            { name: '🔥 Racha daily',         value: `${(t.daily || {}).streak || 0} días`,          inline: true },
-            { name: '🏟️ Club',               value: `${players_list.length}/${MAX_CLUB_SIZE}`,       inline: true },
-            { name: '👥 Equipo',              value: `${team.length}/4`,                              inline: true },
-            { name: '⭐ OVR Promedio',        value: `${avgOvr}`,                                    inline: true },
-            { name: '📦 Packs',               value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
-            { name: '🃏 Por rareza',           value: `🟡${byRarity.Legendario} 🟣${byRarity.Epico} 🔵${byRarity.Raro} ⚪${byRarity.Comun}`, inline: true },
+            { name: '💰 Coins',              value:`.{(t.coins || 0).toLocaleString()}`,           inline: true },
+            { name:`. ELO ${tier.emoji}`,  value:`.*${t.elo || 1000}** (${tier.name})`,          inline: true },
+            { name: '🔥 Racha daily',         value:`.{(t.daily || {}).streak || 0} días`,          inline: true },
+            { name: '🏟️ Club',               value:`.{players_list.length}/${MAX_CLUB_SIZE}`,       inline: true },
+            { name: '👥 Equipo',              value:`.{team.length}/4`,                              inline: true },
+            { name: '⭐ OVR Promedio',        value:`.{avgOvr}`,                                    inline: true },
+            { name: '📦 Packs',               value:`.${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+            { name: '🃏 Por rareza',           value:`.${byRarity.Legendario} 🟣${byRarity.Epico} 🔵${byRarity.Raro} ⚪${byRarity.Comun}`, inline: true },
             { name: '🖼️ Logo de club',        value: t.clubLogo ? '✅ Tiene logo' : '❌ Sin logo',   inline: true },
-            { name: '💸 Sell value',           value: `${totalSellValue.toLocaleString()} 💰`,        inline: true },
-            { name: '📈 Market value',         value: `${totalMarketValue.toLocaleString()} 💰`,      inline: true },
-            { name: '🏦 Recursos totales',     value: `${((t.coins || 0) + totalSellValue).toLocaleString()} 💰`, inline: true },
-            { name: '👑 Mejor jugador',        value: topPlayer ? `**${topPlayer.name}** (${topPlayer.rating} OVR · ${topPlayer.rarity})` : 'Ninguno', inline: false },
+            { name: '💸 Sell value',           value:`.{totalSellValue.toLocaleString()} 💰`,        inline: true },
+            { name: '📈 Market value',         value:`.{totalMarketValue.toLocaleString()} 💰`,      inline: true },
+            { name: '🏦 Recursos totales',     value:`.{((t.coins || 0) + totalSellValue).toLocaleString()} 💰`, inline: true },
+            { name: '👑 Mejor jugador',        value: topPlayer ?`.*${topPlayer.name}** (${topPlayer.rating} OVR · ${topPlayer.rarity})` : 'Ninguno', inline: false },
             { name: '📅 Último daily',         value: lastDaily,                                      inline: true },
             { name: '🏟️ Nombre del club',     value: t.teamName || target.username + "'s FC",        inline: true },
           ],
-          footer: { text: `ID: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` },
+          footer: { text:`.D: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` },
           timestamp: new Date().toISOString()
         }]
       });
@@ -6713,14 +6713,14 @@ if (cmd === '.cd') {
         color: 0x9B59B6,
         title: '📊 Estadísticas globales del bot',
         fields: [
-          { name: '👥 Usuarios registrados',      value: `**${totalUsers}**`,                  inline: true },
-          { name: '🃏 Jugadores en circulación',  value: `**${totalPlayers}**`,                 inline: true },
-          { name: '💰 Monedas en circulación',    value: `**${totalCoins.toLocaleString()}**`,  inline: true },
-          { name: '⚽ Equipos completos',          value: `**${usersWithTeam}**`,                inline: true },
-          { name: '🖼️ Clubs con logo',            value: `**${usersWithLogo}**`,                inline: true },
-          { name: '👑 Líder ELO',                  value: topUser ? `<@${topUser[0]}> — **${topUser[1].elo || 1000}** ELO` : '—', inline: true },
+          { name: '👥 Usuarios registrados',      value:`.*${totalUsers}**`,                  inline: true },
+          { name: '🃏 Jugadores en circulación',  value:`.*${totalPlayers}**`,                 inline: true },
+          { name: '💰 Monedas en circulación',    value:`.*${totalCoins.toLocaleString()}**`,  inline: true },
+          { name: '⚽ Equipos completos',          value:`.*${usersWithTeam}**`,                inline: true },
+          { name: '🖼️ Clubs con logo',            value:`.*${usersWithLogo}**`,                inline: true },
+          { name: '👑 Líder ELO',                  value: topUser ?`.@${topUser[0]}> — **${topUser[1].elo || 1000}** ELO` : '—', inline: true },
         ],
-        footer: { text: `Solicitado por ${message.author.username}` },
+        footer: { text:`.olicitado por ${message.author.username}` },
         timestamp: new Date().toISOString()
       }]});
     }
@@ -6730,22 +6730,22 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     if (cmd === '.anuncio') {
       const texto = args.slice(1).join(' ');
-      if (!texto) return message.reply('❌ Uso:  `.anuncio <mensaje>`');
-      return message.channel.send({ embeds: [{ color: 0xFF4500, title: '📢 ANUNCIO OFICIAL', description: texto, footer: { text: `Publicado por ${message.author.username}` }, timestamp: new Date().toISOString() }] });
+      if (!texto) return message.reply('❌ Uso:`.anuncio <mensaje>`');
+      return message.channel.send({ embeds: [{ color: 0xFF4500, title: '📢 ANUNCIO OFICIAL', description: texto, footer: { text:`.ublicado por ${message.author.username}` }, timestamp: new Date().toISOString() }] });
     }
 
     // ─────────────────────────────────────────
     // 👑 ADMIN — GESTIÓN DE ADMINS
     // ─────────────────────────────────────────
     if (cmd === '.admins') {
-      const lista = [...admins].map((id, i) => i === 0 ? `👑 <@${id}> (Super Admin)` : `🛡️ <@${id}>`).join('\n');
-      return message.reply({ embeds: [{ color: 0xFFD700, title: '👑 Lista de Admins', description: lista || 'Sin admins.', footer: { text: `Total: ${admins.size} admin(s)` } }] });
+      const lista = [...admins].map((id, i) => i === 0 ?`. <@${id}> (Super Admin)` :`.️ <@${id}>`).join('\n');
+      return message.reply({ embeds: [{ color: 0xFFD700, title: '👑 Lista de Admins', description: lista || 'Sin admins.', footer: { text:`.otal: ${admins.size} admin(s)` } }] });
     }
 
     if (cmd === '.addadmin') {
       if (userId !== superAdminId) return message.reply('❌ Solo el Super Admin puede agregar admins.');
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.addadmin @usuario`');
+      if (!target) return message.reply('❌ Uso:`.addadmin @usuario`');
       if (admins.has(target.id)) return message.reply(`❌ **${target.username}** ya es admin.`);
       admins.add(target.id); saveAdmins();
       return message.reply(`✅ **${target.username}** ahora es admin. 🛡️`);
@@ -6754,7 +6754,7 @@ if (cmd === '.cd') {
     if (cmd === '.removeadmin') {
       if (userId !== superAdminId) return message.reply('❌ Solo el Super Admin puede quitar admins.');
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso:  `.removeadmin @usuario`');
+      if (!target) return message.reply('❌ Uso:`.removeadmin @usuario`');
       if (target.id === superAdminId) return message.reply('❌ No puedes quitarte a ti mismo como Super Admin.');
       if (!admins.has(target.id)) return message.reply(`❌ **${target.username}** no es admin.`);
       admins.delete(target.id); saveAdmins();
@@ -6797,15 +6797,15 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     if (cmd === '.adminhelp') {
       return message.reply({ embeds: [{ color: 0xFF6600, title: '👑 COMANDOS DE ADMIN', fields: [
-        { name: '💰 Economía',            value: ' `.giveme <n>` ·  `.give @u <n>` ·  `.take @u <n>`',                                                   inline: false },
-        { name: '🃏 Cartas & Packs',      value: ' `.givecard @u <jugador>` ·  `.givepack @u silver/bronze/gold/legend [n]`',                            inline: false },
-        { name: '📊 Gestión de usuario',  value: ' `.profile @u` ·  `.resetuser @u` ·  `.setelo @u <n>` ·  `.resetdaily @u`',                             inline: false },
-        { name: '🔍 Inspección',          value: ' `.adminclub @u` ·  `.adminteam @u` ·  `.admininfo @u`',                                                inline: false },
-        { name: '🗑️ Quitar jugadores',   value: ' `.adminremove @u <jugador>` ·  `.adminremoverarity @u <Comun/Raro/Epico/Legendario>`',                 inline: false },
-        { name: '🧹 Limpieza',            value: ' `.clearteam @u` ·  `.clearclub @u` ·  `.removelogo @u`',                                               inline: false },
-        { name: '📈 Bot',                 value: ' `.info` ·  `.updateplayers`',                                                                          inline: false },
-        { name: '👑 Admins (SuperAdmin)', value: ' `.addadmin @u` ·  `.removeadmin @u` ·  `.admins`',                                                     inline: false },
-        { name: '📢 Misc',                value: ' `.anuncio <mensaje>`',                                                                                inline: false },
+        { name: '💰 Economía',            value: '`.giveme <n>` ·`.give @u <n>` ·`.take @u <n>`',                                                   inline: false },
+        { name: '🃏 Cartas & Packs',      value: '`.givecard @u <jugador>` ·`.givepack @u silver/bronze/gold/legend [n]`',                            inline: false },
+        { name: '📊 Gestión de usuario',  value: '`.profile @u` ·`.resetuser @u` ·`.setelo @u <n>` ·`.resetdaily @u`',                             inline: false },
+        { name: '🔍 Inspección',          value: '`.adminclub @u` ·`.adminteam @u` ·`.admininfo @u`',                                                inline: false },
+        { name: '🗑️ Quitar jugadores',   value: '`.adminremove @u <jugador>` ·`.adminremoverarity @u <Comun/Raro/Epico/Legendario>`',                 inline: false },
+        { name: '🧹 Limpieza',            value: '`.clearteam @u` ·`.clearclub @u` ·`.removelogo @u`',                                               inline: false },
+        { name: '📈 Bot',                 value: '`.info` ·`.updateplayers`',                                                                          inline: false },
+        { name: '👑 Admins (SuperAdmin)', value: '`.addadmin @u` ·`.removeadmin @u` ·`.admins`',                                                     inline: false },
+        { name: '📢 Misc',                value: '`.anuncio <mensaje>`',                                                                                inline: false },
       ], footer: { text: 'Cooldown desactivado para admins' } }] });
     }
 
@@ -6822,17 +6822,17 @@ if (cmd === '.adminban') {
     if (bannedUsers.size === 0) {
       return message.reply({ embeds: [{ color: 0x00C851, title: '✅ Sin usuarios baneados', description: 'No hay ningún usuario baneado actualmente.' }] });
     }
-    const lista = [...bannedUsers].map((id, i) => `**${i + 1}.** <@${id}> (\`${id}\`)`).join('\n');
-    return message.reply({ embeds: [{ color: 0xFF4444, title: `🔨 Usuarios baneados (${bannedUsers.size})`, description: lista, footer: { text: '.adminban unban @usuario para desbanear' } }] });
+    const lista = [...bannedUsers].map((id, i) =>`.*${i + 1}.** <@${id}> (\`${id}\`)`).join('\n');
+    return message.reply({ embeds: [{ color: 0xFF4444, title:`. Usuarios baneados (${bannedUsers.size})`, description: lista, footer: { text: '.adminban unban @usuario para desbanear' } }] });
   }
 
   // Desbanear
   if (subCmd === 'unban') {
-    if (!target) return message.reply('❌ Uso:  `.adminban unban @usuario`');
+    if (!target) return message.reply('❌ Uso:`.adminban unban @usuario`');
     if (!bannedUsers.has(target.id)) return message.reply(`❌ **${target.username}** no está baneado.`);
     bannedUsers.delete(target.id);
     saveBans();
-    return message.reply({ embeds: [{ color: 0x00C851, title: '✅ Usuario desbaneado', description: `**${target.username}** puede volver a usar el bot.`, footer: { text: `Desbaneado por ${message.author.username}` }, timestamp: new Date().toISOString() }] });
+    return message.reply({ embeds: [{ color: 0x00C851, title: '✅ Usuario desbaneado', description:`.*${target.username}** puede volver a usar el bot.`, footer: { text:`.esbaneado por ${message.author.username}` }, timestamp: new Date().toISOString() }] });
   }
 
   // Banear (default)
@@ -6842,9 +6842,9 @@ if (cmd === '.adminban') {
         color: 0xFF4444,
         title: '🔨 Admin Ban — Uso',
         fields: [
-          { name: ' `.adminban @usuario [razón]`',  value: 'Banear un usuario del bot',       inline: false },
-          { name: ' `.adminban unban @usuario`',     value: 'Desbanear un usuario',            inline: false },
-          { name: ' `.adminban list`',               value: 'Ver todos los usuarios baneados', inline: false },
+          { name: '`.adminban @usuario [razón]`',  value: 'Banear un usuario del bot',       inline: false },
+          { name: '`.adminban unban @usuario`',     value: 'Desbanear un usuario',            inline: false },
+          { name: '`.adminban list`',               value: 'Ver todos los usuarios baneados', inline: false },
         ],
         footer: { text: 'Los baneados no pueden usar ningún comando del bot' }
       }]
@@ -6862,10 +6862,10 @@ if (cmd === '.adminban') {
   return message.reply({
     embeds: [{
       color: 0xFF4444,
-      author: { name: `🔨 Usuario baneado · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
-      title: `${target.username} fue baneado`,
+      author: { name:`. Usuario baneado · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title:`.{target.username} fue baneado`,
       fields: [
-        { name: '👤 Usuario',   value: `<@${target.id}> (\`${target.id}\`)`, inline: true },
+        { name: '👤 Usuario',   value:`.@${target.id}> (\`${target.id}\`)`, inline: true },
         { name: '⚖️ Razón',    value: reason,                                inline: true },
         { name: '👑 Admin',    value: message.author.username,               inline: true },
       ],
@@ -6988,8 +6988,8 @@ if (isArena) {
     const secondHalf = allEvts.filter(e => e.min > 45);
 
     const formatEvent = (e) => {
-      const assist = e.assist ? `\nL 👟 ${e.assist}` : '';
-      return `**${e.min}'** ⚽ ${e.player}${assist}`;
+      const assist = e.assist ?`.nL 👟 ${e.assist}` : '';
+      return`.*${e.min}'** ⚽ ${e.player}${assist}`;
     };
 
     let homeCol = '';
@@ -7018,12 +7018,12 @@ if (isArena) {
         color: scoreColor,
         // ✅ NUNCA poner author con icon_url de archivo adjunto en los edits — causa fallo
         author: { name: myClub },
-        description: [``, `● **${myClub}** ${myGoals}-${oppGoals} **${oppClub}** ●`, `Estado - **${statusText}**`, ``].join('\n'),
+        description: [``,`. **${myClub}** ${myGoals}-${oppGoals} **${oppClub}** ●`,`.stado - **${statusText}**`,`.].join('\n'),
         fields: [
-          { name: `🏠 Home\nManager: @${myUsername} [${myClub}]`, value: homeCol.trim() || '_ _', inline: true },
-          { name: `✈️ Away\nManager: @${oppName} [${oppClub}]`, value: awayCol.trim() || '_ _', inline: true }
+          { name:`. Home\nManager: @${myUsername} [${myClub}]`, value: homeCol.trim() || '_ _', inline: true },
+          { name:`.️ Away\nManager: @${oppName} [${oppClub}]`, value: awayCol.trim() || '_ _', inline: true }
         ],
-        footer: { text: `${modeLabel}  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
+        footer: { text:`.{modeLabel}  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
         timestamp: new Date().toISOString()
       }]
     };
@@ -7067,12 +7067,12 @@ if (isArena) {
         ? { name: myClub, icon_url: 'attachment://home-logo.png' }
         : { name: myClub },
       thumbnail: oppData.clubLogo ? { url: 'attachment://away-logo.png' } : undefined,
-      description: [``, `● **${myClub}** 0-0 **${oppClub}** ●`, `Estado - **En vivo — Primera mitad**`, ``].join('\n'),
+      description: [``,`. **${myClub}** 0-0 **${oppClub}** ●`,`.stado - **En vivo — Primera mitad**`,`.].join('\n'),
       fields: [
-        { name: `🏠 Home\nManager: <@${myId}> [${myClub}]`,                              value: '_ _', inline: true },
-        { name: `✈️ Away\nManager: ${oppUser ? `<@${oppId}>` : oppName} [${oppClub}]`, value: '_ _', inline: true }
+        { name:`. Home\nManager: <@${myId}> [${myClub}]`,                              value: '_ _', inline: true },
+        { name:`.️ Away\nManager: ${oppUser ?`.@${oppId}>` : oppName} [${oppClub}]`, value: '_ _', inline: true }
       ],
-      footer: { text: `${modeLabel}  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
+      footer: { text:`.{modeLabel}  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
       timestamp: new Date().toISOString()
     }],
     files: matchFiles
@@ -7140,21 +7140,21 @@ if (isArena) {
     penaltyWinner = myPens > oppPens ? 'me' : 'opp';
     const myPenStr  = myPenLog.join(' ');
     const oppPenStr = oppPenLog.join(' ');
-    const penScore  = `${myPens}-${oppPens}`;
+    const penScore  =`.{myPens}-${oppPens}`;
     const penEmbed = {
       embeds: [{
         color: 0xFFAA00,
         author: { name: myClub },
         description: [
-          ``, `🥅 **TANDA DE PENALES**`,
-          `● **${myClub}** ${myGoals}-${oppGoals} **${oppClub}** *(después de 90')*`,
-          ``, `🏠 **${myClub}:** ${myPenStr}`,
-          `✈️ **${oppClub}:** ${oppPenStr}`,
-          ``, `**Resultado penales: ${penScore}**`,
-          penaltyWinner === 'me' ? `🏆 **¡${myClub} gana la tanda!**` : `💀 **${oppClub} gana la tanda**`,
-          ``
+`.,`. **TANDA DE PENALES**`,
+`. **${myClub}** ${myGoals}-${oppGoals} **${oppClub}** *(después de 90')*`,
+`.,`. **${myClub}:** ${myPenStr}`,
+`.️ **${oppClub}:** ${oppPenStr}`,
+`.,`.*Resultado penales: ${penScore}**`,
+          penaltyWinner === 'me' ?`. **¡${myClub} gana la tanda!**` :`. **${oppClub} gana la tanda**`,
+`.
         ].join('\n'),
-        footer: { text: `⚔️ ARENA  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
+        footer: { text:`.️ ARENA  ·  ${myTier.emoji} ${myData.elo} ELO vs ${oppTier.emoji} ${oppData.elo} ELO` },
         timestamp: new Date().toISOString()
       }],
       files: [], attachments: []
@@ -7162,7 +7162,7 @@ if (isArena) {
     await new Promise(r => setTimeout(r, 2500));
     try { await message.reply(penEmbed); } catch(e) { console.error('[Penales] Reply falló:', e.message); }
     await new Promise(r => setTimeout(r, 3000));
-    penaltyDetails = ` | Penales: ${penScore} (${penaltyWinner === 'me' ? myClub : oppClub} gana la tanda)`;
+    penaltyDetails =`.| Penales: ${penScore} (${penaltyWinner === 'me' ? myClub : oppClub} gana la tanda)`;
   }
 
   await applyMatchRewards();
@@ -7197,7 +7197,7 @@ if (isArena) {
       const oppDiff    = oppData.elo - oldOpp;
       const newMyTier  = getEloTier(myData.elo);
       const newOppTier = getEloTier(oppData.elo);
-      eloChange = `\n📊 **ELO:** ${myClub} ${oldMe}→**${myData.elo}** (${myDiff >= 0 ? '+' : ''}${myDiff}) ${newMyTier.emoji} | ${oppClub} ${oldOpp}→**${oppData.elo}** (${oppDiff >= 0 ? '+' : ''}${oppDiff}) ${newOppTier.emoji}`;
+      eloChange =`.n📊 **ELO:** ${myClub} ${oldMe}→**${myData.elo}** (${myDiff >= 0 ? '+' : ''}${myDiff}) ${newMyTier.emoji} | ${oppClub} ${oldOpp}→**${oppData.elo}** (${oppDiff >= 0 ? '+' : ''}${oppDiff}) ${newOppTier.emoji}`;
     }
     if (!myData.matchHistory)  myData.matchHistory  = [];
     if (!oppData.matchHistory) oppData.matchHistory = [];
@@ -7224,20 +7224,20 @@ if (isArena) {
   }
 
     const resultText = myResult === 'win'
-      ? `🏆 **¡${myClub} GANA!**${penaltyWinner ? ' *(en penales)*' : ''}`
+      ?`. **¡${myClub} GANA!**${penaltyWinner ? ' *(en penales)*' : ''}`
       : myResult === 'loss'
-      ? `💀 **${oppClub} gana**${penaltyWinner ? ' *(en penales)*' : ''}`
-      : `🤝 **EMPATE**`;
+      ?`. **${oppClub} gana**${penaltyWinner ? ' *(en penales)*' : ''}`
+      :`. **EMPATE**`;
     const rewardText = myResult === 'win'
-      ? `🏆 +${reward} ${EMOJI_COIN} por victoria`
+      ?`. +${reward} ${EMOJI_COIN} por victoria`
       : myResult === 'loss'
-      ? `📉 +${reward} ${EMOJI_COIN} por participar`
-      : `🤝 +${reward} ${EMOJI_COIN} por empate`;
+      ?`. +${reward} ${EMOJI_COIN} por participar`
+      :`. +${reward} ${EMOJI_COIN} por empate`;
     const resultFiles = myData.clubLogo
       ? [{ attachment: Buffer.from(myData.clubLogo, 'base64'), name: 'club-logo.png' }]
       : [];
     await message.reply({
-      content: `${resultText}\n${rewardText} para <@${myId}>${eloChange}${!isArena && oppReward > 0 ? `\n💰 +${oppReward} ${EMOJI_COIN} para <@${oppId}> por ${myGoals === oppGoals ? 'empatar' : 'ganar'}` : ''}`,
+      content:`.{resultText}\n${rewardText} para <@${myId}>${eloChange}${!isArena && oppReward > 0 ?`.n💰 +${oppReward} ${EMOJI_COIN} para <@${oppId}> por ${myGoals === oppGoals ? 'empatar' : 'ganar'}` : ''}`,
       embeds: myData.clubLogo ? [{ color: myGoals > oppGoals ? 0x00C851 : myGoals < oppGoals ? 0xFF4444 : 0xFFAA00, thumbnail: { url: 'attachment://club-logo.png' } }] : [],
       files: resultFiles
     });
