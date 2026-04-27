@@ -21,7 +21,7 @@ const client = new Client({
   ]
 });
 
-const prefix = '.';
+const prefix = '!';
 
 process.on('unhandledRejection', (error) => {
   console.error('[UnhandledRejection]', error);
@@ -374,8 +374,8 @@ async function startTournament(tId, interaction, tMsg, tCol) {
       mentions, '',
       `**${t.participants.length} jugadores** luchando por **${t.prizes.champion.toLocaleString()} 💰**!`,
       '', `**📋 Ronda 1:**`, matchupLines, '',
-      `⚔️ Usa \`.torneo jugar ${tId}\` para jugar tu partido.`,
-      `📊 Usa \`.torneo bracket ${tId}\` para ver el bracket.`,
+      `⚔️ Usa \`!torneo jugar ${tId}\` para jugar tu partido.`,
+      `📊 Usa \`!torneo bracket ${tId}\` para ver el bracket.`,
     ].join('\n'),
     fields: [
       { name: '🥇 Campeón',        value: `${t.prizes.champion.toLocaleString()} 💰`,  inline: true },
@@ -620,7 +620,7 @@ const packs = {
   silver: { price: 2500,  label: 'Silver',  emoji: '🥈', rarities: ['Raro']      },
   gold:   { price: 7500, label: 'Gold',    emoji: '🥇', rarities: ['Epico']      },
   legend: { price: 15000, label: 'Legend',  emoji: '💎', rarities: ['Legendario'] },
- worldcup: { price: 95000, label: 'World Cup', emoji: '🏆', rarities: ['WorldCup'] },
+ icon:   { price: 95000, label: 'Icon',    emoji: '⭐', rarities: ['Icono']       },
 };
 
 const SELL_PRICES = { "Comun": 230, "Raro": 1150, "Epico": 3650, "Legendario": 7250, "WorldCup": 40000  
@@ -655,7 +655,7 @@ const PACK_VISUAL = {
   bronze: { primary: '#CD7F32', secondary: '#8B4513', accent: '#FFD4A0',  glow: '#FF9944', shine: '#FFE0B0', dark: '#3A1A00' },
   gold:   { primary: '#FFD700', secondary: '#B8860B', accent: '#FFFACD',  glow: '#FFE066', shine: '#FFFFF0', dark: '#2A1A00' },
   legend: { primary: '#9B59B6', secondary: '#4A235A', accent: '#E8D5F5',  glow: '#CC88FF', shine: '#F0E0FF', dark: '#1A0028' },
-worldcup: { primary: '#CC0000', secondary: '#8B0000', accent: '#FFD700',  glow: '#FF4444', shine: '#FFE0B0', dark: '#2A0000' },
+  icono: { primary: '#E8E8E8', secondary: '#A0A0A0', accent: '#FFFFFF', glow: '#FFFFFF', shine: '#F5F5F5', dark: '#505050' },
 };
 
 // ─────────────────────────────────────────
@@ -668,6 +668,13 @@ function getRarityColors(rarity) {
     glow:       '#FFD700', ratingCol:  '#1A0E00', posCol:     '#2A1800',
     nameCol:    '#FFFFFF', statNum:    '#FFFFFF', statLabel:  '#C8A840', shine: '#FFF8C0',
   };
+
+ if (rarity === "Icon") return {
+  cardTop:    '#E8E8E8', cardMid:    '#C0C0C0', cardBot:    '#909090',
+  nameBar:    '#B0B0B0', statsArea:  '#787878', border:     '#FFFFFF',
+  glow:       '#FFFFFF', ratingCol:  '#1A1A1A', posCol:     '#2A2A2A',
+  nameCol:    '#1A1A1A', statNum:    '#1A1A1A', statLabel:  '#555555', shine: '#FFFFFF',
+};
 
 if (rarity === "WorldCup") return {
   cardTop:    '#CC2200', cardMid:    '#AA1100', cardBot:    '#7A0000',
@@ -1513,26 +1520,26 @@ async function generatePackShopCanvas() {
 
   const packDefs = [
     {
-      key: 'bronze', label: 'BRONZE', sublabel: 'Jugadores Comunes', price: '500', sellVal: '230', rarity: 'COMÚN', cmd: '.buy bronze',
+      key: 'bronze', label: 'BRONZE', sublabel: 'Jugadores Comunes', price: '500', sellVal: '230', rarity: 'COMÚN', cmd: '!buy bronze',
       bg1: '#2a1a0a', bg2: '#1a0e04', topGlow: '#FF9944', accent: '#CD7F32', accentLight: '#FFD4A0',
       border1: '#8B4513', border2: '#FF9944', badgeBg: '#3a2010', badgeText: '#FFD4A0',
       priceColor: '#FFD4A0', particles: ['#FFD4A0', '#FF9944', '#CD7F32'],
     },
 
     {
-      key: 'silver', label: 'SILVER', sublabel: 'Jugadores Raros', price: '2500', sellVal: '1150', rarity: 'SILVER', cmd: '.buy silver',
+      key: 'silver', label: 'SILVER', sublabel: 'Jugadores Raros', price: '2500', sellVal: '1150', rarity: 'SILVER', cmd: '!buy silver',
       bg1: '#2a2a3a', bg2: '#1a1a28', topGlow: '#e0e0e0', accent: '#C8C8D8', accentLight: '#f0f0ff',
       border1: '#9090a0', border2: '#c0c0d0', badgeBg: '#3a3a50', badgeText: '#d0d0e0',
       priceColor: '#e8e8ff', particles: ['#ffffff', '#c0c0d0', '#9090a0'],
     },
     {
-      key: 'gold', label: 'GOLD', sublabel: 'Jugadores Épicos', price: '7500', sellVal: '3650', rarity: 'ÉPICO', cmd: '.buy gold',
+      key: 'gold', label: 'GOLD', sublabel: 'Jugadores Épicos', price: '7500', sellVal: '3650', rarity: 'ÉPICO', cmd: '!buy gold',
       bg1: '#1e1800', bg2: '#120f00', topGlow: '#FFE066', accent: '#FFD700', accentLight: '#FFFACD',
       border1: '#B8860B', border2: '#FFE066', badgeBg: '#2a2000', badgeText: '#FFFACD',
       priceColor: '#FFE066', particles: ['#FFFACD', '#FFD700', '#B8860B'],
     },
     {
-      key: 'legend', label: 'LEGEND', sublabel: 'Jugadores Legendarios', price: '15000', sellVal: '7250', rarity: 'LEGENDARIO', cmd: '.buy legend',
+      key: 'legend', label: 'LEGEND', sublabel: 'Jugadores Legendarios', price: '15000', sellVal: '7250', rarity: 'LEGENDARIO', cmd: '!buy legend',
       bg1: '#150a20', bg2: '#0d0615', topGlow: '#CC88FF', accent: '#9B59B6', accentLight: '#E8D5F5',
       border1: '#4A235A', border2: '#CC88FF', badgeBg: '#200a30', badgeText: '#E8D5F5',
       priceColor: '#CC88FF', particles: ['#E8D5F5', '#CC88FF', '#9B59B6'],
@@ -1540,7 +1547,7 @@ async function generatePackShopCanvas() {
 
     {
   key: 'worldcup', label: 'WORLD CUP', sublabel: 'Jugadores WC', 
-  price: '95000', sellVal: '45000', rarity: 'WORLD CUP', cmd: '.buy wc',
+  price: '95000', sellVal: '45000', rarity: 'WORLD CUP', cmd: '!buy wc',
   bg1: '#2a0000', bg2: '#1a0000', topGlow: '#FF4444', accent: '#CC0000', 
   accentLight: '#FFD700', border1: '#8B0000', border2: '#FF4444', 
   badgeBg: '#3a0000', badgeText: '#FFD700',
@@ -2007,14 +2014,15 @@ const helpPages = [
     title: '📖 Ayuda — Página 1/5 · Economía & Packs',
     color: 0x1a56db,
     fields: [
-      { name: '💰 `.bal`',           value: 'Ver tus monedas actuales', inline: false },
-      { name: '🎁 `.daily`',         value: 'Recompensa diaria (cada 24h) — acumula racha', inline: false },
-      { name: '🎖️ `.claim`',         value: 'Reclamar monedas cada **12h** + bonus de racha', inline: false },
-      { name: '⏱️ `.cd`',            value: 'Ver el estado de todos tus cooldowns:\n**Daily · Claim · Friendly · Arena** con tiempo exacto o ✅ Ready', inline: false },
-      { name: '📦 `.packs`',         value: 'Ver la tienda de packs y sus precios', inline: false },
-      { name: '🛒 `.buy <tipo>`', value: '🥉 Bronze **500 💰** → Comunes\n⚪ Silver **2500 💰** → Raros\n🥇 Gold **7500 💰** → Épicos\n💎 Legend **15000 💰** → Legendarios\n🏆 World Cup **95000 💰** → World Cup Champions', inline: false },
-      { name: '🎒 `.inventory`',     value: 'Ver cuántos packs tienes disponibles', inline: false },
-      { name: '🎮 `.open <tipo>` / `.o <tipo>`', value: 'Abrir pack con animación en vivo paso a paso\n🥉 bronze · ⚪ silver · 🥇 gold · 💎 legend · 🏆 worldcup', inline: false },
+      { name: '💰 `!bal`',           value: 'Ver tus monedas actuales', inline: false },
+      { name: '🎁 `!daily`',         value: 'Recompensa diaria (cada 24h) — acumula racha', inline: false },
+      { name: '🎖️ `!claim`',         value: 'Reclamar monedas cada **12h** + bonus de racha', inline: false },
+      { name: '⏱️ `!cd`',            value: 'Ver el estado de todos tus cooldowns:\n**Daily · Claim · Friendly · Arena** con tiempo exacto o ✅ Ready', inline: false },
+      { name: '⚽ `!penalty <cantidad>`', value: 'Apuesta monedas en el sistema de penales\n🎯 Elige 1 de 5 zonas — 2 ganadoras\n💰 Mínimo **50 💰** · Máximo **50,000 💰**\n🏆 Si aciertas ganas el **doble** de tu apuesta', inline: false },
+      { name: '📦 `!packs`',         value: 'Ver la tienda de packs y sus precios', inline: false },
+      { name: '🛒 `!buy <tipo>`', value: '🥉 Bronze **500 💰** → Comunes\n⚪ Silver **2500 💰** → Raros\n🥇 Gold **7500 💰** → Épicos\n💎 Legend **15000 💰** → Legendarios\n🏆 Icon **95000 💰** → World Cup Champions', inline: false },
+      { name: '🎒 `!inventory`',     value: 'Ver cuántos packs tienes disponibles', inline: false },
+      { name: '🎮 `!open <tipo>` / `!o <tipo>`', value: 'Abrir pack con animación en vivo paso a paso\n🥉 bronze · ⚪ silver · 🥇 gold · 💎 legend · 🏆 icono', inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
@@ -2022,15 +2030,15 @@ const helpPages = [
     title: '📖 Ayuda — Página 2/5 · Club, Equipo & Cartas',
     color: 0x00C851,
     fields: [
-      { name: '📋 `.club`',                   value: `Ver tu plantilla completa (máx **${MAX_CLUB_SIZE} jugadores**)`, inline: false },
-      { name: '✏️ `.club rename <nombre>`',   value: 'Cambiar el nombre de tu club', inline: false },
-      { name: '🖼️ `.club logo <url>`',        value: 'Poner logo a tu club con una imagen PNG/JPG\n`.club logo remove` para eliminarlo', inline: false },
-      { name: '🟢 `.team`',                   value: 'Ver tu equipo activo con imagen interactiva (4 jugadores)', inline: false },
-      { name: '🖼️ `.show <nombre>`',          value: 'Ver la carta individual con estadísticas detalladas\n💡 También funciona con cartas que **no tienes** en tu club', inline: false },
-      { name: '🎮 `.players [filtro]`',       value: 'Ver **todos** los jugadores disponibles en el juego, ordenados por OVR\n**Filtros:** `legendario` · `epico` · `raro` · `comun` · `gk` · `dm` · `am` · `st`\nBoton 🎲 Aleatorio para saltar a página random', inline: false },
-      { name: '➕ `.add <nombre>`',           value: 'Añadir jugador de tu club al equipo activo', inline: false },
-      { name: '❌ `.remove <nombre>`',        value: 'Quitar jugador del equipo activo (vuelve al club)', inline: false },
-      { name: '🗑️ `.removeall <nombre>`',     value: 'Quitar todas las copias de un jugador del equipo', inline: false },
+      { name: '📋 `!club`',                   value: `Ver tu plantilla completa (máx **${MAX_CLUB_SIZE} jugadores**)`, inline: false },
+      { name: '✏️ `!club rename <nombre>`',   value: 'Cambiar el nombre de tu club', inline: false },
+      { name: '🖼️ `!club logo <url>`',        value: 'Poner logo a tu club con una imagen PNG/JPG\n`!club logo remove` para eliminarlo', inline: false },
+      { name: '🟢 `!team`',                   value: 'Ver tu equipo activo con imagen interactiva (4 jugadores)', inline: false },
+      { name: '🖼️ `!show <nombre>`',          value: 'Ver la carta individual con estadísticas detalladas\n💡 También funciona con cartas que **no tienes** en tu club', inline: false },
+      { name: '🎮 `!players [filtro]`',       value: 'Ver **todos** los jugadores disponibles en el juego, ordenados por OVR\n**Filtros:** `legendario` · `epico` · `raro` · `comun` · `gk` · `dm` · `am` · `st`\nBoton 🎲 Aleatorio para saltar a página random', inline: false },
+      { name: '➕ `!add <nombre>`',           value: 'Añadir jugador de tu club al equipo activo', inline: false },
+      { name: '❌ `!remove <nombre>`',        value: 'Quitar jugador del equipo activo (vuelve al club)', inline: false },
+      { name: '🗑️ `!removeall <nombre>`',     value: 'Quitar todas las copias de un jugador del equipo', inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
@@ -2038,13 +2046,13 @@ const helpPages = [
     title: '📖 Ayuda — Página 3/5 · Market & Equipo',
     color: 0xFFD700,
     fields: [
-      { name: '🔄 `.swap`',                      value: 'Intercambiar posiciones entre dos jugadores del equipo', inline: false },
-      { name: '🏪 `.market`',                    value: 'Ver el market dinámico — cartas publicadas por otros jugadores', inline: false },
-      { name: '🏪 `.market <nombre>`',           value: 'Comprar la carta más barata disponible de ese jugador\nEj: `.market Czerro`', inline: false },
-      { name: '💸 `.sell <nombre> [precio]`',    value: 'Publicar una carta en el market con precio personalizado.\nSin precio = mínimo automático. Las cartas duran **24h**.', inline: false },
-      { name: '❌ `.cancelar`',                  value: 'Ver tus listings activos en el market y **retirar** los que quieras.\nLa carta vuelve directo a tu club.', inline: false },
-      { name: '💸 `.send @usuario <cantidad>`',  value: 'Transferir monedas a otro jugador\nMínimo **50 💰** · Requiere confirmación antes de enviar', inline: false },
-{ name: '🔄 `.trade @usuario <tu carta> por <su carta>`',
+      { name: '🔄 `!swap`',                      value: 'Intercambiar posiciones entre dos jugadores del equipo', inline: false },
+      { name: '🏪 `!market`',                    value: 'Ver el market dinámico — cartas publicadas por otros jugadores', inline: false },
+      { name: '🏪 `!market <nombre>`',           value: 'Comprar la carta más barata disponible de ese jugador\nEj: `!market Czerro`', inline: false },
+      { name: '💸 `!sell <nombre> [precio]`',    value: 'Publicar una carta en el market con precio personalizado.\nSin precio = mínimo automático. Las cartas duran **24h**.', inline: false },
+      { name: '❌ `!cancelar`',                  value: 'Ver tus listings activos en el market y **retirar** los que quieras.\nLa carta vuelve directo a tu club.', inline: false },
+      { name: '💸 `!send @usuario <cantidad>`',  value: 'Transferir monedas a otro jugador\nMínimo **50 💰** · Requiere confirmación antes de enviar', inline: false },
+{ name: '🔄 `!trade @usuario <tu carta> por <su carta>`',
   value: [
     'Intercambiá cartas con otro jugador.',
     '**Reglas:**',
@@ -2052,7 +2060,7 @@ const helpPages = [
     '• No podés tradear contigo mismo',
     '• El rival tiene **120s** para aceptar o rechazar',
     '• Si alguna carta estaba en el equipo, se saca automáticamente',
-    '💡 Ej: `.trade @Luntek Veil por Compass`',
+    '💡 Ej: `!trade @Luntek Veil por Compass`',
   ].join('\n'),
   inline: false
 },
@@ -2064,15 +2072,15 @@ const helpPages = [
     title: '📖 Ayuda — Página 4/5 · Arena & Partidos',
     color: 0xFF6B00,
     fields: [
-      { name: '🤝 `.friendly @rival`', value: 'Partido amistoso\n💰 Victoria: **+100** · Empate: **+50** · Derrota: **+20**', inline: false },
-      { name: '⚔️ `.arena`',           value: '**Matchmaking automático por ELO**\nEmparejas con alguien de ELO similar\n💰 Victoria: **+400** · Empate: **+250** · Derrota: **+50**\n⏱️ Cooldown de **15 minutos**', inline: false },
-      { name: '📊 `.top`',             value: 'Top 10 global por puntuación ELO', inline: false },
+      { name: '🤝 `!friendly @rival`', value: 'Partido amistoso\n💰 Victoria: **+100** · Empate: **+50** · Derrota: **+20**', inline: false },
+      { name: '⚔️ `!arena`',           value: '**Matchmaking automático por ELO**\nEmparejas con alguien de ELO similar\n💰 Victoria: **+400** · Empate: **+250** · Derrota: **+50**\n⏱️ Cooldown de **15 minutos**', inline: false },
+      { name: '📊 `!top`',             value: 'Top 10 global por puntuación ELO', inline: false },
       { name: '💡 Tips para ganar monedas', value: '• **!claim** cada **12h** → racha de 14 días = Pack Gold gratis\n• **!daily** cada día → racha 7 días = 2 packs silver\n• **!arena** diario → hasta **+400 💰** por victoria\n• Vende duplicados → Épico vale **7500 💰** en market\n• Compra en **!market** y vende más caro\n• 30 días de racha → pack **LEGEND gratis**', inline: false },
-{ name: '🎯 `.quests` / `.misiones`',
-    value: '3 misiones diarias (🟢 fácil · 🟡 media · 🔴 difícil)\nGana hasta **1.350 💰** por día completándolas\n`.quests reclamar <1|2|3>` para cobrar',
+{ name: '🎯 `!quests` / `!misiones`',
+    value: '3 misiones diarias (🟢 fácil · 🟡 media · 🔴 difícil)\nGana hasta **1.350 💰** por día completándolas\n`!quests reclamar <1|2|3>` para cobrar',
     inline: false },
-  { name: '🏆 `.torneo`',
-    value: 'Torneos eliminatorios con bracket visual\n`.torneo listar` · `.torneo jugar <id>` · `.torneo bracket <id>`\nAdmins crean torneos: `.torneo crear <nombre> <entrada> <jugadores>`',
+  { name: '🏆 `!torneo`',
+    value: 'Torneos eliminatorios con bracket visual\n`!torneo listar` · `!torneo jugar <id>` · `!torneo bracket <id>`\nAdmins crean torneos: `!torneo crear <nombre> <entrada> <jugadores>`',
     inline: false },
     ],
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
@@ -2082,24 +2090,24 @@ const helpPages = [
     color: 0x9B59B6,
     fields: [
       { name: '👑 Comandos de Admin', value: 'Los siguientes comandos solo funcionan si eres admin:', inline: false },
-      { name: '`.giveme <n>`',          value: 'Darte monedas a ti mismo',               inline: true },
-      { name: '`.give @u <n>`',         value: 'Dar monedas a usuario',                  inline: true },
-      { name: '`.take @u <n>`',         value: 'Quitar monedas a usuario',               inline: true },
-      { name: '`.givecard @u <jug>`',   value: 'Dar carta específica',                   inline: true },
-      { name: '`.givepack @u <t> [n]`', value: 'Dar pack(s) a usuario',                  inline: true },
-      { name: '`.profile @u`',          value: 'Ver perfil completo',                    inline: true },
-      { name: '`.resetuser @u`',        value: 'Resetear cuenta completa',               inline: true },
-      { name: '`.setelo @u <n>`',       value: 'Ajustar ELO',                            inline: true },
-      { name: '`.resetdaily @u`',       value: 'Resetear daily/racha',                   inline: true },
-      { name: '`.clearteam @u`',        value: 'Limpiar equipo activo',                  inline: true },
-      { name: '`.clearclub @u`',        value: 'Limpiar club y equipo completo',         inline: true },
-      { name: '`.removelogo @u`',       value: 'Eliminar logo del club',                 inline: true },
-      { name: '`.info`',                value: 'Estadísticas globales del bot',          inline: true },
-      { name: '`.addadmin @u`',         value: 'Agregar admin (solo SuperAdmin)',         inline: true },
-      { name: '`.removeadmin @u`',      value: 'Quitar admin (solo SuperAdmin)',          inline: true },
-      { name: '`.admins`',              value: 'Ver lista de admins',                    inline: true },
-      { name: '`.anuncio <msg>`',       value: 'Anuncio oficial en el canal',            inline: true },
-      { name: '`.adminhelp`',           value: 'Ver panel expandido de admin',           inline: true },
+      { name: '`!giveme <n>`',          value: 'Darte monedas a ti mismo',               inline: true },
+      { name: '`!give @u <n>`',         value: 'Dar monedas a usuario',                  inline: true },
+      { name: '`!take @u <n>`',         value: 'Quitar monedas a usuario',               inline: true },
+      { name: '`!givecard @u <jug>`',   value: 'Dar carta específica',                   inline: true },
+      { name: '`!givepack @u <t> [n]`', value: 'Dar pack(s) a usuario',                  inline: true },
+      { name: '`!profile @u`',          value: 'Ver perfil completo',                    inline: true },
+      { name: '`!resetuser @u`',        value: 'Resetear cuenta completa',               inline: true },
+      { name: '`!setelo @u <n>`',       value: 'Ajustar ELO',                            inline: true },
+      { name: '`!resetdaily @u`',       value: 'Resetear daily/racha',                   inline: true },
+      { name: '`!clearteam @u`',        value: 'Limpiar equipo activo',                  inline: true },
+      { name: '`!clearclub @u`',        value: 'Limpiar club y equipo completo',         inline: true },
+      { name: '`!removelogo @u`',       value: 'Eliminar logo del club',                 inline: true },
+      { name: '`!info`',                value: 'Estadísticas globales del bot',          inline: true },
+      { name: '`!addadmin @u`',         value: 'Agregar admin (solo SuperAdmin)',         inline: true },
+      { name: '`!removeadmin @u`',      value: 'Quitar admin (solo SuperAdmin)',          inline: true },
+      { name: '`!admins`',              value: 'Ver lista de admins',                    inline: true },
+      { name: '`!anuncio <msg>`',       value: 'Anuncio oficial en el canal',            inline: true },
+      { name: '`!adminhelp`',           value: 'Ver panel expandido de admin',           inline: true },
     ],
     footer: '⬅️ Anterior  |  Fin  ·  Navega con los botones'
   }
@@ -2239,7 +2247,7 @@ if (isBanned(message.author.id)) {
   if (!u.coins && u.coins !== 0) u.coins = 1000;
   if (!u.players) u.players = [];
   if (!u.team) u.team = [];
-  if (!u.packs) u.packs = { silver:0, bronze:0, gold:0, legend:0, worldcup:0 };
+  if (!u.packs) u.packs = { silver:0, bronze:0, gold:0, legend:0, icono:0 };
   if (u.packs.silver === undefined)   u.packs.silver = 0;
   if (u.packs.legend === undefined)   u.packs.legend = 0;
   if (u.packs.worldcup === undefined) u.packs.worldcup = 0;
@@ -2248,13 +2256,13 @@ if (isBanned(message.author.id)) {
   const user = data[userId];
   const args = message.content.trim().split(/\s+/);
   const rawCmd = args[0].toLowerCase();
-  const cmd = rawCmd === '.o' ? '.open' : rawCmd;
+  const cmd = rawCmd === '!o' ? '!open' : rawCmd;
 
   // ─────────────────────────────────────────
   // ─────────────────────────────────────────
   // 💰 BALANCE — Estilo Soccer Guru
   // ─────────────────────────────────────────
-  if (cmd === '.bal') {
+  if (cmd === '!bal') {
     const tier = getEloTier(user.elo || 1000);
     const playersList = user.players || [];
     const totalSellValue = playersList.reduce((sum, p) => sum + (SELL_PRICES[p.rarity] || 90), 0);
@@ -2297,7 +2305,7 @@ if (isBanned(message.author.id)) {
   // ─────────────────────────────────────────
   // 🎁 DAILY — Solo acumula racha
   // ─────────────────────────────────────────
-  if (cmd === '.daily') {
+  if (cmd === '!daily') {
     const nowTs = Date.now();
     const lastClaim = user.daily.lastClaim || 0;
     const elapsed = nowTs - lastClaim;
@@ -2329,7 +2337,7 @@ if (isBanned(message.author.id)) {
     let lines = [
       `🎁 **¡Asistencia registrada!**`, ``,
       `🔥 Racha actual: **${newStreak}** día${newStreak!==1?'s':''} consecutivo${newStreak!==1?'s':''}`,
-      `💡 Usa \`.claim\` para recoger tus monedas del día`,
+      `💡 Usa \`!claim\` para recoger tus monedas del día`,
       `📅 Mañana podrás reclamar: **${nextReward}** 💰`,
     ];
 
@@ -2338,11 +2346,11 @@ if (isBanned(message.author.id)) {
     const nextClaimMilestone = Object.keys(CLAIM_MILESTONES).map(Number).sort((a,b)=>a-b).find(m => !(user.daily.claimedMilestones||[]).includes(m));
     if (nextClaimMilestone) {
       const daysLeft = Math.max(0, nextClaimMilestone - newStreak);
-      lines.push(``, `🎁 Próxima recompensa con \`.claim\`: Día **${nextClaimMilestone}** (faltan **${daysLeft}** día${daysLeft!==1?'s':''})`);
+      lines.push(``, `🎁 Próxima recompensa con \`!claim\`: Día **${nextClaimMilestone}** (faltan **${daysLeft}** día${daysLeft!==1?'s':''})`);
     }
 
     if (streakBar) lines.push(streakBar);
-    lines.push(``, `💡 Usa \`.claim\` para recoger tus recompensas diarias de monedas.`);
+    lines.push(``, `💡 Usa \`!claim\` para recoger tus recompensas diarias de monedas.`);
 
     return message.reply(lines.join('\n'));
   }
@@ -2350,7 +2358,7 @@ if (isBanned(message.author.id)) {
   // ─────────────────────────────────────────
   // 🎖️ CLAIM — Recompensas cada 24h (monedas + bonos de racha)
   // ─────────────────────────────────────────
-  if (cmd === '.claim') {
+  if (cmd === '!claim') {
     const nowTs = Date.now();
     const lastClaimed = user.daily.lastCoinClaim || 0;
     const elapsed = nowTs - lastClaimed;
@@ -2407,9 +2415,9 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     ];
 
     if (bonusLines.length > 0) lines.push(``, ...bonusLines);
-    if (packLines.length > 0) lines.push(``, `🎉 **¡Packs desbloqueados por racha!**`, ...packLines, ``, `📦 Revisa tu inventario con \`.inventory\``);
+    if (packLines.length > 0) lines.push(``, `🎉 **¡Packs desbloqueados por racha!**`, ...packLines, ``, `📦 Revisa tu inventario con \`!inventory\``);
     if (streakBar) lines.push(streakBar);
-    if (streak === 0) lines.push(``, `💡 Usa \`.daily\` cada día para acumular racha y desbloquear mejores recompensas.`);
+    if (streak === 0) lines.push(``, `💡 Usa \`!daily\` cada día para acumular racha y desbloquear mejores recompensas.`);
 
     return message.reply(lines.join('\n'));
   }
@@ -2417,7 +2425,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   // 🛒 TIENDA DE PACKS
   // ─────────────────────────────────────────
-  if (cmd === '.packs') {
+  if (cmd === '!packs') {
     const shopCanvas = await generatePackShopCanvas();  
 
     const row1 = new ActionRowBuilder().addComponents(
@@ -2433,7 +2441,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     const row3 = new ActionRowBuilder().addComponents(
   new ButtonBuilder()
     .setCustomId(`shop_buy_wc_${userId}`)
-    .setLabel('🏆 World Cup — 95000 💰')
+    .setLabel('🏆 Icon — 95000 💰')
     .setStyle(ButtonStyle.Danger),
 );
 
@@ -2478,7 +2486,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
 
       if (user.players.length >= MAX_CLUB_SIZE) {
         return interaction.reply({
-          content: `❌ Tu club está lleno (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}**). Vende jugadores con \`.sell <nombre>\`.`,
+          content: `❌ Tu club está lleno (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}**). Vende jugadores con \`!sell <nombre>\`.`,
           ephemeral: true
         });
       }
@@ -2502,13 +2510,13 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
         embeds: [{
           color: 0x00C851,
           title: `✅ Pack ${packs[packType].emoji} ${packs[packType].label} comprado`,
-          description: `Ahora tienes **${user.packs[packType]}** pack(s) **${packs[packType].label}**.\nÚsalos con \`.open ${packType}\``,
+          description: `Ahora tienes **${user.packs[packType]}** pack(s) **${packs[packType].label}**.\nÚsalos con \`!open ${packType}\``,
           fields: [
             { name: `${EMOJI_COIN} Gastaste`, value: `${packs[packType].price} ${EMOJI_COIN}`, inline: true },
             { name: '💳 Balance', value: `${user.coins} ${EMOJI_COIN}`, inline: true },
-            { name: '🎒 Packs', value: `🥈${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0} 🏆${user.packs.worldcup||0}`, inline: true },
+            { name: '🎒 Packs', value: `🥈${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0} 🏆${user.packs.icon||0}`, inline: true },
           ],
-          footer: { text: '¡Ábrelo con !open ' + packType + '.' }
+          footer: { text: '¡Ábrelo con !open ' + packType + '!' }
         }],
         ephemeral: true
       });
@@ -2521,11 +2529,11 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   // 🛒 COMPRAR PACKS (comando directo)
   // ─────────────────────────────────────────
-  if (cmd === '.buy') {
+  if (cmd === '!buy') {
     let amount = 1, type = '';
     if (!isNaN(args[1])) { amount = parseInt(args[1]); type = (args[2]||'').toLowerCase(); }
     else type = (args[1]||'').toLowerCase();
-    if (!packs[type]) return message.reply('❌ Ese pack no existe. Usa `silver`, `bronze`, `gold` , `legend`o `WorldCup`.');
+    if (!packs[type]) return message.reply('❌ Ese pack no existe. Usa `silver`, `bronze`, `gold` , `legend`o `Icon`.');
     if (amount < 1) return message.reply('❌ Cantidad inválida.');
     const totalPrice = packs[type].price * amount;
     if (user.coins < totalPrice) return message.reply(`❌ No tienes monedas suficientes. Necesitas **${totalPrice}** ${EMOJI_COIN} y tienes **${user.coins}** ${EMOJI_COIN}.`);
@@ -2538,7 +2546,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   // 🎒 INVENTARIO
   // ─────────────────────────────────────────
-  if (cmd === '.inventory') {
+  if (cmd === '!inventory') {
     return message.reply(
       `🎒 **Tus packs:**\n` +
       `⚪ Silver: **${user.packs.silver||0}**\n` +
@@ -2552,32 +2560,44 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────       
   // 🎮 ABRIR PACK
   // ─────────────────────────────────────────
-  if (cmd === '.open') {
+  if (cmd === '!open') {
     let type = (args[1] || '').toLowerCase();
 if (type === 'wc') type = 'worldcup';
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
-        { name: '🥉 `.open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
-        { name: '⚪ `.open silver`', value: 'Jugadores Raros — **2500 💰**', inline: true },
-        { name: '🥇 `.open gold`',   value: 'Jugadores Épicos — **7500 💰**', inline: true },
-        { name: '💎 `.open legend`', value: 'Jugadores Legendarios — **15000 💰**', inline: true },
-        { name: '💎 `.open worldcup/wc`', value: 'Jugadores WC — **95000 💰**', inline: true },
+        { name: '🥉 `!open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
+        { name: '⚪ `!open silver`', value: 'Jugadores Raros — **2500 💰**', inline: true },
+        { name: '🥇 `!open gold`',   value: 'Jugadores Épicos — **7500 💰**', inline: true },
+        { name: '💎 `!open legend`', value: 'Jugadores Legendarios — **15000 💰**', inline: true },
+        { name: '💎 `!open icon`', value: 'Jugadores Iconos — **95000 💰**', inline: true },
       ], footer: { text: 'Compra packs con !buy · Ver tienda con !packs' } }] });
     }
     if ((user.packs[type] || 0) <= 0) {
       const pv = PACK_VISUAL[type];
-      return message.reply({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: `${packs[type].emoji} Sin packs ${packs[type].label}`, description: `No tienes packs **${packs[type].label}** disponibles.\nCómpralos con \`.buy ${type}\` por **${packs[type].price} 💰**`, fields: [
+      return message.reply({ embeds: [{ color: parseInt(pv.primary.replace('#',''), 16), title: `${packs[type].emoji} Sin packs ${packs[type].label}`, description: `No tienes packs **${packs[type].label}** disponibles.\nCómpralos con \`!buy ${type}\` por **${packs[type].price} 💰**`, fields: [
         { name: `${EMOJI_COIN} Tu balance`, value: `**${user.coins}** monedas`, inline: true },
         { name: '🎒 Inventario', value: `⚪${user.packs.silver||0} 🥉${user.packs.bronze||0} 🥇${user.packs.gold||0} 💎${user.packs.legend||0}`, inline: true }
       ], footer: { text: 'Usa !packs para ver la tienda completa' } }] });
     }
     if (user.players.length >= MAX_CLUB_SIZE) {
-      return message.reply({ embeds: [{ color: 0xFF4444, title: '🏟️ Club lleno', description: `Tu club está al límite (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}** jugadores).\nVende con \`.sell <nombre>\` para hacer espacio.`, footer: { text: 'Usa !club para ver tu plantilla completa' } }] });
+      return message.reply({ embeds: [{ color: 0xFF4444, title: '🏟️ Club lleno', description: `Tu club está al límite (**${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}** jugadores).\nVende con \`!sell <nombre>\` para hacer espacio.`, footer: { text: 'Usa !club para ver tu plantilla completa' } }] });
     }
 
     user.packs[type]--;
-    const pool = players.filter(p => packs[type].rarities.includes(p.rarity));
-    const base = pool[Math.floor(Math.random() * pool.length)];
+    const rarityUpChance = { bronze: 0.05, silver: 0.04, gold: 0.03, legend: 0.01, worldcup: 0.001 };
+const upgradeRoll = Math.random();
+let pool;
+if (upgradeRoll < rarityUpChance[type]) {
+  const rarityOrder = ['Comun', 'Raro', 'Epico', 'Legendario', 'WorldCup'];
+  const currentIdx = rarityOrder.indexOf(packs[type].rarities[0]);
+  const nextRarity = rarityOrder[currentIdx + 1];
+  pool = nextRarity
+    ? players.filter(p => p.rarity === nextRarity)
+    : players.filter(p => packs[type].rarities.includes(p.rarity));
+} else {
+  pool = players.filter(p => packs[type].rarities.includes(p.rarity));
+}
+const base = pool[Math.floor(Math.random() * pool.length)];
     const newPlayer = { ...base, stats: base.stats };
     user.players.push(newPlayer);
     saveData();
@@ -2732,7 +2752,7 @@ progressQuest(userId, 'pack_opened', 1);
           }
           if (btn.customId === `pack_another_${userId}_${type}`) {
             if ((user.packs[type] || 0) <= 0) return btn.reply({ content: `❌ No tienes más packs ${packs[type].label}.`, ephemeral: true });
-            await btn.update({ content: `🎁 ¡Usa \`.o ${type}\` para abrir tu siguiente pack ${packs[type].emoji}!`, components: [] });
+            await btn.update({ content: `🎁 ¡Usa \`!o ${type}\` para abrir tu siguiente pack ${packs[type].emoji}!`, components: [] });
           }
         });
         revealCollector.on('end', (_, reason) => { if (reason !== 'user') packMsg.edit({ components: [] }).catch(() => {}); });
@@ -2745,9 +2765,9 @@ progressQuest(userId, 'pack_opened', 1);
   // ─────────────────────────────────────────
   // 🖼️ SHOW
   // ─────────────────────────────────────────
-  if (cmd === '.show') {
+  if (cmd === '!show') {
     const playerName = args.slice(1).join(' ').trim();
-    if (!playerName) return message.reply('❌ Escribe el nombre del jugador. Ej: `.show Veil`');
+    if (!playerName) return message.reply('❌ Escribe el nombre del jugador. Ej: `!show Veil`');
  
     // Buscar primero en el club del usuario
     const ownedPlayer = (user.players || []).find(p => p.name.toLowerCase() === playerName.toLowerCase());
@@ -2763,7 +2783,7 @@ progressQuest(userId, 'pack_opened', 1);
     if (!found) {
       return message.reply(
         `❌ No existe ningún jugador llamado **${playerName}**.\n` +
-        `💡 Si lo tienes en tu club, usa \`.club\` para ver el nombre exacto.`
+        `💡 Si lo tienes en tu club, usa \`!club\` para ver el nombre exacto.`
       );
     }
  
@@ -2816,7 +2836,7 @@ progressQuest(userId, 'pack_opened', 1);
  
     const ownedNote = isOwned
       ? `${inTeam ? '✅ En tu equipo' : '🔓 En tu plantilla'} · Valor de venta: ${sellPrice} ${EMOJI_COIN}`
-      : `❌ No tienes esta carta · Puedes buscarla en \`.market ${found.name}\``;
+      : `❌ No tienes esta carta · Puedes buscarla en \`!market ${found.name}\``;
  
     await loadingMsg.edit({
       content: '',
@@ -2843,11 +2863,11 @@ progressQuest(userId, 'pack_opened', 1);
           .filter(l => l.player.name.toLowerCase() === found.name.toLowerCase() && l.sellerId !== userId)
           .sort((a, b) => a.price - b.price);
         if (!marketMatch.length) {
-          return interaction.reply({ content: `❌ **${found.name}** no está en el market ahora mismo. Prueba \`.market\` para ver todo el catálogo.`, ephemeral: true });
+          return interaction.reply({ content: `❌ **${found.name}** no está en el market ahora mismo. Prueba \`!market\` para ver todo el catálogo.`, ephemeral: true });
         }
         const cheapest = marketMatch[0];
         return interaction.reply({
-          content: `🏪 **${found.name}** está disponible en el market por **${cheapest.price.toLocaleString()} 💰** (vendedor: @${cheapest.sellerName}).\nUsa \`.market ${found.name}\` para comprarlo.`,
+          content: `🏪 **${found.name}** está disponible en el market por **${cheapest.price.toLocaleString()} 💰** (vendedor: @${cheapest.sellerName}).\nUsa \`!market ${found.name}\` para comprarlo.`,
           ephemeral: true
         });
       }
@@ -2911,7 +2931,7 @@ progressQuest(userId, 'pack_opened', 1);
 // ─────────────────────────────────────────
 // 🖼️ CLUB LOGO
 // ─────────────────────────────────────────
-if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
+if (cmd === '!club' && args[1] && args[1].toLowerCase() === 'logo') {
   // Eliminar logo
   if (args[2] && args[2].toLowerCase() === 'remove') {
     if (!user.clubLogo) return message.reply('❌ Tu club no tiene logo actualmente.');
@@ -2927,14 +2947,14 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
         color: 0x1a56db,
         title: '🖼️ Logo de club',
         description: [
-          '**Uso:** `.club logo <url>`',
-          '**Eliminar:** `.club logo remove`',
+          '**Uso:** `!club logo <url>`',
+          '**Eliminar:** `!club logo remove`',
           '',
           '**Formatos aceptados:** PNG, JPG, JPEG, WEBP',
           '**Tips:**',
           '• Sube la imagen a [imgur.com](https://imgur.com) y copia el link directo',
           '• El link debe terminar en `.png` o `.jpg`',
-          '• Ejemplo: `.club logo https://i.imgur.com/abc123.png`',
+          '• Ejemplo: `!club logo https://i.imgur.com/abc123.png`',
         ].join('\n'),
         footer: { text: 'El logo aparecerá en !team, !club, !bal y resultados de partidos' }
       }]
@@ -2951,7 +2971,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
         title: '❌ Logo inválido',
         description: result.reason,
         fields: [
-          { name: '💡 Cómo hacerlo bien', value: '1. Sube tu imagen a **imgur.com**\n2. Abre la imagen sola\n3. Clic derecho → "Copiar dirección de imagen"\n4. Usa ese link con `.club logo <link>`' }
+          { name: '💡 Cómo hacerlo bien', value: '1. Sube tu imagen a **imgur.com**\n2. Abre la imagen sola\n3. Clic derecho → "Copiar dirección de imagen"\n4. Usa ese link con `!club logo <link>`' }
         ]
       }],
       content: ''
@@ -2966,7 +2986,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
     embeds: [{
       color: 0x00C851,
       title: '✅ Logo de club actualizado',
-      description: `El logo de **${user.teamName || message.author.username + "'s FC"}** fue actualizado.\nAparece en \`.team\`, \`.club\`, \`.bal\` y partidos.`,
+      description: `El logo de **${user.teamName || message.author.username + "'s FC"}** fue actualizado.\nAparece en \`!team\`, \`!club\`, \`!bal\` y partidos.`,
       thumbnail: { url },
       footer: { text: 'Usa !club logo remove para eliminarlo' }
     }],
@@ -2975,19 +2995,437 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
 }
 
 
+// ─────────────────────────────────────────
+// ⚽ PENALTY — Sistema de penales con apuesta
+// ─────────────────────────────────────────
+if (cmd === '!penalty') {
+  const bet = parseInt(args[1]);
+  if (isNaN(bet) || bet <= 0) return message.reply('❌ Uso: `!penalty <cantidad>`\nEj: `!penalty 500`');
+  if (bet < 50) return message.reply('❌ La apuesta mínima es **50 💰**.');
+  if (bet > 50000) return message.reply('❌ La apuesta máxima es **50,000 💰**.');
+  if (!isAdmin(userId)) {
+  const lastPen = user.lastPenalty || 0;
+  const penElapsed = Date.now() - lastPen;
+  const PENALTY_CD = 10 * 60 * 1000;
+  if (penElapsed < PENALTY_CD) {
+    const remaining = PENALTY_CD - penElapsed;
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    return message.reply(`⏱️ **Penalty en cooldown** — espera **${mins}m ${secs}s** para volver a jugar.`);
+  }
+}
+  if (user.coins < bet) return message.reply(`❌ No tienes suficientes monedas.\nTienes **${user.coins.toLocaleString()} 💰** y quieres apostar **${bet.toLocaleString()} 💰**.`);
+
+  // Generar zonas ganadoras aleatorias (2 de 5)
+  const allZones = [1, 2, 3, 4, 5];
+  const shuffled = allZones.sort(() => Math.random() - 0.5);
+  const winZones = [shuffled[0], shuffled[1]];
+
+  // Generar canvas del arco
+  async function generatePenaltyCanvas() {
+    const W = 540, H = 400;
+    const canvas = createCanvas(W, H);
+    const ctx = canvas.getContext('2d');
+
+    // Fondo campo de fútbol
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, '#1a472a');
+    bgGrad.addColorStop(0.6, '#2d6a3f');
+    bgGrad.addColorStop(1, '#1a472a');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Líneas del campo
+    ctx.save();
+    ctx.strokeStyle = '#ffffff33';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < W; i += 40) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, H);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Césped más claro en el centro
+    const fieldGrad = ctx.createRadialGradient(W/2, H*0.7, 0, W/2, H*0.7, W*0.8);
+    fieldGrad.addColorStop(0, '#2ecc5533');
+    fieldGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = fieldGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // ── ARCO ──
+    const goalX = 80, goalY = 80;
+    const goalW = W - 160, goalH = 180;
+
+    // Sombra del arco
+    ctx.save();
+    ctx.shadowColor = '#00000088';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetY = 8;
+
+    // Red del arco (fondo)
+    ctx.fillStyle = '#ffffff15';
+    ctx.fillRect(goalX, goalY, goalW, goalH);
+
+    // Red (líneas)
+    ctx.strokeStyle = '#ffffff30';
+    ctx.lineWidth = 1;
+    const netSpacingH = goalW / 10;
+    const netSpacingV = goalH / 6;
+    for (let x = goalX; x <= goalX + goalW; x += netSpacingH) {
+      ctx.beginPath(); ctx.moveTo(x, goalY); ctx.lineTo(x, goalY + goalH); ctx.stroke();
+    }
+    for (let y = goalY; y <= goalY + goalH; y += netSpacingV) {
+      ctx.beginPath(); ctx.moveTo(goalX, y); ctx.lineTo(goalX + goalW, y); ctx.stroke();
+    }
+    ctx.restore();
+
+    // Postes del arco
+    ctx.save();
+    ctx.shadowColor = '#FFD700';
+    ctx.shadowBlur = 10;
+
+    // Poste izquierdo
+    const postGrad1 = ctx.createLinearGradient(goalX - 6, 0, goalX + 6, 0);
+    postGrad1.addColorStop(0, '#888888');
+    postGrad1.addColorStop(0.5, '#ffffff');
+    postGrad1.addColorStop(1, '#888888');
+    ctx.fillStyle = postGrad1;
+    ctx.fillRect(goalX - 6, goalY - 4, 12, goalH + 8);
+
+    // Poste derecho
+    const postGrad2 = ctx.createLinearGradient(goalX + goalW - 6, 0, goalX + goalW + 6, 0);
+    postGrad2.addColorStop(0, '#888888');
+    postGrad2.addColorStop(0.5, '#ffffff');
+    postGrad2.addColorStop(1, '#888888');
+    ctx.fillStyle = postGrad2;
+    ctx.fillRect(goalX + goalW - 6, goalY - 4, 12, goalH + 8);
+
+    // Travesaño
+    const crossGrad = ctx.createLinearGradient(0, goalY - 6, 0, goalY + 6);
+    crossGrad.addColorStop(0, '#888888');
+    crossGrad.addColorStop(0.5, '#ffffff');
+    crossGrad.addColorStop(1, '#888888');
+    ctx.fillStyle = crossGrad;
+    ctx.fillRect(goalX - 6, goalY - 6, goalW + 12, 12);
+
+    ctx.restore();
+
+    // ── ZONAS NUMERADAS ──
+    // Posiciones fijas de las 5 zonas en el arco
+    const zonePositions = [
+      { num: 1, x: goalX + goalW * 0.12, y: goalY + goalH * 0.25 },  // arriba izquierda
+      { num: 2, x: goalX + goalW * 0.82, y: goalY + goalH * 0.25 },  // arriba derecha
+      { num: 3, x: goalX + goalW * 0.12, y: goalY + goalH * 0.72 },  // abajo izquierda
+      { num: 4, x: goalX + goalW * 0.82, y: goalY + goalH * 0.72 },  // abajo derecha
+      { num: 5, x: goalX + goalW * 0.47, y: goalY + goalH * 0.50 },  // centro
+    ];
+
+    for (const zone of zonePositions) {
+      // Círculo de fondo
+      ctx.save();
+      ctx.shadowColor = '#00000066';
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.arc(zone.x, zone.y, 26, 0, Math.PI * 2);
+      ctx.fillStyle = '#00000055';
+      ctx.fill();
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(zone.x, zone.y, 24, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff22';
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff88';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Número
+      ctx.font = `bold 28px ${FIFA_FONT}`;
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = '#000000';
+      ctx.shadowBlur = 6;
+      ctx.fillText(String(zone.num), zone.x, zone.y + 1);
+      ctx.shadowBlur = 0;
+      ctx.textBaseline = 'alphabetic';
+    }
+
+    // ── LÍNEA DE PENALTI ──
+    ctx.save();
+    ctx.strokeStyle = '#ffffffaa';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 6]);
+    ctx.beginPath();
+    ctx.moveTo(goalX, goalY + goalH + 20);
+    ctx.lineTo(goalX + goalW, goalY + goalH + 20);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Punto de penalti
+    ctx.beginPath();
+    ctx.arc(W/2, goalY + goalH + 50, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    ctx.restore();
+
+    // ── HEADER ──
+    ctx.save();
+    const headerGrad = ctx.createLinearGradient(0, 0, W, 0);
+    headerGrad.addColorStop(0, '#00000000');
+    headerGrad.addColorStop(0.3, '#000000cc');
+    headerGrad.addColorStop(0.7, '#000000cc');
+    headerGrad.addColorStop(1, '#00000000');
+    ctx.fillStyle = headerGrad;
+    ctx.fillRect(0, 0, W, 50);
+
+    ctx.font = `bold 22px ${FIFA_FONT}`;
+    ctx.fillStyle = '#FFD700';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = '#FFD700';
+    ctx.shadowBlur = 12;
+    ctx.fillText('⚽  FUTHAX PENALTY', W/2, 32);
+    ctx.shadowBlur = 0;
+    ctx.restore();
+
+    // ── FOOTER con apuesta ──
+    ctx.save();
+    const footerGrad = ctx.createLinearGradient(0, H - 60, 0, H);
+    footerGrad.addColorStop(0, '#00000000');
+    footerGrad.addColorStop(1, '#000000cc');
+    ctx.fillStyle = footerGrad;
+    ctx.fillRect(0, H - 60, W, 60);
+
+    ctx.font = `bold 14px ${FIFA_FONT}`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.fillText(`💰 Apuesta: ${bet.toLocaleString()} 💰  ·  Premio: ${(bet * 2).toLocaleString()} 💰`, W/2, H - 28);
+    ctx.font = `12px ${FIFA_FONT}`;
+    ctx.fillStyle = '#ffffff88';
+    ctx.fillText('Elige una zona — 2 zonas ganadoras de 5', W/2, H - 10);
+    ctx.restore();
+
+    return canvas;
+  }
+
+  // Descontar apuesta
+  user.coins -= bet;
+  user.lastPenalty = Date.now();
+  saveData();
+
+  const penaltyCanvas = await generatePenaltyCanvas();
+
+  const penRow = new ActionRowBuilder().addComponents(
+    [1, 2, 3, 4, 5].map(n =>
+      new ButtonBuilder()
+        .setCustomId(`penalty_pick_${n}_${userId}`)
+        .setLabel(String(n))
+        .setStyle(ButtonStyle.Primary)
+    )
+  );
+
+  const penMsg = await message.reply({
+    embeds: [{
+      color: 0x2ecc71,
+      author: { name: `⚽ Penalty · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      image: { url: 'attachment://penalty.png' },
+      footer: { text: `⏱️ Tienes 30 segundos para elegir · Apuesta: ${bet.toLocaleString()} 💰` },
+      timestamp: new Date().toISOString()
+    }],
+    files: [{ attachment: penaltyCanvas.toBuffer(), name: 'penalty.png' }],
+    components: [penRow]
+  });
+
+  const penCol = penMsg.createMessageComponentCollector({ time: 30000 });
+
+  penCol.on('collect', async interaction => {
+    if (interaction.user.id !== userId)
+      return interaction.reply({ content: '❌ Este penalty no es tuyo.', ephemeral: true });
+
+    penCol.stop();
+
+    const chosen = parseInt(interaction.customId.replace(`penalty_pick_`, '').replace(`_${userId}`, ''));
+    const isWin = winZones.includes(chosen);
+
+    if (isWin) {
+      user.coins += bet * 2;
+    }
+    saveData();
+
+    // Canvas de resultado
+    async function generateResultCanvas(won) {
+      const W = 540, H = 400;
+      const canvas = createCanvas(W, H);
+      const ctx = canvas.getContext('2d');
+
+      // Fondo
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+      bgGrad.addColorStop(0, won ? '#0d3320' : '#330d0d');
+      bgGrad.addColorStop(0.6, won ? '#1a6b3a' : '#6b1a1a');
+      bgGrad.addColorStop(1, won ? '#0d3320' : '#330d0d');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Arco igual
+      const goalX = 80, goalY = 80;
+      const goalW = W - 160, goalH = 180;
+
+      ctx.fillStyle = '#ffffff10';
+      ctx.fillRect(goalX, goalY, goalW, goalH);
+
+      ctx.strokeStyle = '#ffffff20';
+      ctx.lineWidth = 1;
+      const netSpacingH = goalW / 10;
+      const netSpacingV = goalH / 6;
+      for (let x = goalX; x <= goalX + goalW; x += netSpacingH) {
+        ctx.beginPath(); ctx.moveTo(x, goalY); ctx.lineTo(x, goalY + goalH); ctx.stroke();
+      }
+      for (let y = goalY; y <= goalY + goalH; y += netSpacingV) {
+        ctx.beginPath(); ctx.moveTo(goalX, y); ctx.lineTo(goalX + goalW, y); ctx.stroke();
+      }
+
+      // Postes
+      ctx.fillStyle = '#cccccc';
+      ctx.fillRect(goalX - 6, goalY - 4, 12, goalH + 8);
+      ctx.fillRect(goalX + goalW - 6, goalY - 4, 12, goalH + 8);
+      ctx.fillRect(goalX - 6, goalY - 6, goalW + 12, 12);
+
+      // Zonas con colores de resultado
+      const zonePositions = [
+        { num: 1, x: goalX + goalW * 0.12, y: goalY + goalH * 0.25 },
+        { num: 2, x: goalX + goalW * 0.82, y: goalY + goalH * 0.25 },
+        { num: 3, x: goalX + goalW * 0.12, y: goalY + goalH * 0.72 },
+        { num: 4, x: goalX + goalW * 0.82, y: goalY + goalH * 0.72 },
+        { num: 5, x: goalX + goalW * 0.47, y: goalY + goalH * 0.50 },
+      ];
+
+      for (const zone of zonePositions) {
+        const isWinZone = winZones.includes(zone.num);
+        const isChosen = zone.num === chosen;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(zone.x, zone.y, 26, 0, Math.PI * 2);
+
+        if (isChosen && isWinZone) {
+          ctx.fillStyle = '#00ff8866';
+          ctx.shadowColor = '#00ff88';
+          ctx.shadowBlur = 20;
+        } else if (isChosen && !isWinZone) {
+          ctx.fillStyle = '#ff444466';
+          ctx.shadowColor = '#ff4444';
+          ctx.shadowBlur = 20;
+        } else if (isWinZone) {
+          ctx.fillStyle = '#00ff8833';
+          ctx.shadowColor = '#00ff88';
+          ctx.shadowBlur = 10;
+        } else {
+          ctx.fillStyle = '#ffffff11';
+        }
+        ctx.fill();
+
+        ctx.strokeStyle = isWinZone ? '#00ff88' : (isChosen ? '#ff4444' : '#ffffff55');
+        ctx.lineWidth = isChosen ? 3 : 1.5;
+        ctx.stroke();
+        ctx.restore();
+
+        // Número o emoji
+        ctx.font = `bold 24px ${FIFA_FONT}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        if (isChosen) {
+          ctx.fillStyle = isWinZone ? '#00ff88' : '#ff4444';
+          ctx.shadowColor = isWinZone ? '#00ff88' : '#ff4444';
+          ctx.shadowBlur = 10;
+          ctx.fillText(isWinZone ? '✓' : '✗', zone.x, zone.y + 1);
+        } else {
+          ctx.fillStyle = isWinZone ? '#00ff88aa' : '#ffffff66';
+          ctx.shadowBlur = 0;
+          ctx.fillText(String(zone.num), zone.x, zone.y + 1);
+        }
+        ctx.shadowBlur = 0;
+        ctx.textBaseline = 'alphabetic';
+      }
+
+      // Header resultado
+      ctx.save();
+      ctx.font = `bold 28px ${FIFA_FONT}`;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = won ? '#00ff88' : '#ff4444';
+      ctx.shadowColor = won ? '#00ff88' : '#ff4444';
+      ctx.shadowBlur = 20;
+      ctx.fillText(won ? '⚽ ¡GOOOL! ¡GANASTE!' : '❌ ¡ATAJADO! PERDISTE', W/2, 35);
+      ctx.shadowBlur = 0;
+      ctx.restore();
+
+      // Footer
+      ctx.save();
+      ctx.font = `bold 16px ${FIFA_FONT}`;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffffff';
+      if (won) {
+        ctx.fillStyle = '#FFD700';
+        ctx.shadowColor = '#FFD700';
+        ctx.shadowBlur = 10;
+        ctx.fillText(`+${bet.toLocaleString()} 💰 ganados · Balance: ${user.coins.toLocaleString()} 💰`, W/2, H - 30);
+      } else {
+        ctx.fillStyle = '#ff8888';
+        ctx.fillText(`-${bet.toLocaleString()} 💰 perdidos · Balance: ${user.coins.toLocaleString()} 💰`, W/2, H - 30);
+      }
+      ctx.shadowBlur = 0;
+      ctx.font = `13px ${FIFA_FONT}`;
+      ctx.fillStyle = '#ffffff66';
+      ctx.fillText(`Zonas ganadoras: ${winZones.sort((a,b)=>a-b).join(' y ')}`, W/2, H - 10);
+      ctx.restore();
+
+      return canvas;
+    }
+
+    const resultCanvas = await generateResultCanvas(isWin);
+
+    await interaction.update({
+      embeds: [{
+        color: isWin ? 0x00ff88 : 0xff4444,
+        author: { name: `⚽ Penalty · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        image: { url: 'attachment://penalty-result.png' },
+        footer: { text: isWin ? `🎉 ¡Ganaste ${bet.toLocaleString()} 💰!` : `💔 Perdiste ${bet.toLocaleString()} 💰` },
+        timestamp: new Date().toISOString()
+      }],
+      files: [{ attachment: resultCanvas.toBuffer(), name: 'penalty-result.png' }],
+      components: []
+    });
+  });
+
+  penCol.on('end', (_, reason) => {
+    if (reason === 'time') {
+      user.coins += bet;
+      saveData();
+      penMsg.edit({
+        embeds: [{ color: 0x555555, title: '⏱️ Penalty expirado', description: 'No elegiste a tiempo. Tu apuesta fue devuelta.' }],
+        files: [], components: []
+      }).catch(() => {});
+    }
+  });
+
+  return;
+}
+
+
   // ─────────────────────────────────────────
   // 📋 CLUB
   // ─────────────────────────────────────────
-  if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'rename') {
+  if (cmd === '!club' && args[1] && args[1].toLowerCase() === 'rename') {
     const newName = args.slice(2).join(' ').trim();
-    if (!newName) return message.reply('❌ Escribe el nuevo nombre. Ej: `.club rename FC Locos`');
+    if (!newName) return message.reply('❌ Escribe el nuevo nombre. Ej: `!club rename FC Locos`');
     if (newName.length > 30) return message.reply('❌ El nombre no puede tener más de 30 caracteres.');
     const oldName = user.teamName || message.author.username + "'s FC";
     user.teamName = newName; saveData();
     return message.reply({ embeds:[{ color:0xFFD700, title:'✏️ Nombre de club actualizado', description:`**${oldName}** → **${newName}**`, footer:{text:`Cambiado por ${message.author.username}`}, timestamp:new Date().toISOString() }] });
   }
 
-  if (cmd === '.club') {
+  if (cmd === '!club') {
     const clubName = user.teamName || message.author.username + "'s FC";
     const totalPlayers = user.players ? user.players.length : 0;
     let page = 0;
@@ -3003,7 +3441,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
         value: `\`${pl.rating} OVR\` · ${pl.position} · ${pl.rarity}${user.team&&user.team.some(t=>t.name===pl.name)?' · ✅ En equipo':''}`,
         inline: true
       }));
-      if (fields.length === 0) fields.push({name:'😔 Sin jugadores', value:'Abre packs con `.open silver`', inline:false});
+      if (fields.length === 0) fields.push({name:'😔 Sin jugadores', value:'Abre packs con `!open silver`', inline:false});
  return { embeds:[{ color:0x1a56db, author:{name:`🏟️  ${clubName}`,icon_url:message.author.displayAvatarURL({dynamic:true})}, thumbnail: user.clubLogo ? { url: 'attachment://club-logo.png' } : undefined, title:`📋 Club de ${message.author.username}`, description:`**${totalPlayers}/${MAX_CLUB_SIZE}** jugadores · Página **${p+1}/${totalPages}**`, fields, footer:{text:`${EMOJI_COIN} ${user.coins} monedas  ·  ELO ${user.elo||1000}`}, timestamp:new Date().toISOString() }] };
     }
     function buildRow(p) {
@@ -3034,10 +3472,10 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
   // ─────────────────────────────────────────
   // ➕ ADD
   // ─────────────────────────────────────────
-  if (cmd === '.add') {
+  if (cmd === '!add') {
     const name = args.slice(1).join(' ');
     if (!name) return message.reply('❌ Escribe el nombre del jugador.');
-    if (user.team.length >= 4) return message.reply('❌ Tu equipo ya tiene 4 jugadores. Usa `.remove <nombre>` para hacer espacio.');
+    if (user.team.length >= 4) return message.reply('❌ Tu equipo ya tiene 4 jugadores. Usa `!remove <nombre>` para hacer espacio.');
     const index = user.players.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
     if (index === -1) return message.reply(`❌ No tienes a **${name}** en tu club.`);
     if (user.team.some(p => p.name.toLowerCase() === name.toLowerCase())) return message.reply(`❌ **${name}** ya está en tu equipo.`);
@@ -3048,7 +3486,7 @@ if (cmd === '.club' && args[1] && args[1].toLowerCase() === 'logo') {
   // ─────────────────────────────────────────
   // ❌ REMOVE
   // ─────────────────────────────────────────
-  if (cmd === '.remove') {
+  if (cmd === '!remove') {
     const sub = args.slice(1);
     if (!sub.length) return message.reply('❌ Escribe el nombre del jugador.');
     let cantidad=1, nombre='';
@@ -3067,7 +3505,7 @@ else nombre=sub.join(' ');
   // ─────────────────────────────────────────
   // 🗑️ REMOVEALL
   // ─────────────────────────────────────────
-  if (cmd === '.removeall') {
+  if (cmd === '!removeall') {
     const nombre = args.slice(1).join(' ');
     if (!nombre) return message.reply('❌ Escribe el nombre.');
     const antes = user.team.length;
@@ -3081,7 +3519,7 @@ else nombre=sub.join(' ');
   // ─────────────────────────────────────────
   // 🔄 SWAP
   // ─────────────────────────────────────────
-if (cmd === '.swap') {
+if (cmd === '!swap') {
     if (!user.team || user.team.length < 2) return message.reply('❌ Necesitas al menos 2 jugadores en el equipo.');
     const posEmoji = { GK:'🧤', DM:'🛡️', AM:'🎯', ST:'⚽' };
 
@@ -3144,7 +3582,7 @@ saveData();
   // ─────────────────────────────────────────
   // 🟢 VER EQUIPO
   // ─────────────────────────────────────────
-  if (cmd === '.team') {
+  if (cmd === '!team') {
     async function buildTeamCanvas(teamData, authorUsername) {
       const canvas = createCanvas(620, 860);
       const ctx = canvas.getContext('2d');
@@ -3388,10 +3826,10 @@ saveData();
   // ─────────────────────────────────────────
   // 💸 VENDER → va al market dinámico
   // ─────────────────────────────────────────
-  if (cmd === '.sell') {
+  if (cmd === '!sell') {
     const sub = args.slice(1);
     if (!sub.length) return message.reply(
-      '❌ Uso: `.sell <nombre> [precio]`\n' +
+      '❌ Uso: `!sell <nombre> [precio]`\n' +
       '💡 El precio mínimo por rareza:\n' +
       '• Común: **500** 💰 · Raro: **2.500** 💰 · Épico: **7.500** 💰 · Legendario: **17.000** · WorldCup: **100.000**💰\n' +
       '• Si no pones precio, se publica al mínimo automáticamente.\n' +
@@ -3412,7 +3850,7 @@ saveData();
 
     // Buscar jugador en el club (no en el equipo activo)
     const playerIdx = user.players.findIndex(p => p.name.toLowerCase() === nombre.toLowerCase());
-    if (playerIdx === -1) return message.reply(`❌ No tienes a **${nombre}** en tu club.\n💡 Usa \`.club\` para ver tu plantilla.`);
+    if (playerIdx === -1) return message.reply(`❌ No tienes a **${nombre}** en tu club.\n💡 Usa \`!club\` para ver tu plantilla.`);
 
     const playerToSell = user.players[playerIdx];
     const minPrice = MARKET_MIN_PRICE[playerToSell.rarity] || 500;
@@ -3424,7 +3862,7 @@ saveData();
       if (isNaN(precio) || precio < minPrice) {
         return message.reply(
           `❌ El precio mínimo para una carta **${playerToSell.rarity}** es **${minPrice.toLocaleString()} 💰**.\n` +
-          `💡 Usa \`.sell ${playerToSell.name} ${minPrice}\` para publicarla al mínimo.`
+          `💡 Usa \`!sell ${playerToSell.name} ${minPrice}\` para publicarla al mínimo.`
         );
       }
     }
@@ -3474,7 +3912,7 @@ saveData();
           `✅ La carta fue publicada en el market.`,
           `⏱️ Expira en **${hoursLeft}h** — si no se vende, regresa a tu club.`,
           ``,
-          `💡 Otros jugadores pueden comprarla con \`.market ${playerToSell.name}\`.`,
+          `💡 Otros jugadores pueden comprarla con \`!market ${playerToSell.name}\`.`,
         ].join('\n'),
         fields: [
           { name: '🏟️ Club restante', value: `${user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
@@ -3491,7 +3929,7 @@ saveData();
    //CANCEL❌
   // ─────────────────────────────────────────
 
-if (cmd === '.cancelar' || cmd === '.cancel') {
+if (cmd === '!cancelar' || cmd === '!cancel') {
     // Buscar los listings del usuario
     const myListings = marketListings.filter(l => l.sellerId === userId);
  
@@ -3500,7 +3938,7 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
         embeds: [{
           color: 0xFF6600,
           title: '📋 Sin listings activos',
-          description: 'No tienes cartas publicadas en el market ahora mismo.\n\nUsa `.sell <nombre> [precio]` para publicar una carta.',
+          description: 'No tienes cartas publicadas en el market ahora mismo.\n\nUsa `!sell <nombre> [precio]` para publicar una carta.',
           footer: { text: 'Usa !market para ver el catálogo completo' }
         }]
       });
@@ -3569,7 +4007,7 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
           description: [
             `**${listing.player.name}** (${listing.player.rarity} · ${listing.player.rating} OVR · ${listing.player.position}) fue retirado del market.`,
             ``,
-            `La carta está de vuelta en tu club. Puedes verla con \`.club\` o añadirla al equipo con \`.add ${listing.player.name}\`.`,
+            `La carta está de vuelta en tu club. Puedes verla con \`!club\` o añadirla al equipo con \`!add ${listing.player.name}\`.`,
           ].join('\n'),
           fields: [
             { name: '🏟️ Club', value: `${user.players.length}/${MAX_CLUB_SIZE}`, inline: true },
@@ -3593,9 +4031,9 @@ if (cmd === '.cancelar' || cmd === '.cancel') {
 // ─────────────────────────────────────────
 // 🔄 TRADE — Intercambio de cartas entre jugadores
 // ─────────────────────────────────────────
-if (cmd === '.trade') {
+if (cmd === '!trade') {
   const target = message.mentions.users.first();
-  if (!target) return message.reply('❌ Uso: `.trade @usuario <tu carta> por <su carta>`\nEj: `.trade @Luntek Veil por Compass`');
+  if (!target) return message.reply('❌ Uso: `!trade @usuario <tu carta> por <su carta>`\nEj: `!trade @Luntek Veil por Compass`');
   if (target.id === userId) return message.reply('❌ No puedes tradear contigo mismo.');
   if (target.bot) return message.reply('❌ No puedes tradear con un bot.');
 
@@ -3606,8 +4044,8 @@ if (cmd === '.trade') {
   if (splitByPor.length < 2) {
     return message.reply(
       '❌ Formato incorrecto.\n' +
-      '✅ Uso: `.trade @usuario <tu carta> por <su carta>`\n' +
-      'Ej: `.trade @Luntek Veil por Compass`'
+      '✅ Uso: `!trade @usuario <tu carta> por <su carta>`\n' +
+      'Ej: `!trade @Luntek Veil por Compass`'
     );
   }
 
@@ -3620,7 +4058,7 @@ if (cmd === '.trade') {
   // Buscar en clubs
   const myCardIdx  = (user.players || []).findIndex(p => p.name.toLowerCase() === myCardName.toLowerCase());
   if (myCardIdx === -1)
-    return message.reply(`❌ No tienes a **${myCardName}** en tu club.\nUsa \`.club\` para ver tu plantilla.`);
+    return message.reply(`❌ No tienes a **${myCardName}** en tu club.\nUsa \`!club\` para ver tu plantilla.`);
 
   if (!data[target.id])
     return message.reply('❌ Ese usuario no tiene perfil registrado todavía.');
@@ -3857,7 +4295,7 @@ if (cmd === '.trade') {
                 `📥 **Recibiste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR · ${tradedMyCard.position} · ${tradedMyCard.rarity}`,
                 `📤 **Entregaste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR`,
                 ``,
-                `Usa \`.club\` para ver tu plantilla actualizada.`,
+                `Usa \`!club\` para ver tu plantilla actualizada.`,
               ].join('\n'),
               image: finalHisCanvas ? { url: 'attachment://traded-card.png' } : undefined,
               footer: { text: `Club: ${oppData.players.length}/${MAX_CLUB_SIZE} jugadores` },
@@ -3883,7 +4321,7 @@ if (cmd === '.trade') {
                 `📥 **Recibiste:** ${rarityEmoji[tradedHisCard.rarity]} **${tradedHisCard.name}** · ${tradedHisCard.rating} OVR · ${tradedHisCard.position} · ${tradedHisCard.rarity}`,
                 `📤 **Entregaste:** ${rarityEmoji[tradedMyCard.rarity]} **${tradedMyCard.name}** · ${tradedMyCard.rating} OVR`,
                 ``,
-                `Usa \`.club\` para ver tu plantilla actualizada.`,
+                `Usa \`!club\` para ver tu plantilla actualizada.`,
               ].join('\n'),
               image: finalMyCanvas ? { url: 'attachment://received-card.png' } : undefined,
               footer: { text: `Club: ${user.players.length}/${MAX_CLUB_SIZE} jugadores` },
@@ -3926,7 +4364,7 @@ if (cmd === '.trade') {
 // ─────────────────────────────────────────
   // 🏪 MERCADO — Compra directa de jugadores
   // ─────────────────────────────────────────
-  if (cmd === '.market') {
+  if (cmd === '!market') {
     const playerName = args.slice(1).join(' ').trim();
 
     // Limpiar listings expirados antes de mostrar
@@ -3956,7 +4394,7 @@ progressQuest(userId, 'market_visited', 1);
               '**No hay cartas en venta ahora mismo.**',
               '',
               '💡 Para vender una carta usa:',
-              '`.sell <nombre> [precio]`',
+              '`!sell <nombre> [precio]`',
               '',
               '• El precio mínimo es el precio del sobre correspondiente.',
               '• Las cartas duran **24h** en el market.',
@@ -4172,7 +4610,7 @@ progressQuest(userId, 'market_visited', 1);
           color: 0x1a1a2e,
           author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
           image: { url: 'attachment://market.png' },
-          footer: { text: `.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
+          footer: { text: `!market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
           timestamp: new Date().toISOString()
         }],
         files: [{ attachment: canvas0.toBuffer(), name: 'market.png' }],
@@ -4212,7 +4650,7 @@ progressQuest(userId, 'market_visited', 1);
             color: 0x1a1a2e,
             author: { name: `🏪 Market · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
             image: { url: 'attachment://market.png' },
-            footer: { text: `.market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
+            footer: { text: `!market <nombre> para comprar directamente · !sell <nombre> [precio] para vender` },
             timestamp: new Date().toISOString()
           }],
           files: [{ attachment: nc.toBuffer(), name: 'market.png' }],
@@ -4243,8 +4681,8 @@ progressQuest(userId, 'market_visited', 1);
           description: [
             `No hay cartas de **${playerName}** en venta ahora mismo.`,
             '',
-            '💡 Usa `.market` para ver todas las cartas disponibles.',
-            '💡 Usa `.sell <nombre> [precio]` para publicar la tuya.',
+            '💡 Usa `!market` para ver todas las cartas disponibles.',
+            '💡 Usa `!sell <nombre> [precio]` para publicar la tuya.',
           ].join('\n')
         }]
       });
@@ -4546,7 +4984,7 @@ progressQuest(userId, 'market_visited', 1);
           return btn.update({ content: `✅ **${p.name}** añadido al equipo! (${user.team.length}/4)`, components: [] });
         }
         if (btn.customId === `mktpost_sell_${userId}`) {
-          return btn.reply({ content: `💡 Usa \`.sell ${p.name} <precio>\` para venderla de nuevo.`, ephemeral: true });
+          return btn.reply({ content: `💡 Usa \`!sell ${p.name} <precio>\` para venderla de nuevo.`, ephemeral: true });
         }
       });
       postCol.on('end', () => msgRef.edit({ components: [] }).catch(() => {}));
@@ -4559,9 +4997,9 @@ progressQuest(userId, 'market_visited', 1);
   // ─────────────────────────────────────────
   // 🤝 FRIENDLY
   // ─────────────────────────────────────────
-  if (cmd === '.friendly') {
+  if (cmd === '!friendly') {
   const opponent = message.mentions.users.first();
-  if (!opponent) return message.reply('❌ Menciona a tu rival. Ej: `.friendly @usuario`');
+  if (!opponent) return message.reply('❌ Menciona a tu rival. Ej: `!friendly @usuario`');
   if (opponent.id===userId) return message.reply('❌ No puedes jugar contra ti mismo.');
   if (!data[opponent.id]||(data[opponent.id].team||[]).length<4) return message.reply('❌ El rival no tiene equipo armado (necesita 4 jugadores).');
   if (user.team.length<4) return message.reply('❌ Necesitas 4 jugadores en tu equipo.');
@@ -4587,8 +5025,8 @@ progressQuest(userId, 'market_visited', 1);
 
   // ⚔️ ARENA
   // ─────────────────────────────────────────
-  if (cmd === '.arena') {
-    if ((user.team||[]).length < 4) return message.reply('❌ Necesitas **4 jugadores** en tu equipo para entrar a la Arena.\nUsa `.team` para armar tu equipo.');
+  if (cmd === '!arena') {
+    if ((user.team||[]).length < 4) return message.reply('❌ Necesitas **4 jugadores** en tu equipo para entrar a la Arena.\nUsa `!team` para armar tu equipo.');
     if (!isAdmin(userId)) {
   const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
   const elapsed = Date.now() - lastArena;
@@ -4610,7 +5048,7 @@ progressQuest(userId, 'market_visited', 1);
     });
 
     if (candidates.length === 0) {
-      return message.reply(`❌ No hay rivales disponibles con equipo completo.\nPide a tus amigos que armen sus equipos con \`.team\`.`);
+      return message.reply(`❌ No hay rivales disponibles con equipo completo.\nPide a tus amigos que armen sus equipos con \`!team\`.`);
     }
 
     // Ordenar por ELO más cercano
@@ -4630,7 +5068,7 @@ progressQuest(userId, 'market_visited', 1);
   // ─────────────────────────────────────────
   // 🏅 TOP
   // ─────────────────────────────────────────
-  if (cmd === '.top') {
+  if (cmd === '!top') {
     const ranking = Object.entries(data)
       .sort((a, b) => (b[1].elo || 1000) - (a[1].elo || 1000))
       .slice(0, 10);
@@ -4658,7 +5096,7 @@ progressQuest(userId, 'market_visited', 1);
 // ─────────────────────────────────────────
 // 📊 STATS — Historial y estadísticas de partidos
 // ─────────────────────────────────────────
-if (cmd === '.stats') {
+if (cmd === '!stats') {
   const targetMention = message.mentions.users.first();
   const rivalArg = args.slice(targetMention ? 0 : 1).join(' ').trim();
 
@@ -4742,7 +5180,7 @@ if (cmd === '.stats') {
       embeds: [{
         color: 0x2b2d31,
         title: `📊 Sin historial`,
-        description: `No tienes partidos registrados aún.\n\nJuega con \`.arena\` o \`.friendly @rival\` para empezar.`,
+        description: `No tienes partidos registrados aún.\n\nJuega con \`!arena\` o \`!friendly @rival\` para empezar.`,
         footer: { text: 'El historial registra todos tus partidos desde la última actualización' }
       }]
     });
@@ -4985,7 +5423,7 @@ if (cmd === '.stats') {
 // ─────────────────────────────────────────
 // 🎮 PLAYERS — Ver todos los jugadores disponibles
 // ─────────────────────────────────────────
-if (cmd === '.players') {
+if (cmd === '!players') {
   const filterArg = (args[1] || '').toLowerCase();
 
   // Filtros opcionales: rareza o posición
@@ -5255,7 +5693,7 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
   // ─────────────────────────────────────────
   // ❓ AYUDA
   // ─────────────────────────────────────────
-  if (cmd === '.help') {
+  if (cmd === '!help') {
     let helpPage=0;
     const helpMsg=await message.reply({...buildHelpEmbed(helpPage),components:[buildHelpRow(userId,helpPage)]});
     const helpCollector=helpMsg.createMessageComponentCollector({time:120000});
@@ -5272,11 +5710,11 @@ const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend
 // ─────────────────────────────────────────
 // 💸 SEND — Transferir monedas a otro usuario
 // ─────────────────────────────────────────
-if (cmd === '.send') {
+if (cmd === '!send') {
   const target = message.mentions.users.first();
   const amount = parseInt(args[2]);
 
-  if (!target) return message.reply('❌ Uso: `.send @usuario cantidad`\nEj: `.send @Luntek 500`');
+  if (!target) return message.reply('❌ Uso: `!send @usuario cantidad`\nEj: `!send @Luntek 500`');
   if (target.id === userId) return message.reply('❌ No puedes enviarte monedas a ti mismo.');
   if (target.bot) return message.reply('❌ No puedes enviar monedas a un bot.');
   if (isNaN(amount) || amount <= 0) return message.reply('❌ Escribe una cantidad válida mayor a 0.');
@@ -5406,7 +5844,7 @@ if (cmd === '.send') {
 // ─────────────────────────────────────────
 // ⏱️ COOLDOWNS — !cd
 // ─────────────────────────────────────────
-if (cmd === '.cd') {
+if (cmd === '!cd') {
   const nowTs = Date.now();
 
   // --- Daily ---
@@ -5442,6 +5880,16 @@ if (cmd === '.cd') {
   const friendlySS = Math.floor((friendlyRemaining % 60000) / 1000);
   const friendlyStr = friendlyReady ? '✅ Ready' : `⏳ ${friendlyMM}m ${friendlySS}s`;
 
+  // --- Penalty ---
+const PENALTY_COOLDOWN_MS = 10 * 60 * 1000;
+const lastPenalty = user.lastPenalty || 0;
+const penaltyElapsed = nowTs - lastPenalty;
+const penaltyReady = isAdmin(userId) || penaltyElapsed >= PENALTY_COOLDOWN_MS;
+const penaltyRemaining = PENALTY_COOLDOWN_MS - penaltyElapsed;
+const penaltyMM = Math.floor(penaltyRemaining / 60000);
+const penaltySS = Math.floor((penaltyRemaining % 60000) / 1000);
+const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s`;
+
   // --- Arena ---
   const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
   const arenaElapsed = nowTs - lastArena;
@@ -5463,31 +5911,38 @@ if (cmd === '.cd') {
         {
           name: `📅 Daily — ${dailyStr}`,
           value: dailyReady
-            ? `Usa \`.daily\` para registrar tu asistencia diaria\n🔥 Racha actual: **${user.daily?.streak || 0}** días`
+            ? `Usa \`!daily\` para registrar tu asistencia diaria\n🔥 Racha actual: **${user.daily?.streak || 0}** días`
             : `Vuelve en **${dailyHH}h ${dailyMM}m ${dailySS}s**\n🔥 Racha: **${user.daily?.streak || 0}** días`,
           inline: false
         },
         {
           name: `🎁 Claim — ${claimStr}`,
           value: claimReady
-            ? `Usa \`.claim\` para recoger **${claimReward} 💰**`
+            ? `Usa \`!claim\` para recoger **${claimReward} 💰**`
             : `Próxima recompensa: **${claimReward} 💰** · Vuelve en **${claimHH}h ${claimMM}m ${claimSS}s**`,
           inline: false
         },
         {
           name: `🤝 Friendly — ${friendlyStr}`,
           value: friendlyReady
-            ? `Usa \`.friendly @rival\` · Victoria: **+100 💰**`
+            ? `Usa \`!friendly @rival\` · Victoria: **+100 💰**`
             : `Vuelve en **${friendlyMM}m ${friendlySS}s**`,
           inline: false
         },
         {
           name: `⚔️ Arena — ${arenaStr}`,
           value: arenaReady
-            ? `Usa \`.arena\` · Victoria: **+400 💰** · ELO en juego`
+            ? `Usa \`!arena\` · Victoria: **+400 💰** · ELO en juego`
             : `Vuelve en **${arenaMM}m ${arenaSS}s**`,
           inline: false
         },
+       {
+  name: `⚽ Penalty — ${penaltyStr}`,
+  value: penaltyReady
+    ? `Usa \`!penalty <cantidad>\` · Gana el **doble**`
+    : `Vuelve en **${penaltyMM}m ${penaltySS}s**`,
+  inline: false
+},
       ],
       footer: {
         text: `💰 Balance: ${(user.coins || 0).toLocaleString()}  ·  ${tier.emoji} ${tier.name}  ·  ELO ${user.elo || 1000}`
@@ -5501,7 +5956,7 @@ if (cmd === '.cd') {
 // ─────────────────────────────────────────
   // 🎯 QUESTS — !quests / !misiones
   // ─────────────────────────────────────────
-  if (cmd === '.quests' || cmd === '.misiones') {
+  if (cmd === '!quests' || cmd === '!misiones') {
     const quests = getOrCreateUserQuests(userId);
     const today  = getTodayKey();
  
@@ -5509,7 +5964,7 @@ if (cmd === '.cd') {
     if (args[1] === 'reclamar') {
       const idx = parseInt(args[2]) - 1;
       if (isNaN(idx) || idx < 0 || idx > 2)
-        return message.reply('❌ Uso: `.quests reclamar <1|2|3>`');
+        return message.reply('❌ Uso: `!quests reclamar <1|2|3>`');
       const q = quests[idx];
       if (!q.completed) return message.reply(`❌ La misión **"${q.desc}"** aún no está completa. Progreso: **${q.progress}/${q.target}**`);
       if (q.claimed)    return message.reply(`❌ La misión **"${q.desc}"** ya fue reclamada hoy.`);
@@ -5535,7 +5990,7 @@ if (cmd === '.cd') {
       const bar = Math.round((q.progress / q.target) * 10);
       const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${q.progress}/${q.target}**`;
       const status = q.claimed ? '✅ Reclamada'
-        : q.completed ? `🎁 **¡Lista!** — \`.quests reclamar ${i+1}\``
+        : q.completed ? `🎁 **¡Lista!** — \`!quests reclamar ${i+1}\``
         : '⏳ En progreso';
       return {
         name: `${DIFF_EMOJI[q.difficulty]} Misión ${i+1} — ${DIFF_LABEL[q.difficulty]}`,
@@ -5563,7 +6018,7 @@ if (cmd === '.cd') {
           ? `✨ **¡Completaste todas las misiones de hoy!** (+${earned.toLocaleString()} 💰)\nVuelve mañana para nuevas misiones.`
           : `Completa las 3 misiones para ganar hasta **${totalReward.toLocaleString()} 💰**\n💰 Ganado hoy: **${earned.toLocaleString()} / ${totalReward.toLocaleString()} 💰**`,
         fields,
-        footer: { text: '.quests reclamar <1|2|3> · Misiones nuevas cada día' },
+        footer: { text: '!quests reclamar <1|2|3> · Misiones nuevas cada día' },
         timestamp: new Date().toISOString()
       }],
       components: [btnRow]
@@ -5595,7 +6050,7 @@ if (cmd === '.cd') {
         const bar = Math.round((qq.progress / qq.target) * 10);
         const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${qq.progress}/${qq.target}**`;
         const status = qq.claimed ? '✅ Reclamada'
-          : qq.completed ? `🎁 **¡Lista!** — \`.quests reclamar ${i+1}\``
+          : qq.completed ? `🎁 **¡Lista!** — \`!quests reclamar ${i+1}\``
           : '⏳ En progreso';
         return { name: `${DIFF_EMOJI[qq.difficulty]} Misión ${i+1} — ${DIFF_LABEL[qq.difficulty]}`,
           value: [`📋 **${qq.desc}**`, prog, `💰 **${(qq.reward.coins||0).toLocaleString()} 💰**`, status].join('\n'), inline: false };
@@ -5622,18 +6077,18 @@ if (cmd === '.cd') {
   // ─────────────────────────────────────────
   // 🏆 TORNEOS — !torneo
   // ─────────────────────────────────────────
-  if (cmd === '.torneo') {
+  if (cmd === '!torneo') {
     const sub = (args[1] || '').toLowerCase();
  
     // ── !torneo crear <nombre> <entrada> <maxJugadores> ──
     if (sub === 'crear') {
       if (!isAdmin(userId))
-        return message.reply('❌ Solo los admins pueden crear torneos.\nPídele a un admin que use `.torneo crear <nombre> <entrada> <maxJugadores>`.');
+        return message.reply('❌ Solo los admins pueden crear torneos.\nPídele a un admin que use `!torneo crear <nombre> <entrada> <maxJugadores>`.');
       const maxPlayers = parseInt(args[args.length - 1]);
       const entryFee   = parseInt(args[args.length - 2]);
       const name       = args.slice(2, -2).join(' ').trim() || 'Torneo FIFA';
       if (isNaN(maxPlayers) || maxPlayers < 4 || maxPlayers > 32)
-        return message.reply('❌ Uso: `.torneo crear <nombre> <entrada> <maxJugadores>`\nEj: `.torneo crear Copa Semanal 1000 8` (entre 4 y 32 jugadores)');
+        return message.reply('❌ Uso: `!torneo crear <nombre> <entrada> <maxJugadores>`\nEj: `!torneo crear Copa Semanal 1000 8` (entre 4 y 32 jugadores)');
       if (isNaN(entryFee) || entryFee < 0)
         return message.reply('❌ La entrada debe ser 0 o más.');
  
@@ -5707,7 +6162,7 @@ if (cmd === '.cd') {
           if (t.participants.length >= t.maxPlayers)
             return interaction.reply({ content: '❌ El torneo está lleno.', ephemeral: true });
           if (!data[jId] || (data[jId].team||[]).length < 4)
-            return interaction.reply({ content: '❌ Necesitas **4 jugadores en tu equipo** (`.team`).', ephemeral: true });
+            return interaction.reply({ content: '❌ Necesitas **4 jugadores en tu equipo** (`!team`).', ephemeral: true });
           if (t.entryFee > 0) {
             if ((data[jId]?.coins||0) < t.entryFee)
               return interaction.reply({ content: `❌ Necesitas **${t.entryFee.toLocaleString()} 💰**. Tienes **${(data[jId]?.coins||0).toLocaleString()} 💰**.`, ephemeral: true });
@@ -5740,7 +6195,7 @@ if (cmd === '.cd') {
     if (sub === 'listar' || sub === 'lista') {
       const list = Object.values(tournaments).filter(t => t.status !== 'finished');
       if (!list.length)
-        return message.reply({ embeds: [{ color: 0x2b2d31, title: '🏆 Sin torneos activos', description: 'No hay torneos en este momento.\n\nUsa `.torneo crear <nombre> <entrada> <jugadores>` para crear uno (admins).' }] });
+        return message.reply({ embeds: [{ color: 0x2b2d31, title: '🏆 Sin torneos activos', description: 'No hay torneos en este momento.\n\nUsa `!torneo crear <nombre> <entrada> <jugadores>` para crear uno (admins).' }] });
       return message.reply({
         embeds: [{
           color: 0xFFD700,
@@ -5748,7 +6203,7 @@ if (cmd === '.cd') {
           description: list.map(t =>
             `**${t.name}** \`${t.id}\`\n${getTournamentStatus(t)} · ${t.participants.length}/${t.maxPlayers} jugadores · Premio: ${t.prizePool.toLocaleString()} 💰`
           ).join('\n\n'),
-          footer: { text: '.torneo jugar <id> · !torneo bracket <id>' },
+          footer: { text: '!torneo jugar <id> · !torneo bracket <id>' },
           timestamp: new Date().toISOString()
         }]
       });
@@ -5758,10 +6213,10 @@ if (cmd === '.cd') {
 // ── !torneo iniciar <id> ──
     if (sub === 'iniciar') {
       const tId = args[2];
-      if (!tId) return message.reply('❌ Uso: `.torneo iniciar <id>`\nEj: `.torneo iniciar T1ABC123`');
+      if (!tId) return message.reply('❌ Uso: `!torneo iniciar <id>`\nEj: `!torneo iniciar T1ABC123`');
 
       const t = tournaments[tId];
-      if (!t) return message.reply('❌ Torneo no encontrado. Usa `.torneo listar` para ver los IDs.');
+      if (!t) return message.reply('❌ Torneo no encontrado. Usa `!torneo listar` para ver los IDs.');
       if (t.status !== 'waiting') {
         if (t.status === 'active')   return message.reply('❌ El torneo ya está en curso.');
         if (t.status === 'finished') return message.reply('❌ El torneo ya terminó.');
@@ -5803,8 +6258,8 @@ if (cmd === '.cd') {
             `**📋 Ronda 1:**`,
             matchupLines,
             '',
-            `⚔️ Usa \`.torneo jugar ${tId}\` para jugar tu partido.`,
-            `📊 Usa \`.torneo bracket ${tId}\` para ver el bracket.`,
+            `⚔️ Usa \`!torneo jugar ${tId}\` para jugar tu partido.`,
+            `📊 Usa \`!torneo bracket ${tId}\` para ver el bracket.`,
           ].join('\n'),
           fields: [
             { name: '🥇 Campeón',        value: `${t.prizes.champion.toLocaleString()} 💰`,  inline: true },
@@ -5823,14 +6278,14 @@ if (cmd === '.cd') {
 // ── !torneo admin <id> ──
     if (sub === 'admin') {
       const tId = args[2];
-      if (!tId) return message.reply('❌ Uso: `.torneo admin <id>`');
+      if (!tId) return message.reply('❌ Uso: `!torneo admin <id>`');
 
       const t = tournaments[tId];
-      if (!t) return message.reply('❌ Torneo no encontrado. Usa `.torneo listar` para ver los IDs.');
+      if (!t) return message.reply('❌ Torneo no encontrado. Usa `!torneo listar` para ver los IDs.');
       if (!isAdmin(userId) && userId !== t.creatorId)
         return message.reply('❌ Solo el creador del torneo o un admin puede administrar partidos.');
       if (t.status !== 'active')
-        return message.reply('❌ El torneo debe estar en curso. Usa `.torneo iniciar <id>` si aún no empezó.');
+        return message.reply('❌ El torneo debe estar en curso. Usa `!torneo iniciar <id>` si aún no empezó.');
 
       const curRound = t.rounds[t.currentRound];
       const pendingMatches = curRound.filter(m => m.winner === null && m.p1 && m.p2);
@@ -6058,7 +6513,7 @@ if (cmd === '.cd') {
 
           const finishedDesc = t.status === 'finished'
             ? `\n\n🏆 **¡El torneo terminó! Campeón: <@${t.champion}>** (+${t.prizes.champion.toLocaleString()} 💰)`
-            : `\n\n⏳ Partidos pendientes en esta ronda: **${stillPending2}**\nUsa \`.torneo admin ${tId}\` para continuar.`;
+            : `\n\n⏳ Partidos pendientes en esta ronda: **${stillPending2}**\nUsa \`!torneo admin ${tId}\` para continuar.`;
 
           return interaction.update({
             embeds: [{
@@ -6107,7 +6562,7 @@ if (cmd === '.cd') {
           embeds: [{
             color: 0xFF6600,
             title: '⚠️ Hay partidos sin resultado',
-            description: `Aún faltan **${pending.length}** partido(s) por jugarse:\n\n${lines}\n\n¿Quieres forzar de todas formas? Usa \`.torneo admin ${tId}\` para asignar resultados primero.`,
+            description: `Aún faltan **${pending.length}** partido(s) por jugarse:\n\n${lines}\n\n¿Quieres forzar de todas formas? Usa \`!torneo admin ${tId}\` para asignar resultados primero.`,
           }]
         });
       }
@@ -6165,7 +6620,7 @@ if (cmd === '.cd') {
             : `✅ Ronda avanzada — Ahora en Ronda ${t.currentRound + 1}`,
           description: t.status === 'finished'
             ? `<@${t.champion}> gana **${t.prizes.champion.toLocaleString()} 💰**!`
-            : `**Partidos de esta ronda:**\n${matchupLines}\n\nUsa \`.torneo admin ${tId}\` para asignar resultados o \`.torneo jugar ${tId}\` para jugar.`,
+            : `**Partidos de esta ronda:**\n${matchupLines}\n\nUsa \`!torneo admin ${tId}\` para asignar resultados o \`!torneo jugar ${tId}\` para jugar.`,
           image: bracketCanvas ? { url: 'attachment://bracket.png' } : undefined,
           footer: { text: `ID: ${tId}` },
           timestamp: new Date().toISOString()
@@ -6178,7 +6633,7 @@ if (cmd === '.cd') {
     if (sub === 'bracket') {
       const tId2 = args[2];
       const t2 = tournaments[tId2];
-      if (!t2) return message.reply('❌ Torneo no encontrado. Usa `.torneo listar` para ver los IDs.');
+      if (!t2) return message.reply('❌ Torneo no encontrado. Usa `!torneo listar` para ver los IDs.');
       if (t2.status === 'waiting') return message.reply('❌ El torneo aún no ha comenzado.');
       const canvas = await drawBracketCanvas(t2).catch(() => null);
       if (!canvas) return message.reply('❌ Error generando el bracket.');
@@ -6203,7 +6658,7 @@ if (cmd === '.cd') {
       if (t3.status !== 'active') return message.reply('❌ El torneo no está en curso.');
       const curMatches = t3.rounds[t3.currentRound];
       const myMatch = curMatches?.find(m => (m.p1?.id === userId || m.p2?.id === userId) && m.winner === null);
-      if (!myMatch) return message.reply('❌ No tienes un partido pendiente en esta ronda, o ya fue jugado.\n💡 Usa `.torneo bracket ' + tId3 + '` para ver el estado.');
+      if (!myMatch) return message.reply('❌ No tienes un partido pendiente en esta ronda, o ya fue jugado.\n💡 Usa `!torneo bracket ' + tId3 + '` para ver el estado.');
  
       const iAmP1 = myMatch.p1?.id === userId;
       const opp   = iAmP1 ? myMatch.p2 : myMatch.p1;
@@ -6220,7 +6675,7 @@ if (cmd === '.cd') {
       }
  
       if (!data[opp.id] || (data[opp.id].team||[]).length < 4)
-        return message.reply(`❌ Tu rival **@${opp.username}** no tiene equipo completo (necesita `+"`.team`"+ ` con 4 jugadores).`);
+        return message.reply(`❌ Tu rival **@${opp.username}** no tiene equipo completo (necesita `+"`!team`"+ ` con 4 jugadores).`);
       if ((user.team||[]).length < 4)
         return message.reply('❌ Necesitas **4 jugadores en tu equipo** para jugar.');
  
@@ -6320,7 +6775,7 @@ if (cmd === '.cd') {
               t3.status==='finished' ? `\n🏆 **¡${t3.champion===userId?'¡ERES EL CAMPEÓN! 🎉':'El torneo terminó'}**` : ''
             ].join('\n'),
             image: bCanvas2 ? { url:'attachment://bracket.png' } : undefined,
-            footer: { text:`.torneo bracket ${tId3} para ver el bracket` },
+            footer: { text:`!torneo bracket ${tId3} para ver el bracket` },
             timestamp: new Date().toISOString()
           }],
           files: bFiles2, components: []
@@ -6336,13 +6791,13 @@ if (cmd === '.cd') {
         color: 0xFFD700,
         title: '🏆 Torneos — Ayuda',
         fields: [
-          { name: '`.torneo crear <nombre> <entrada> <maxJugadores>`', value: 'Crear torneo (solo admins)\nEj: `.torneo crear Copa Semanal 1000 8`', inline: false },
-          { name: '`.torneo listar`',          value: 'Ver torneos activos',                    inline: false },
-          { name: '`.torneo bracket <id>`',    value: 'Ver el bracket visual',                  inline: false },
-          { name: '`.torneo jugar <id>`',      value: 'Jugar tu partido pendiente',             inline: false },
-{ name: '`.torneo forzar <id>`', value: 'Fuerza el avance a la siguiente ronda si todos los partidos ya tienen resultado (solo admins)', inline: false },
-{ name: '`.torneo admin <id>`', value: 'Administrar resultados manualmente — elige quién pasa (creador o admin)', inline: false },
-{ name: '`.torneo iniciar <id>`', value: 'Iniciar un torneo manualmente (creador o admin)', inline: false },
+          { name: '`!torneo crear <nombre> <entrada> <maxJugadores>`', value: 'Crear torneo (solo admins)\nEj: `!torneo crear Copa Semanal 1000 8`', inline: false },
+          { name: '`!torneo listar`',          value: 'Ver torneos activos',                    inline: false },
+          { name: '`!torneo bracket <id>`',    value: 'Ver el bracket visual',                  inline: false },
+          { name: '`!torneo jugar <id>`',      value: 'Jugar tu partido pendiente',             inline: false },
+{ name: '`!torneo forzar <id>`', value: 'Fuerza el avance a la siguiente ronda si todos los partidos ya tienen resultado (solo admins)', inline: false },
+{ name: '`!torneo admin <id>`', value: 'Administrar resultados manualmente — elige quién pasa (creador o admin)', inline: false },
+{ name: '`!torneo iniciar <id>`', value: 'Iniciar un torneo manualmente (creador o admin)', inline: false },
         ],
         footer: { text: 'Los premios se reparten automáticamente · Necesitas equipo de 4 para participar' }
       }]
@@ -6355,37 +6810,37 @@ if (cmd === '.cd') {
   // ─────────────────────────────────────────
   if (isAdmin(userId)) {
 
-    if (cmd === '.giveme') {
+    if (cmd === '!giveme') {
       const amount = parseInt(args[1]);
       if (isNaN(amount)) return message.reply('❌ Pon una cantidad válida.');
       user.coins += amount; saveData();
       return message.reply(`✅ Te diste **${amount}** ${EMOJI_COIN}`);
     }
 
-    if (cmd === '.give') {
+    if (cmd === '!give') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso: `.give @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso: `!give @usuario cantidad`');
       if (!data[target.id]) data[target.id] = { coins: 0, players: [], team: [], packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       data[target.id].coins += amount; saveData();
       return message.reply(`✅ Le diste **${amount}** ${EMOJI_COIN} a **${target.username}**`);
     }
 
-    if (cmd === '.givepack') {
+    if (cmd === '!givepack') {
       const target = message.mentions.users.first();
       const type   = (args[2] || '').toLowerCase();
       const amount = parseInt(args[3]) || 1;
-      if (!target || !packs[type]) return message.reply('❌ Uso: `.givepack @usuario silver/bronze/gold/legend/worldcup [cantidad]`');
+      if (!target || !packs[type]) return message.reply('❌ Uso: `!givepack @usuario silver/bronze/gold/legend/worldcup [cantidad]`');
       if (!data[target.id]) data[target.id] = { coins: 0, players: [], team: [], packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       if (!data[target.id].packs) data[target.id].packs = { silver: 0, bronze: 0, gold: 0, legend: 0 };
       data[target.id].packs[type] += amount; saveData();
       return message.reply(`✅ Le diste **${amount}** pack(s) **${packs[type].label}** a **${target.username}**`);
     }
 
-    if (cmd === '.givecard') {
+    if (cmd === '!givecard') {
       const target   = message.mentions.users.first();
       const cardName = args.slice(2).join(' ').trim();
-      if (!target || !cardName) return message.reply('❌ Uso: `.givecard @usuario NombreJugador`');
+      if (!target || !cardName) return message.reply('❌ Uso: `!givecard @usuario NombreJugador`');
       const found = players.find(p => p.name.toLowerCase() === cardName.toLowerCase());
       if (!found) return message.reply(`❌ Jugador **${cardName}** no existe.`);
       if (!data[target.id]) data[target.id] = { coins: 1000, players: [], team: [], teamName: target.username + "'s FC", packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
@@ -6394,26 +6849,26 @@ if (cmd === '.cd') {
       return message.reply(`✅ Le diste la carta **${found.name}** (${found.rarity} · ${found.rating} OVR · ${found.position}) a **${target.username}**`);
     }
 
-    if (cmd === '.take') {
+    if (cmd === '!take') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso: `.take @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso: `!take @usuario cantidad`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].coins = Math.max(0, (data[target.id].coins || 0) - amount); saveData();
       return message.reply(`✅ Le quitaste **${amount}** ${EMOJI_COIN} a **${target.username}** (saldo: **${data[target.id].coins}** ${EMOJI_COIN})`);
     }
 
-    if (cmd === '.resetuser') {
+    if (cmd === '!resetuser') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.resetuser @usuario`');
+      if (!target) return message.reply('❌ Uso: `!resetuser @usuario`');
       data[target.id] = { coins: 1800, players: [], team: [], teamName: target.username + "'s FC", packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       saveData();
       return message.reply(`✅ Cuenta de **${target.username}** reseteada.`);
     }
 
-    if (cmd === '.profile') {
+    if (cmd === '!profile') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.profile @usuario`');
+      if (!target) return message.reply('❌ Uso: `!profile @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil todavía.');
       const tier = getEloTier(t.elo || 1000);
@@ -6428,43 +6883,43 @@ if (cmd === '.cd') {
       ], footer: { text: `ID: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` }, timestamp: new Date().toISOString() }] });
     }
 
-    if (cmd === '.setelo') {
+    if (cmd === '!setelo') {
       const target = message.mentions.users.first();
       const amount = parseInt(args[2]);
-      if (!target || isNaN(amount)) return message.reply('❌ Uso: `.setelo @usuario cantidad`');
+      if (!target || isNaN(amount)) return message.reply('❌ Uso: `!setelo @usuario cantidad`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].elo = amount; saveData();
       return message.reply(`✅ ELO de **${target.username}** establecido a **${amount}**`);
     }
 
-    if (cmd === '.resetdaily') {
+    if (cmd === '!resetdaily') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.resetdaily @usuario`');
+      if (!target) return message.reply('❌ Uso: `!resetdaily @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].daily = { lastClaim: 0, streak: 0, claimedMilestones: [] }; saveData();
       return message.reply(`✅ Daily de **${target.username}** reseteado.`);
     }
 
-    if (cmd === '.clearteam') {
+    if (cmd === '!clearteam') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.clearteam @usuario`');
+      if (!target) return message.reply('❌ Uso: `!clearteam @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].team = []; saveData();
       return message.reply(`✅ Equipo de **${target.username}** limpiado.`);
     }
 
-    if (cmd === '.clearclub') {
+    if (cmd === '!clearclub') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.clearclub @usuario`');
+      if (!target) return message.reply('❌ Uso: `!clearclub @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       data[target.id].players = [];
       data[target.id].team    = []; saveData();
       return message.reply(`✅ Club y equipo de **${target.username}** limpiados completamente.`);
     }
 
-    if (cmd === '.removelogo') {
+    if (cmd === '!removelogo') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.removelogo @usuario`');
+      if (!target) return message.reply('❌ Uso: `!removelogo @usuario`');
       if (!data[target.id]) return message.reply('❌ Ese usuario no tiene perfil.');
       if (!data[target.id].clubLogo) return message.reply(`❌ **${target.username}** no tiene logo.`);
       data[target.id].clubLogo = null; saveData();
@@ -6476,9 +6931,9 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — VER CLUB DE USUARIO
     // ─────────────────────────────────────────
-    if (cmd === '.adminclub') {
+    if (cmd === '!adminclub') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.adminclub @usuario`');
+      if (!target) return message.reply('❌ Uso: `!adminclub @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6536,9 +6991,9 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — VER TEAM DE USUARIO
     // ─────────────────────────────────────────
-    if (cmd === '.adminteam') {
+    if (cmd === '!adminteam') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.adminteam @usuario`');
+      if (!target) return message.reply('❌ Uso: `!adminteam @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6579,10 +7034,10 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — QUITAR JUGADOR DEL CLUB
     // ─────────────────────────────────────────
-    if (cmd === '.adminremove') {
+    if (cmd === '!adminremove') {
       const target     = message.mentions.users.first();
       const playerName = args.slice(2).join(' ').trim();
-      if (!target || !playerName) return message.reply('❌ Uso: `.adminremove @usuario <nombre jugador>`');
+      if (!target || !playerName) return message.reply('❌ Uso: `!adminremove @usuario <nombre jugador>`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6612,11 +7067,11 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — QUITAR TODOS POR RAREZA
     // ─────────────────────────────────────────
-    if (cmd === '.adminremoverarity') {
+    if (cmd === '!adminremoverarity') {
       const target        = message.mentions.users.first();
       const rarity        = args[2];
       const validRarities = ['Comun', 'Raro', 'Epico', 'Legendario'];
-      if (!target || !rarity) return message.reply('❌ Uso: `.adminremoverarity @usuario <Comun/Raro/Epico/Legendario>`');
+      if (!target || !rarity) return message.reply('❌ Uso: `!adminremoverarity @usuario <Comun/Raro/Epico/Legendario>`');
       if (!validRarities.includes(rarity)) return message.reply(`❌ Rareza inválida. Usa: ${validRarities.join(', ')}`);
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
@@ -6644,9 +7099,9 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — INFO COMPLETA DE USUARIO
     // ─────────────────────────────────────────
-    if (cmd === '.admininfo') {
+    if (cmd === '!admininfo') {
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.admininfo @usuario`');
+      if (!target) return message.reply('❌ Uso: `!admininfo @usuario`');
       const t = data[target.id];
       if (!t) return message.reply('❌ Ese usuario no tiene perfil.');
 
@@ -6702,7 +7157,7 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — ESTADÍSTICAS GLOBALES
     // ─────────────────────────────────────────
-    if (cmd === '.info') {
+    if (cmd === '!info') {
       const totalUsers    = Object.keys(data).length;
       const totalPlayers  = Object.values(data).reduce((s, u) => s + (u.players || []).length, 0);
       const totalCoins    = Object.values(data).reduce((s, u) => s + (u.coins || 0), 0);
@@ -6728,33 +7183,33 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — ANUNCIO
     // ─────────────────────────────────────────
-    if (cmd === '.anuncio') {
+    if (cmd === '!anuncio') {
       const texto = args.slice(1).join(' ');
-      if (!texto) return message.reply('❌ Uso: `.anuncio <mensaje>`');
+      if (!texto) return message.reply('❌ Uso: `!anuncio <mensaje>`');
       return message.channel.send({ embeds: [{ color: 0xFF4500, title: '📢 ANUNCIO OFICIAL', description: texto, footer: { text: `Publicado por ${message.author.username}` }, timestamp: new Date().toISOString() }] });
     }
 
     // ─────────────────────────────────────────
     // 👑 ADMIN — GESTIÓN DE ADMINS
     // ─────────────────────────────────────────
-    if (cmd === '.admins') {
+    if (cmd === '!admins') {
       const lista = [...admins].map((id, i) => i === 0 ? `👑 <@${id}> (Super Admin)` : `🛡️ <@${id}>`).join('\n');
       return message.reply({ embeds: [{ color: 0xFFD700, title: '👑 Lista de Admins', description: lista || 'Sin admins.', footer: { text: `Total: ${admins.size} admin(s)` } }] });
     }
 
-    if (cmd === '.addadmin') {
+    if (cmd === '!addadmin') {
       if (userId !== superAdminId) return message.reply('❌ Solo el Super Admin puede agregar admins.');
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.addadmin @usuario`');
+      if (!target) return message.reply('❌ Uso: `!addadmin @usuario`');
       if (admins.has(target.id)) return message.reply(`❌ **${target.username}** ya es admin.`);
       admins.add(target.id); saveAdmins();
       return message.reply(`✅ **${target.username}** ahora es admin. 🛡️`);
     }
 
-    if (cmd === '.removeadmin') {
+    if (cmd === '!removeadmin') {
       if (userId !== superAdminId) return message.reply('❌ Solo el Super Admin puede quitar admins.');
       const target = message.mentions.users.first();
-      if (!target) return message.reply('❌ Uso: `.removeadmin @usuario`');
+      if (!target) return message.reply('❌ Uso: `!removeadmin @usuario`');
       if (target.id === superAdminId) return message.reply('❌ No puedes quitarte a ti mismo como Super Admin.');
       if (!admins.has(target.id)) return message.reply(`❌ **${target.username}** no es admin.`);
       admins.delete(target.id); saveAdmins();
@@ -6764,7 +7219,7 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — UPDATEPLAYERS
     // ─────────────────────────────────────────
-    if (cmd === '.updateplayers') {
+    if (cmd === '!updateplayers') {
   let updated = 0;
   for (const uid of Object.keys(data)) {
     const u = data[uid];
@@ -6795,17 +7250,17 @@ if (cmd === '.cd') {
     // ─────────────────────────────────────────
     // 👑 ADMIN — AYUDA EXPANDIDA
     // ─────────────────────────────────────────
-    if (cmd === '.adminhelp') {
+    if (cmd === '!adminhelp') {
       return message.reply({ embeds: [{ color: 0xFF6600, title: '👑 COMANDOS DE ADMIN', fields: [
-        { name: '💰 Economía',            value: '`.giveme <n>` · `.give @u <n>` · `.take @u <n>`',                                                   inline: false },
-        { name: '🃏 Cartas & Packs',      value: '`.givecard @u <jugador>` · `.givepack @u silver/bronze/gold/legend [n]`',                            inline: false },
-        { name: '📊 Gestión de usuario',  value: '`.profile @u` · `.resetuser @u` · `.setelo @u <n>` · `.resetdaily @u`',                             inline: false },
-        { name: '🔍 Inspección',          value: '`.adminclub @u` · `.adminteam @u` · `.admininfo @u`',                                                inline: false },
-        { name: '🗑️ Quitar jugadores',   value: '`.adminremove @u <jugador>` · `.adminremoverarity @u <Comun/Raro/Epico/Legendario>`',                 inline: false },
-        { name: '🧹 Limpieza',            value: '`.clearteam @u` · `.clearclub @u` · `.removelogo @u`',                                               inline: false },
-        { name: '📈 Bot',                 value: '`.info` · `.updateplayers`',                                                                          inline: false },
-        { name: '👑 Admins (SuperAdmin)', value: '`.addadmin @u` · `.removeadmin @u` · `.admins`',                                                     inline: false },
-        { name: '📢 Misc',                value: '`.anuncio <mensaje>`',                                                                                inline: false },
+        { name: '💰 Economía',            value: '`!giveme <n>` · `!give @u <n>` · `!take @u <n>`',                                                   inline: false },
+        { name: '🃏 Cartas & Packs',      value: '`!givecard @u <jugador>` · `!givepack @u silver/bronze/gold/legend [n]`',                            inline: false },
+        { name: '📊 Gestión de usuario',  value: '`!profile @u` · `!resetuser @u` · `!setelo @u <n>` · `!resetdaily @u`',                             inline: false },
+        { name: '🔍 Inspección',          value: '`!adminclub @u` · `!adminteam @u` · `!admininfo @u`',                                                inline: false },
+        { name: '🗑️ Quitar jugadores',   value: '`!adminremove @u <jugador>` · `!adminremoverarity @u <Comun/Raro/Epico/Legendario>`',                 inline: false },
+        { name: '🧹 Limpieza',            value: '`!clearteam @u` · `!clearclub @u` · `!removelogo @u`',                                               inline: false },
+        { name: '📈 Bot',                 value: '`!info` · `!updateplayers`',                                                                          inline: false },
+        { name: '👑 Admins (SuperAdmin)', value: '`!addadmin @u` · `!removeadmin @u` · `!admins`',                                                     inline: false },
+        { name: '📢 Misc',                value: '`!anuncio <mensaje>`',                                                                                inline: false },
       ], footer: { text: 'Cooldown desactivado para admins' } }] });
     }
 
@@ -6813,7 +7268,7 @@ if (cmd === '.cd') {
 // ─────────────────────────────────────────
 // 👑 ADMIN — BAN / UNBAN
 // ─────────────────────────────────────────
-if (cmd === '.adminban') {
+if (cmd === '!adminban') {
   const subCmd = (args[1] || '').toLowerCase();
   const target = message.mentions.users.first();
 
@@ -6823,12 +7278,12 @@ if (cmd === '.adminban') {
       return message.reply({ embeds: [{ color: 0x00C851, title: '✅ Sin usuarios baneados', description: 'No hay ningún usuario baneado actualmente.' }] });
     }
     const lista = [...bannedUsers].map((id, i) => `**${i + 1}.** <@${id}> (\`${id}\`)`).join('\n');
-    return message.reply({ embeds: [{ color: 0xFF4444, title: `🔨 Usuarios baneados (${bannedUsers.size})`, description: lista, footer: { text: '.adminban unban @usuario para desbanear' } }] });
+    return message.reply({ embeds: [{ color: 0xFF4444, title: `🔨 Usuarios baneados (${bannedUsers.size})`, description: lista, footer: { text: '!adminban unban @usuario para desbanear' } }] });
   }
 
   // Desbanear
   if (subCmd === 'unban') {
-    if (!target) return message.reply('❌ Uso: `.adminban unban @usuario`');
+    if (!target) return message.reply('❌ Uso: `!adminban unban @usuario`');
     if (!bannedUsers.has(target.id)) return message.reply(`❌ **${target.username}** no está baneado.`);
     bannedUsers.delete(target.id);
     saveBans();
@@ -6842,9 +7297,9 @@ if (cmd === '.adminban') {
         color: 0xFF4444,
         title: '🔨 Admin Ban — Uso',
         fields: [
-          { name: '`.adminban @usuario [razón]`',  value: 'Banear un usuario del bot',       inline: false },
-          { name: '`.adminban unban @usuario`',     value: 'Desbanear un usuario',            inline: false },
-          { name: '`.adminban list`',               value: 'Ver todos los usuarios baneados', inline: false },
+          { name: '`!adminban @usuario [razón]`',  value: 'Banear un usuario del bot',       inline: false },
+          { name: '`!adminban unban @usuario`',     value: 'Desbanear un usuario',            inline: false },
+          { name: '`!adminban list`',               value: 'Ver todos los usuarios baneados', inline: false },
         ],
         footer: { text: 'Los baneados no pueden usar ningún comando del bot' }
       }]
@@ -6869,7 +7324,7 @@ if (cmd === '.adminban') {
         { name: '⚖️ Razón',    value: reason,                                inline: true },
         { name: '👑 Admin',    value: message.author.username,               inline: true },
       ],
-      footer: { text: '.adminban unban @usuario para desbanear  ·  !adminban list para ver todos' },
+      footer: { text: '!adminban unban @usuario para desbanear  ·  !adminban list para ver todos' },
       timestamp: new Date().toISOString()
     }]
   });
@@ -7182,8 +7637,10 @@ if (isArena) {
       oppResult = myGoals < oppGoals ? 'win' : myGoals > oppGoals ? 'loss' : 'draw';
     }
     const reward    = myResult  === 'win' ? rewards.win  : myResult  === 'loss' ? rewards.loss : rewards.draw;
-    const oppReward = oppResult === 'win' ? Math.round(rewards.win / 2) : oppResult === 'loss' ? 0 : Math.round(rewards.draw / 2);
-    if (!isArena) { oppData.coins = (oppData.coins || 0) + oppReward; }
+    const oppReward = isArena
+  ? (oppResult === 'win' ? 200 : oppResult === 'draw' ? 50 : 0)
+  : (oppResult === 'win' ? Math.round(rewards.win / 2) : oppResult === 'loss' ? 0 : Math.round(rewards.draw / 2));
+    oppData.coins = (oppData.coins || 0) + oppReward;
     myData.coins += reward;
     let eloChange = '';
     if (isArena) {
