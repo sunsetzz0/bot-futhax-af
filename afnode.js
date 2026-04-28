@@ -2567,7 +2567,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   if (cmd === '!open') {
     let type = (args[1] || '').toLowerCase();
-if (type === 'icon') type = 'icon';
+if (type === 'icon') type = 'icono';
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
         { name: '🥉 `!open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
@@ -2589,7 +2589,7 @@ if (type === 'icon') type = 'icon';
     }
 
     user.packs[type]--;
-    const rarityUpChance = { bronze: 0.05, silver: 0.04, gold: 0.03, legend: 0.01, worldcup: 0.001, icon: 0.0001 };
+    const rarityUpChance = { bronze: 0.05, silver: 0.04, gold: 0.03, legend: 0.01, icon: 0.001 };
 const upgradeRoll = Math.random();
 let pool;
 if (upgradeRoll < rarityUpChance[type]) {
@@ -2609,7 +2609,7 @@ const base = pool[Math.floor(Math.random() * pool.length)];
 
 
 progressQuest(userId, 'pack_opened', 1);
-  if (['gold','legend','worldcup'].includes(type)) {
+  if (['gold','legend','icon'].includes(type)) {
     progressQuest(userId, 'gold_pack_opened', 1);
   }
 
