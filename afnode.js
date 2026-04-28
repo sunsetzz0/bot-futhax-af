@@ -2593,7 +2593,7 @@ if (type === 'icon') type = 'icon';
 const upgradeRoll = Math.random();
 let pool;
 if (upgradeRoll < rarityUpChance[type]) {
-  const rarityOrder = ['Comun', 'Raro', 'Epico', 'Legendario', 'WorldCup'];
+  const rarityOrder = ['Comun', 'Raro', 'Epico', 'Legendario', 'Icon'];
   const currentIdx = rarityOrder.indexOf(packs[type].rarities[0]);
   const nextRarity = rarityOrder[currentIdx + 1];
   pool = nextRarity
@@ -3436,7 +3436,7 @@ if (cmd === '!penalty') {
     let page = 0;
     const perPage = 6;
     const totalPages = Math.max(1, Math.ceil(totalPlayers / perPage));
-    const rarityEmoji = { "WorldCup":"🔴","Legendario":"🟡","Epico":"🟣","Raro":"🔵","Comun":"⚪" };
+    const rarityEmoji = { "Icon":"⚪", "WorldCup":"🔴","Legendario":"🟡","Epico":"🟣","Raro":"🔵","Comun":"⚪" };
     const posEmoji    = { "GK":"🧤","DM":"🛡️","AM":"🎯","ST":"⚽" };
     function buildClubEmbed(p) {
       const start = p * perPage;
@@ -3836,7 +3836,7 @@ saveData();
     if (!sub.length) return message.reply(
       '❌ Uso: `!sell <nombre> [precio]`\n' +
       '💡 El precio mínimo por rareza:\n' +
-      '• Común: **500** 💰 · Raro: **2.500** 💰 · Épico: **7.500** 💰 · Legendario: **17.000** · WorldCup: **100.000**💰\n' +
+      '• Común: **500** 💰 · Raro: **2.500** 💰 · Épico: **7.500** 💰 · Legendario: **17.000** · Icon: **100.000**💰\n' +
       '• Si no pones precio, se publica al mínimo automáticamente.\n' +
       '• Las cartas expiran del market en **24h** y regresan a tu club.'
     );
@@ -3949,8 +3949,8 @@ if (cmd === '!cancelar' || cmd === '!cancel') {
       });
     }
  
-    const rarityColors = { 'WorldCup': '0xCC2200','Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };  
-    const rarityEmoji  = { "WorldCup": "🏆","Legendario": "👑", "Epico": "💜", "Raro": "💙", "Comun": "⚪" };
+    const rarityColors = { 'Icon': '0xFFFFFF', 'WorldCup': '0xCC2200','Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };  
+    const rarityEmoji  = { "Icon": "⭐", "WorldCup": "🏆","Legendario": "👑", "Epico": "💜", "Raro": "💙", "Comun": "⚪" };
     const posEmoji     = { GK: '🧤', DM: '🛡️', AM: '🎯', ST: '⚽' };
  
     // Construir botones (un botón por listing, máx 5)
@@ -4488,8 +4488,8 @@ progressQuest(userId, 'market_visited', 1);
         ctx.restore();
 
         const slice = sorted.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-        const rarityColor = { "WorldCup": '#CC2200',"Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
-        const rarityEmoji = { "WorldCup": '🏆', "Legendario": '👑', "Epico": '💜', "Raro": '💙', "Comun": '⚪' };
+        const rarityColor = { "Icon": '#FFFFFF', "WorldCup": '#CC2200',"Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
+        const rarityEmoji = { "Icon": '⭐', "WorldCup": '🏆', "Legendario": '👑', "Epico": '💜', "Raro": '💙', "Comun": '⚪' };
         const posEmoji    = { GK: '🧤', DM: '🛡️', AM: '🎯', ST: '⚽' };
 
         slice.forEach((listing, i) => {
@@ -4703,8 +4703,8 @@ progressQuest(userId, 'market_visited', 1);
       });
     }
 
-    const rarityColors = { 'WorldCup': 0xCC2200, 'Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };
-    const rarityEmoji  = { "WorldCup": '🏆 WORLD CUP', "Legendario": '👑 LEGENDARIO', "Epico": '💜 ÉPICO', "Raro": '💙 RARO', "Comun": '⚪ COMÚN' };
+    const rarityColors = { 'Icon': 0xFFFFFF, 'WorldCup': 0xCC2200, 'Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };
+    const rarityEmoji  = { "Icon": '⭐ ICON', "WorldCup": '🏆 WORLD CUP', "Legendario": '👑 LEGENDARIO', "Epico": '💜 ÉPICO', "Raro": '💙 RARO', "Comun": '⚪ COMÚN' };
 
     // ── Si hay un solo listing, ir directo a la confirmación ──
     // ── Si hay varios, mostrar selector de vendedor ──
@@ -5524,10 +5524,10 @@ if (cmd === '!players') {
     ctx.beginPath(); ctx.moveTo(40, 108); ctx.lineTo(W - 40, 108); ctx.stroke();
     ctx.restore();
 
-    const rarityColor = { "WorldCup": '#CC2200', "Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
-const rarityEmoji = { "WorldCup": '🏆', "Legendario": '👑', "Epico": '💜', "Raro": '💙', "Comun": '⚪' };
+    const rarityColor = { 'Icon': 0xFFFFFF, "WorldCup": '#CC2200', "Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
+const rarityEmoji = { "Icon": '⭐', "WorldCup": '🏆', "Legendario": '👑', "Epico": '💜', "Raro": '💙', "Comun": '⚪' };
 const posEmoji    = { GK: '🧤', DM: '🛡️', AM: '🎯', ST: '⚽' };
-const packForRarity = { "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend', "Epico": '🥇 Gold', "Raro": '🥈 Silver', "Comun": '🥉 Bronze' };
+const packForRarity = { "Icon": '⭐ Icon', "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend', "Epico": '🥇 Gold', "Raro": '🥈 Silver', "Comun": '🥉 Bronze' };
 
     slice.forEach((p, i) => {
       const rowY = 118 + i * 50;
@@ -6721,7 +6721,7 @@ const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s
  
         // ── Motor de partido ──
         const SLOT_P = ['GK','DM','AM','ST'], PEN = 8;
-        const RB = { Comun:0.00, Raro:0.05, Epico:0.10, Legendario:0.18, WorldCup:0.48 };
+        const RB = { Comun:0.00, Raro:0.05, Epico:0.10, Legendario:0.18, WorldCup:0.48, Icon:0.56 };
         function calcOvr2(team) { return team.reduce((s,p,i) => s+(p.rating-(p.position!==SLOT_P[i]?PEN:0)),0)/team.length; }
         const myO  = calcOvr2(data[userId].team);
         const oppO = calcOvr2(data[opp.id].team);
@@ -7373,7 +7373,7 @@ async function playMatchEngine(myId, oppId, isArena, message, myUsername) {
   if (!oppData.elo) oppData.elo = 1000;
 
   const RARITY_BONUS = {
-  "Comun": 0.00, "Raro": 0.05, "Epico": 0.10, "Legendario": 0.18, "WorldCup": 0.48,
+  "Comun": 0.00, "Raro": 0.05, "Epico": 0.10, "Legendario": 0.18, "WorldCup": 0.48, "Icon": 0.56,
 };
 
   function calcRarityBonus(myTeam, oppTeam) {
