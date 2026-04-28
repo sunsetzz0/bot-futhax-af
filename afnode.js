@@ -403,6 +403,11 @@ function mkp(name, rating, position, rarity, stats) {
 
 const players = [
 
+  mkp("DIEGO",         99, "DM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
+  mkp("PANDA",         99, "ST", "Icon", {DIV:99,REF:99,HAN:99,KIC:99,POS:99}),
+  mkp("REAL",         99, "ST", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
+  mkp("RAD1",         99, "AM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
+  mkp("CHECO",         99, "AM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
   mkp("Kyo",         98, "ST", "WorldCup", {PAC:96,SHO:90,PAS:97,DRI:97,DEF:99,PHY:97}),
   mkp("Vak",       94, "AM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
   mkp("Sekai WC",       97, "DM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
@@ -655,7 +660,7 @@ const PACK_VISUAL = {
   bronze: { primary: '#CD7F32', secondary: '#8B4513', accent: '#FFD4A0',  glow: '#FF9944', shine: '#FFE0B0', dark: '#3A1A00' },
   gold:   { primary: '#FFD700', secondary: '#B8860B', accent: '#FFFACD',  glow: '#FFE066', shine: '#FFFFF0', dark: '#2A1A00' },
   legend: { primary: '#9B59B6', secondary: '#4A235A', accent: '#E8D5F5',  glow: '#CC88FF', shine: '#F0E0FF', dark: '#1A0028' },
-  icono: { primary: '#E8E8E8', secondary: '#A0A0A0', accent: '#FFFFFF', glow: '#FFFFFF', shine: '#F5F5F5', dark: '#505050' },
+  icon: { primary: '#C0C0C0', secondary: '#808080', accent: '#FFFFFF', glow: '#E8E8E8', shine: '#FFFFFF', dark: '#303030' },
 };
 
 // ─────────────────────────────────────────
@@ -1546,12 +1551,12 @@ async function generatePackShopCanvas() {
     },
 
     {
-  key: 'icon', label: 'ICON', sublabel: 'Jugadores Iconos', 
-  price: '95000', sellVal: '45000', rarity: 'Icon', cmd: '!buy icon',
-  bg1: '#2a0000', bg2: '#1a0000', topGlow: '#FF4444', accent: '#CC0000', 
-  accentLight: '#FFD700', border1: '#8B0000', border2: '#FF4444', 
-  badgeBg: '#3a0000', badgeText: '#FFD700',
-  priceColor: '#FFD700', particles: ['#FFD700', '#FF4444', '#CC0000'],
+  key: 'icon', label: 'ICON', sublabel: 'Jugadores Iconos',
+  price: '95000', sellVal: '45000', rarity: 'ICONO', cmd: '!buy icon',
+  bg1: '#1a1a1a', bg2: '#0d0d0d', topGlow: '#E8E8E8', accent: '#C0C0C0',
+  accentLight: '#FFFFFF', border1: '#808080', border2: '#E8E8E8',
+  badgeBg: '#2a2a2a', badgeText: '#FFFFFF',
+  priceColor: '#FFFFFF', particles: ['#FFFFFF', '#C0C0C0', '#808080'],
 },
   ];
 
