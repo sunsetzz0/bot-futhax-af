@@ -625,7 +625,7 @@ const packs = {
   silver: { price: 2500,  label: 'Silver',  emoji: '🥈', rarities: ['Raro']      },
   gold:   { price: 7500, label: 'Gold',    emoji: '🥇', rarities: ['Epico']      },
   legend: { price: 15000, label: 'Legend',  emoji: '💎', rarities: ['Legendario'] },
- icon:   { price: 95000, label: 'Icon',    emoji: '⭐', rarities: ['Icono']       },
+ icon:   { price: 95000, label: 'Icon',    emoji: '⭐', rarities: ['Icon']       },
 };
 
 const SELL_PRICES = { "Comun": 230, "Raro": 1150, "Epico": 3650, "Legendario": 7250, "Icon": 40000  
@@ -2567,7 +2567,6 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   if (cmd === '!open') {
     let type = (args[1] || '').toLowerCase();
-if (type === 'icon');
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
         { name: '🥉 `!open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
