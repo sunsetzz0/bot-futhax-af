@@ -2445,7 +2445,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   
     const row3 = new ActionRowBuilder().addComponents(
   new ButtonBuilder()
-    .setCustomId(`shop_buy_wc_${userId}`)
+    .setCustomId(`shop_buy_icon_${userId}`)
     .setLabel('🏆 Icon — 95000 💰')
     .setStyle(ButtonStyle.Danger),
 );
