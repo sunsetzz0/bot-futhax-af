@@ -623,9 +623,9 @@ const packs = {
  icon:   { price: 95000, label: 'Icon',    emoji: '⭐', rarities: ['Icono']       },
 };
 
-const SELL_PRICES = { "Comun": 230, "Raro": 1150, "Epico": 3650, "Legendario": 7250, "WorldCup": 40000  
+const SELL_PRICES = { "Comun": 230, "Raro": 1150, "Epico": 3650, "Legendario": 7250, "Icon": 40000  
 };
-const MARKET_MIN_PRICE = { "Comun": 300, "Raro": 1900, "Epico": 5000, "Legendario": 17000, "WorldCup": 100000 };
+const MARKET_MIN_PRICE = { "Comun": 300, "Raro": 1900, "Epico": 5000, "Legendario": 17000, "Icon": 100000 };
 const MARKET_LISTING_TTL = 48 * 60 * 60 * 1000; // 24 horas en ms
 const MATCH_REWARDS = {
   arena:    { win: 400, draw: 100, loss: 50 },
@@ -1546,8 +1546,8 @@ async function generatePackShopCanvas() {
     },
 
     {
-  key: 'worldcup', label: 'WORLD CUP', sublabel: 'Jugadores WC', 
-  price: '95000', sellVal: '45000', rarity: 'WORLD CUP', cmd: '!buy wc',
+  key: 'icon', label: 'ICON', sublabel: 'Jugadores Iconos', 
+  price: '95000', sellVal: '45000', rarity: 'Icon', cmd: '!buy icon',
   bg1: '#2a0000', bg2: '#1a0000', topGlow: '#FF4444', accent: '#CC0000', 
   accentLight: '#FFD700', border1: '#8B0000', border2: '#FF4444', 
   badgeBg: '#3a0000', badgeText: '#FFD700',
@@ -2250,7 +2250,7 @@ if (isBanned(message.author.id)) {
   if (!u.packs) u.packs = { silver:0, bronze:0, gold:0, legend:0, icono:0 };
   if (u.packs.silver === undefined)   u.packs.silver = 0;
   if (u.packs.legend === undefined)   u.packs.legend = 0;
-  if (u.packs.worldcup === undefined) u.packs.worldcup = 0;
+  if (u.packs.icono === undefined) u.packs.icono = 0;
   saveData();
 
   const user = data[userId];
@@ -2553,7 +2553,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
       `🥉 Bronze: **${user.packs.bronze||0}**\n` +
       `🥇 Gold: **${user.packs.gold||0}**\n` +
       `💎 Legend: **${user.packs.legend||0}**\n` +
-      `🏆 World Cup: **${user.packs.worldcup||0}**`
+      `⭐ Icono: **${user.packs.icono||0}**`
     );
   }
 
@@ -2562,7 +2562,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   if (cmd === '!open') {
     let type = (args[1] || '').toLowerCase();
-if (type === 'wc') type = 'worldcup';
+if (type === 'icon') type = 'icon';
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
         { name: '🥉 `!open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
@@ -2584,7 +2584,7 @@ if (type === 'wc') type = 'worldcup';
     }
 
     user.packs[type]--;
-    const rarityUpChance = { bronze: 0.05, silver: 0.04, gold: 0.03, legend: 0.01, worldcup: 0.001 };
+    const rarityUpChance = { bronze: 0.05, silver: 0.04, gold: 0.03, legend: 0.01, worldcup: 0.001, icon: 0.0001 };
 const upgradeRoll = Math.random();
 let pool;
 if (upgradeRoll < rarityUpChance[type]) {
@@ -2610,9 +2610,9 @@ progressQuest(userId, 'pack_opened', 1);
 
     const sellPrice = SELL_PRICES[newPlayer.rarity] || 90;
     const pv = PACK_VISUAL[type];
-    const rarityColors = { 'WorldCup':0xCC2200, 'Legendario':0xFFD700, 'Epico':0x9B59B6, 'Raro':0x5B9BD5, 'Comun':0x8B7355 };
-    const rarityBadge  = { 'WorldCup':'🏆 WORLD CUP', 'Legendario':'👑 LEGENDARIO', 'Epico':'💜 ÉPICO', 'Raro':'💙 RARO', 'Comun':'🤍 COMÚN' };
-    const rarityEmojis = { 'WorldCup':'🏆', 'Legendario':'✨', 'Epico':'💜', 'Raro':'💙', 'Comun':'⚪' };
+    const rarityColors = { 'Icon':0xFFFFFF, 'WorldCup':0xCC2200, 'Legendario':0xFFD700, 'Epico':0x9B59B6, 'Raro':0x5B9BD5, 'Comun':0x8B7355 };
+    const rarityBadge  = { 'Icon':'⭐ ICON', 'WorldCup':'🏆 WORLD CUP', 'Legendario':'👑 LEGENDARIO', 'Epico':'💜 ÉPICO', 'Raro':'💙 RARO', 'Comun':'🤍 COMÚN' };
+    const rarityEmojis = { 'Icon':'⭐', 'WorldCup':'🏆', 'Legendario':'✨', 'Epico':'💜', 'Raro':'💙', 'Comun':'⚪' };
 
     let shakeGif = null;
     try { shakeGif = await generatePackShakeGIF(type); } catch(e) { console.error('Error GIF shake:', e); }
@@ -6830,7 +6830,7 @@ const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s
       const target = message.mentions.users.first();
       const type   = (args[2] || '').toLowerCase();
       const amount = parseInt(args[3]) || 1;
-      if (!target || !packs[type]) return message.reply('❌ Uso: `!givepack @usuario silver/bronze/gold/legend/worldcup [cantidad]`');
+      if (!target || !packs[type]) return message.reply('❌ Uso: `!givepack @usuario silver/bronze/gold/legend/worldcup/icon [cantidad]`');
       if (!data[target.id]) data[target.id] = { coins: 0, players: [], team: [], packs: { silver: 0, bronze: 0, gold: 0, legend: 0 }, elo: 1000, daily: { lastClaim: 0, streak: 0 } };
       if (!data[target.id].packs) data[target.id].packs = { silver: 0, bronze: 0, gold: 0, legend: 0 };
       data[target.id].packs[type] += amount; saveData();
@@ -6877,7 +6877,7 @@ const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s
         { name: `📊 ELO ${tier.emoji}`, value: `${t.elo || 1000} (${tier.name})`,            inline: true },
         { name: '🃏 Club',        value: `${(t.players || []).length}/${MAX_CLUB_SIZE}`,      inline: true },
         { name: '👥 Equipo',      value: `${(t.team || []).length}/4`,                        inline: true },
-        { name: '📦 Packs', value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+        { name: '📦 Packs', value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0} ⭐${(t.packs || {}).icon || 0}`, inline: true },
         { name: '🔥 Racha',       value: `${(t.daily || {}).streak || 0} días`,               inline: true },
         { name: '🏟️ Club',        value: t.teamName || `${target.username}'s FC`,             inline: false },
       ], footer: { text: `ID: ${target.id}  ·  ${isAdmin(target.id) ? '👑 Es admin' : 'Usuario normal'}` }, timestamp: new Date().toISOString() }] });
@@ -7022,7 +7022,7 @@ const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s
             { name: '👥 Jugadores',          value: `${team.length}/4`,                          inline: true },
             { name: `📊 ELO ${tier.emoji}`, value: `${t.elo || 1000} (${tier.name})`,            inline: true },
             { name: '💰 Coins',              value: `${(t.coins || 0).toLocaleString()}`,         inline: true },
-            { name: '🎒 Packs',              value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+            { name: '🎒 Packs',              value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0} ⭐${(t.packs || {}).icon || 0}`, inline: true },
             { name: '🏟️ Club size',          value: `${(t.players || []).length}/${MAX_CLUB_SIZE}`, inline: true },
           ],
           footer: { text: `ID: ${target.id}  ·  Racha: ${(t.daily || {}).streak || 0} días` },
@@ -7138,7 +7138,7 @@ const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s
             { name: '🏟️ Club',               value: `${players_list.length}/${MAX_CLUB_SIZE}`,       inline: true },
             { name: '👥 Equipo',              value: `${team.length}/4`,                              inline: true },
             { name: '⭐ OVR Promedio',        value: `${avgOvr}`,                                    inline: true },
-            { name: '📦 Packs',               value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0}`, inline: true },
+            { name: '📦 Packs',               value: `⚪${(t.packs || {}).silver || 0} 🥉${(t.packs || {}).bronze || 0} 🥇${(t.packs || {}).gold || 0} 💎${(t.packs || {}).legend || 0} 🏆${(t.packs || {}).worldcup || 0} ⭐${(t.packs || {}).icon || 0}`, inline: true },
             { name: '🃏 Por rareza',           value: `🟡${byRarity.Legendario} 🟣${byRarity.Epico} 🔵${byRarity.Raro} ⚪${byRarity.Comun}`, inline: true },
             { name: '🖼️ Logo de club',        value: t.clubLogo ? '✅ Tiene logo' : '❌ Sin logo',   inline: true },
             { name: '💸 Sell value',           value: `${totalSellValue.toLocaleString()} 💰`,        inline: true },
