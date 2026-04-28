@@ -2252,10 +2252,10 @@ if (isBanned(message.author.id)) {
   if (!u.coins && u.coins !== 0) u.coins = 1000;
   if (!u.players) u.players = [];
   if (!u.team) u.team = [];
-  if (!u.packs) u.packs = { silver:0, bronze:0, gold:0, legend:0, icono:0 };
+  if (!u.packs) u.packs = { silver:0, bronze:0, gold:0, legend:0, icon:0 };
   if (u.packs.silver === undefined)   u.packs.silver = 0;
   if (u.packs.legend === undefined)   u.packs.legend = 0;
-  if (u.packs.icono === undefined) u.packs.icono = 0;
+  if (u.packs.icon === undefined) u.packs.icon = 0;
   saveData();
 
   const user = data[userId];
@@ -2558,7 +2558,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
       `🥉 Bronze: **${user.packs.bronze||0}**\n` +
       `🥇 Gold: **${user.packs.gold||0}**\n` +
       `💎 Legend: **${user.packs.legend||0}**\n` +
-      `⭐ Icono: **${user.packs.icono||0}**`
+      `⭐ Icon: **${user.packs.icon||0}**`
     );
   }
 
@@ -2567,7 +2567,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
   // ─────────────────────────────────────────
   if (cmd === '!open') {
     let type = (args[1] || '').toLowerCase();
-if (type === 'icon') type = 'icono';
+if (type === 'icon');
     if (!packs[type]) {
       return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Pack inválido', description: 'Elige un tipo de pack válido:', fields: [
         { name: '🥉 `!open bronze`', value: 'Jugadores Comunes — **500 💰**', inline: true },
