@@ -403,102 +403,115 @@ function mkp(name, rating, position, rarity, stats) {
 
 const players = [
 
-  mkp("DIEGO",         99, "DM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
-  mkp("PANDA",         99, "ST", "Icon", {DIV:99,REF:99,HAN:99,KIC:99,POS:99}),
-  mkp("REAL",         99, "ST", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
-  mkp("RAD1",         99, "AM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
-  mkp("CHECO",         99, "AM", "Icon", {PAC:99,SHO:99,PAS:99,DRI:99,DEF:99,PHY:99}),
-  mkp("Kyo",         98, "ST", "WorldCup", {PAC:96,SHO:90,PAS:97,DRI:97,DEF:99,PHY:97}),
+mkp("DIEGO",      98, "ST", "Icon", {PAC:98,SHO:99,PAS:96,DRI:98,DEF:72,PHY:97}),
+mkp("Panda",      97, "GK", "Icon", {DIV:97,REF:98,HAN:96,KIC:97,POS:98}),
+mkp("Real",       95, "ST", "Icon", {PAC:96,SHO:97,PAS:93,DRI:95,DEF:68,PHY:94}),
+mkp("Rad1",       94, "AM", "Icon", {PAC:93,SHO:91,PAS:96,DRI:97,DEF:65,PHY:88}),
+mkp("Checo",      95, "DM", "Icon", {PAC:94,SHO:87,PAS:95,DRI:95,DEF:97,PHY:96}),
+mkp("Mondaman",   94, "AM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Zyros",      94, "AM", "Icon", {PAC:93,SHO:91,PAS:95,DRI:97,DEF:63,PHY:88}),
+mkp("P4er",       98, "AM", "Icon", {PAC:96,SHO:95,PAS:99,DRI:99,DEF:70,PHY:91}),
+mkp("Lorenzi",    93, "AM", "Icon", {PAC:91,SHO:89,PAS:95,DRI:96,DEF:62,PHY:86}),
+mkp("Pardo",      94, "DM", "Icon", {PAC:93,SHO:85,PAS:94,DRI:93,DEF:96,PHY:95}),
+mkp("BryanCisf",  93, "AM", "Icon", {PAC:91,SHO:89,PAS:94,DRI:96,DEF:61,PHY:86}),
+mkp("RX",         93, "ST", "Icon", {PAC:94,SHO:95,PAS:90,DRI:93,DEF:65,PHY:92}),
+mkp("Mecha",      92, "GK", "Icon", {DIV:92,REF:94,HAN:91,KIC:92,POS:93}),
+mkp("Zombot",     94, "GK", "Icon", {DIV:94,REF:96,HAN:93,KIC:94,POS:95}),
+mkp("Disk",       92, "AM", "Icon", {PAC:90,SHO:88,PAS:93,DRI:95,DEF:60,PHY:85}),
+mkp("P1nguano",   94, "AM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Doxing",     95, "AM", "Icon", {PAC:93,SHO:91,PAS:97,DRI:98,DEF:65,PHY:89}),
+
+  mkp("Kyo",         95, "ST", "WorldCup", {PAC:96,SHO:90,PAS:97,DRI:97,DEF:99,PHY:97}),
   mkp("Vak",       94, "AM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
-  mkp("Sekai WC",       97, "DM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
-  mkp("Luntek WC",       96, "GK", "WorldCup", {DIV:97,REF:96,HAN:94,KIC:95,POS:96}),
-  mkp("Pixel WC",       98, "ST", "WorldCup", {PAC:97,SHO:99,PAS:95,DRI:96,DEF:75,PHY:96}),
-  mkp("Mazda",       96, "ST", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:94,DEF:96,PHY:96}),
-  mkp("Facha",       95, "DM", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:94,DEF:68,PHY:93}),
-  mkp("Compass WC",     98, "DM", "WorldCup", {PAC:98,SHO:93,PAS:97,DRI:98,DEF:99,PHY:98}),
-  mkp("Father WC",      98, "GK", "WorldCup", {DIV:97,REF:99,HAN:97,KIC:96,POS:99}),
-  mkp("Czerro WC",      98, "DM", "WorldCup", {PAC:98,SHO:93,PAS:98,DRI:98,DEF:99,PHY:97}),
-  mkp("Fusion",      97, "DM", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:96,DEF:98,PHY:96}),
-  mkp("Thunder",     97, "AM", "WorldCup", {PAC:96,SHO:95,PAS:97,DRI:98,DEF:78,PHY:94}),
-  mkp("Shott",       97, "AM", "WorldCup", {PAC:95,SHO:96,PAS:97,DRI:98,DEF:76,PHY:93}),
-  mkp("Cervi WC",       97, "ST", "WorldCup", {PAC:95,SHO:98,PAS:94,DRI:96,DEF:72,PHY:95}),
-  mkp("Hitlerinho",  97, "AM", "WorldCup", {PAC:95,SHO:95,PAS:97,DRI:99,DEF:74,PHY:93}),
-  mkp("Ken",         96, "AM", "WorldCup", {PAC:94,SHO:94,PAS:96,DRI:97,DEF:72,PHY:92}),
-  mkp("Rodrigo",     96, "GK", "WorldCup", {DIV:95,REF:97,HAN:95,KIC:94,POS:97}),
-  mkp("Murillo",     96, "ST", "WorldCup", {PAC:96,SHO:98,PAS:91,DRI:95,DEF:70,PHY:94}),
-  mkp("Magico",      96, "ST", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:96,DEF:68,PHY:93}),
-  mkp("N+23",        95, "GK", "WorldCup", {DIV:94,REF:96,HAN:94,KIC:93,POS:96}),
-  mkp("Becken",      94, "GK", "WorldCup", {DIV:93,REF:95,HAN:93,KIC:92,POS:95}),
+  mkp("Sekai WC",       94, "DM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
+  mkp("Luntek WC",       93, "GK", "WorldCup", {DIV:97,REF:96,HAN:94,KIC:95,POS:96}),
+  mkp("Pixel WC",       96, "ST", "WorldCup", {PAC:97,SHO:99,PAS:95,DRI:96,DEF:75,PHY:96}),
+  mkp("Mazda",       93, "ST", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:94,DEF:96,PHY:96}),
+  mkp("Facha",       92, "DM", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:94,DEF:68,PHY:93}),
+  mkp("Compass WC",     96, "DM", "WorldCup", {PAC:98,SHO:93,PAS:97,DRI:98,DEF:99,PHY:98}),
+  mkp("Father WC",      96, "GK", "WorldCup", {DIV:97,REF:99,HAN:97,KIC:96,POS:99}),
+  mkp("Czerro WC",      96, "DM", "WorldCup", {PAC:98,SHO:93,PAS:98,DRI:98,DEF:99,PHY:97}),
+  mkp("Fusion",      94, "DM", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:96,DEF:98,PHY:96}),
+  mkp("Thunder",     94, "AM", "WorldCup", {PAC:96,SHO:95,PAS:97,DRI:98,DEF:78,PHY:94}),
+  mkp("Shott",       94, "AM", "WorldCup", {PAC:95,SHO:96,PAS:97,DRI:98,DEF:76,PHY:93}),
+  mkp("Cervi WC",       94, "ST", "WorldCup", {PAC:95,SHO:98,PAS:94,DRI:96,DEF:72,PHY:95}),
+  mkp("Hitlerinho",  95, "AM", "WorldCup", {PAC:95,SHO:95,PAS:97,DRI:99,DEF:74,PHY:93}),
+  mkp("Ken",         93, "AM", "WorldCup", {PAC:94,SHO:94,PAS:96,DRI:97,DEF:72,PHY:92}),
+  mkp("Rodrigo",     93, "GK", "WorldCup", {DIV:95,REF:97,HAN:95,KIC:94,POS:97}),
+  mkp("Murillo",     93, "ST", "WorldCup", {PAC:96,SHO:98,PAS:91,DRI:95,DEF:70,PHY:94}),
+  mkp("Magico",      93, "ST", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:96,DEF:68,PHY:93}),
+  mkp("N+23",        94, "GK", "WorldCup", {DIV:94,REF:96,HAN:94,KIC:93,POS:96}),
+  mkp("Becken",      91, "GK", "WorldCup", {DIV:93,REF:95,HAN:93,KIC:92,POS:95}),
 
 
-  mkp("Luntek",       93, "ST", "Legendario", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
-  mkp("Compass",       93, "DM", "Legendario", {PAC:97,SHO:91,PAS:93,DRI:98,DEF:98,PHY:97}),
-  mkp("Veil",         93, "AM", "Legendario", {PAC:95,SHO:95,PAS:90,DRI:96,DEF:80,PHY:90}),
-  mkp("Sekai",        93, "DM", "Legendario", {PAC:94,SHO:94,PAS:93,DRI:97,DEF:98,PHY:97}),
-  mkp("Czerro",       93, "DM", "Legendario", {PAC:97,SHO:91,PAS:95,DRI:97,DEF:98,PHY:95}),
-  mkp("Amp",          93, "ST", "Legendario", {PAC:95,SHO:93,PAS:92,DRI:95,DEF:72,PHY:92}),
-  mkp("Cervi",        92, "ST", "Legendario", {PAC:91,SHO:92,PAS:93,DRI:90,DEF:73,PHY:92}),
-  mkp("Levaldo",      92, "DM", "Legendario", {PAC:86,SHO:87,PAS:89,DRI:90,DEF:95,PHY:94}),
-  mkp("Mirkoller",    92, "GK", "Legendario", {DIV:93,REF:98,HAN:94,KIC:94,POS:96}),
+  mkp("Luntek",       91, "ST", "Legendario", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
+  mkp("Compass",       92, "DM", "Legendario", {PAC:97,SHO:91,PAS:93,DRI:98,DEF:98,PHY:97}),
+  mkp("Veil",         91, "AM", "Legendario", {PAC:95,SHO:95,PAS:90,DRI:96,DEF:80,PHY:90}),
+  mkp("Sekai",        91, "DM", "Legendario", {PAC:94,SHO:94,PAS:93,DRI:97,DEF:98,PHY:97}),
+  mkp("Czerro",       92, "DM", "Legendario", {PAC:97,SHO:91,PAS:95,DRI:97,DEF:98,PHY:95}),
+  mkp("Amp",          91, "ST", "Legendario", {PAC:95,SHO:93,PAS:92,DRI:95,DEF:72,PHY:92}),
+  mkp("Cervi",        90, "ST", "Legendario", {PAC:91,SHO:92,PAS:93,DRI:90,DEF:73,PHY:92}),
+  mkp("Levaldo",      90, "DM", "Legendario", {PAC:86,SHO:87,PAS:89,DRI:90,DEF:95,PHY:94}),
+  mkp("Mirkoller",    90, "GK", "Legendario", {DIV:93,REF:98,HAN:94,KIC:94,POS:96}),
   mkp("Pixel",        92, "ST", "Legendario", {PAC:94,SHO:96,PAS:93,DRI:90,DEF:80,PHY:94}),
-  mkp("Quesonub",     92, "DM", "Legendario", {PAC:90,SHO:89,PAS:94,DRI:90,DEF:96,PHY:93}),
-  mkp("Aoi",          91, "DM", "Legendario", {PAC:90,SHO:88,PAS:91,DRI:94,DEF:94,PHY:94}),
-  mkp("Father",       91, "GK", "Legendario", {DIV:90,REF:93,HAN:90,KIC:90,POS:91}),
+  mkp("Quesonub",     90, "DM", "Legendario", {PAC:90,SHO:89,PAS:94,DRI:90,DEF:96,PHY:93}),
+  mkp("Aoi",          90, "DM", "Legendario", {PAC:90,SHO:88,PAS:91,DRI:94,DEF:94,PHY:94}),
+  mkp("Father",       90, "GK", "Legendario", {DIV:90,REF:93,HAN:90,KIC:90,POS:91}),
   mkp("Kayn",         91, "AM", "Legendario", {PAC:90,SHO:93,PAS:93,DRI:95,DEF:80,PHY:91}),
   mkp("Lyreco",       92, "ST", "Legendario", {PAC:93,SHO:95,PAS:87,DRI:90,DEF:76,PHY:91}),
-  mkp("Paul",         91, "AM", "Legendario", {PAC:92,SHO:92,PAS:93,DRI:95,DEF:77,PHY:92}),
-  mkp("Dqvid",        89, "DM", "Legendario", {PAC:84,SHO:80,PAS:90,DRI:87,DEF:93,PHY:90}),
-  mkp("Gerardosky",   89, "DM", "Legendario", {PAC:83,SHO:80,PAS:90,DRI:86,DEF:93,PHY:93}),
-  mkp("Guns",         89, "ST", "Legendario", {PAC:90,SHO:94,PAS:87,DRI:88,DEF:73,PHY:92}),
-  mkp("Zyros",        89, "AM", "Legendario", {PAC:91,SHO:90,PAS:91,DRI:95,DEF:76,PHY:92}),
-  mkp("Dimiliano",    90, "ST", "Legendario", {PAC:91,SHO:90,PAS:87,DRI:94,DEF:70,PHY:90}),
-  mkp("Kaiser",       90, "ST", "Legendario", {PAC:92,SHO:95,PAS:84,DRI:93,DEF:70,PHY:90}),
-  mkp("Pechuga",      90, "AM", "Legendario", {PAC:90,SHO:87,PAS:92,DRI:89,DEF:80,PHY:92}),
-  mkp("Shepard",      90, "ST", "Legendario", {PAC:91,SHO:97,PAS:85,DRI:87,DEF:70,PHY:92}),
-  mkp("Zombot",       88, "GK", "Legendario", {DIV:88,REF:88,HAN:86,KIC:87,POS:87}),
+  mkp("Paul",         90, "AM", "Legendario", {PAC:92,SHO:92,PAS:93,DRI:95,DEF:77,PHY:92}),
+  mkp("Dqvid",        87, "DM", "Legendario", {PAC:84,SHO:80,PAS:90,DRI:87,DEF:93,PHY:90}),
+  mkp("Gerardosky",   87, "DM", "Legendario", {PAC:83,SHO:80,PAS:90,DRI:86,DEF:93,PHY:93}),
+  mkp("Guns",         87, "ST", "Legendario", {PAC:90,SHO:94,PAS:87,DRI:88,DEF:73,PHY:92}),
+  mkp("Zyros",        87, "AM", "Legendario", {PAC:91,SHO:90,PAS:91,DRI:95,DEF:76,PHY:92}),
+  mkp("Dimiliano",    89, "ST", "Legendario", {PAC:91,SHO:90,PAS:87,DRI:94,DEF:70,PHY:90}),
+  mkp("Kaiser",       89, "ST", "Legendario", {PAC:92,SHO:95,PAS:84,DRI:93,DEF:70,PHY:90}),
+  mkp("Pechuga",      89, "AM", "Legendario", {PAC:90,SHO:87,PAS:92,DRI:89,DEF:80,PHY:92}),
+  mkp("Shepard",      89, "ST", "Legendario", {PAC:91,SHO:97,PAS:85,DRI:87,DEF:70,PHY:92}),
+  mkp("Zombot",       87, "GK", "Legendario", {DIV:88,REF:88,HAN:86,KIC:87,POS:87}),
 
-  mkp("Bachira",      87, "AM", "Epico",      {PAC:83,SHO:85,PAS:89,DRI:96,DEF:60,PHY:85}),
-  mkp("Fallen",       87, "DM", "Epico",      {PAC:82,SHO:80,PAS:85,DRI:86,DEF:87,PHY:86}),
-  mkp("Roki",         87, "AM", "Epico",      {PAC:86,SHO:87,PAS:85,DRI:95,DEF:70,PHY:90}),
-  mkp("Zae",          87, "AM", "Epico",      {PAC:83,SHO:85,PAS:89,DRI:87,DEF:67,PHY:84}),
-  mkp("N+23",         87, "GK", "Epico",      {DIV:86,REF:89,HAN:85,KIC:81,POS:87}),
-  mkp("Pain",         86, "DM", "Epico",      {PAC:81,SHO:70,PAS:82,DRI:88,DEF:90,PHY:86}),
-  mkp("Pinotek",      86, "AM", "Epico",      {PAC:82,SHO:84,PAS:88,DRI:89,DEF:56,PHY:71}),
-  mkp("Sixer",        86, "DM", "Epico",      {PAC:81,SHO:68,PAS:82,DRI:80,DEF:89,PHY:86}),
-  mkp("Smurf",        86, "GK", "Epico",      {DIV:85,REF:88,HAN:84,KIC:80,POS:86}),
-  mkp("Cosmik",       86, "ST", "Epico",      {PAC:80,SHO:94,PAS:75,DRI:84,DEF:64,PHY:87}),
-  mkp("Usu",          86, "ST", "Epico",      {PAC:88,SHO:88,PAS:75,DRI:84,DEF:63,PHY:84}),
-  mkp("Kermit",       85, "DM", "Epico",      {PAC:80,SHO:73,PAS:85,DRI:83,DEF:90,PHY:85}),
-  mkp("Whoisalex",    85, "DM", "Epico",      {PAC:83,SHO:86,PAS:81,DRI:89,DEF:84,PHY:85}),
-  mkp("Diseased",     85, "ST", "Epico",      {PAC:87,SHO:90,PAS:75,DRI:83,DEF:47,PHY:79}),
-  mkp("Raz",          85, "ST", "Epico",      {PAC:87,SHO:90,PAS:74,DRI:83,DEF:53,PHY:86}),
-  mkp("Allan Saint",  84, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
-  mkp("Korai",        84, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
-  mkp("Lawliet",      84, "AM", "Epico",      {PAC:80,SHO:80,PAS:83,DRI:83,DEF:53,PHY:74}),
-  mkp("Metzi",        84, "DM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:70}),
-  mkp("Nocke",        84, "AM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:75}),
-  mkp("Saskee",       84, "ST", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:89,DEF:65,PHY:70}),
-  mkp("369",          84, "ST", "Epico",      {PAC:86,SHO:86,PAS:74,DRI:82,DEF:46,PHY:78}),
-  mkp("Rose",         84, "ST", "Epico",      {PAC:86,SHO:88,PAS:74,DRI:79,DEF:46,PHY:87}),
-  mkp("Anon",         83, "DM", "Raro",      {PAC:78,SHO:65,PAS:79,DRI:77,DEF:86,PHY:83}),
-  mkp("Paloma",       82, "DM", "Raro",      {PAC:77,SHO:64,PAS:78,DRI:76,DEF:85,PHY:82}),
+  mkp("Bachira",      85, "AM", "Epico",      {PAC:83,SHO:85,PAS:89,DRI:96,DEF:60,PHY:85}),
+  mkp("Fallen",       86, "DM", "Epico",      {PAC:82,SHO:80,PAS:85,DRI:86,DEF:87,PHY:86}),
+  mkp("Roki",         86, "AM", "Epico",      {PAC:86,SHO:87,PAS:85,DRI:95,DEF:70,PHY:90}),
+  mkp("Zae",          86, "AM", "Epico",      {PAC:83,SHO:85,PAS:89,DRI:87,DEF:67,PHY:84}),
+  mkp("N+23",         86, "GK", "Epico",      {DIV:86,REF:89,HAN:85,KIC:81,POS:87}),
+  mkp("Pain",         85, "DM", "Epico",      {PAC:81,SHO:70,PAS:82,DRI:88,DEF:90,PHY:86}),
+  mkp("Pinotek",      85, "AM", "Epico",      {PAC:82,SHO:84,PAS:88,DRI:89,DEF:56,PHY:71}),
+  mkp("Sixer",        85, "DM", "Epico",      {PAC:81,SHO:68,PAS:82,DRI:80,DEF:89,PHY:86}),
+  mkp("Smurf",        85, "GK", "Epico",      {DIV:85,REF:88,HAN:84,KIC:80,POS:86}),
+  mkp("Cosmik",       85, "ST", "Epico",      {PAC:80,SHO:94,PAS:75,DRI:84,DEF:64,PHY:87}),
+  mkp("Usu",          85, "ST", "Epico",      {PAC:88,SHO:88,PAS:75,DRI:84,DEF:63,PHY:84}),
+  mkp("Kermit",       84, "DM", "Epico",      {PAC:80,SHO:73,PAS:85,DRI:83,DEF:90,PHY:85}),
+  mkp("Whoisalex",    84, "DM", "Epico",      {PAC:83,SHO:86,PAS:81,DRI:89,DEF:84,PHY:85}),
+  mkp("Diseased",     84, "ST", "Epico",      {PAC:87,SHO:90,PAS:75,DRI:83,DEF:47,PHY:79}),
+  mkp("Raz",          84, "ST", "Epico",      {PAC:87,SHO:90,PAS:74,DRI:83,DEF:53,PHY:86}),
+  mkp("Allan Saint",  83, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
+  mkp("Korai",        83, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
+  mkp("Lawliet",      83, "AM", "Epico",      {PAC:80,SHO:80,PAS:83,DRI:83,DEF:53,PHY:74}),
+  mkp("Metzi",        83, "DM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:70}),
+  mkp("Nocke",        83, "AM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:75}),
+  mkp("Saskee",       83, "ST", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:89,DEF:65,PHY:70}),
+  mkp("369",          83, "ST", "Epico",      {PAC:86,SHO:86,PAS:74,DRI:82,DEF:46,PHY:78}),
+  mkp("Rose",         82, "ST", "Epico",      {PAC:86,SHO:88,PAS:74,DRI:79,DEF:46,PHY:87}),
+  mkp("Anon",         82, "DM", "Raro",      {PAC:78,SHO:65,PAS:79,DRI:77,DEF:86,PHY:83}),
+  mkp("Paloma",       81, "DM", "Raro",      {PAC:77,SHO:64,PAS:78,DRI:76,DEF:85,PHY:82}),
 
-  mkp("Coutinho",     84, "GK", "Epico",       {DIV:83,REF:86,HAN:82,KIC:80,POS:84}),
-  mkp("Lothar",       84, "GK", "Epico",       {DIV:83,REF:86,HAN:82,KIC:80,POS:84}),
-  mkp("Cold",         84, "DM", "Epico",       {PAC:82,SHO:70,PAS:80,DRI:85,DEF:87,PHY:84}),
-  mkp("Reckless",     85, "DM", "Epico",       {PAC:80,SHO:70,PAS:87,DRI:76,DEF:90,PHY:88}),
-  mkp("Shadow",       85, "DM", "Epico",       {PAC:80,SHO:74,PAS:81,DRI:87,DEF:88,PHY:85}),
-  mkp("V2",           84, "AM", "Epico",       {PAC:80,SHO:82,PAS:86,DRI:84,DEF:66,PHY:83}),
-  mkp("Ratchet",      83, "DM", "Raro",       {PAC:78,SHO:65,PAS:79,DRI:77,DEF:87,PHY:83}),
-  mkp("SK1N1",        83, "DM", "Raro",       {PAC:78,SHO:65,PAS:79,DRI:80,DEF:86,PHY:83}),
-  mkp("Sqai",         83, "ST", "Raro",       {PAC:85,SHO:84,PAS:72,DRI:80,DEF:45,PHY:76}),
-  mkp("Hog",          83, "GK", "Raro",       {DIV:82,REF:85,HAN:81,KIC:78,POS:83}),
-  mkp("Dross",        82, "AM", "Raro",       {PAC:78,SHO:80,PAS:84,DRI:85,DEF:54,PHY:69}),
-  mkp("Everest",      82, "GK", "Raro",       {DIV:81,REF:84,HAN:80,KIC:77,POS:82}),
-  mkp("Hisoka",       82, "GK", "Raro",       {DIV:81,REF:84,HAN:80,KIC:77,POS:82}),
-  mkp("Nizy",         82, "ST", "Raro",       {PAC:84,SHO:83,PAS:71,DRI:79,DEF:44,PHY:75}),
-  mkp("Feeling Jrzz", 74, "ST", "Comun",       {PAC:79,SHO:78,PAS:66,DRI:74,DEF:42,PHY:70}),
-  mkp("Ukz",          82, "DM", "Raro",       {PAC:77,SHO:64,PAS:78,DRI:76,DEF:85,PHY:82}),
+  mkp("Coutinho",     83, "GK", "Epico",       {DIV:83,REF:86,HAN:82,KIC:80,POS:84}),
+  mkp("Lothar",       83, "GK", "Epico",       {DIV:83,REF:86,HAN:82,KIC:80,POS:84}),
+  mkp("Cold",         83, "DM", "Epico",       {PAC:82,SHO:70,PAS:80,DRI:85,DEF:87,PHY:84}),
+  mkp("Reckless",     84, "DM", "Epico",       {PAC:80,SHO:70,PAS:87,DRI:76,DEF:90,PHY:88}),
+  mkp("Shadow",       84, "DM", "Epico",       {PAC:80,SHO:74,PAS:81,DRI:87,DEF:88,PHY:85}),
+  mkp("V2",           83, "AM", "Epico",       {PAC:80,SHO:82,PAS:86,DRI:84,DEF:66,PHY:83}),
+  mkp("Ratchet",      82, "DM", "Raro",       {PAC:78,SHO:65,PAS:79,DRI:77,DEF:87,PHY:83}),
+  mkp("SK1N1",        82, "DM", "Raro",       {PAC:78,SHO:65,PAS:79,DRI:80,DEF:86,PHY:83}),
+  mkp("Sqai",         82, "ST", "Raro",       {PAC:85,SHO:84,PAS:72,DRI:80,DEF:45,PHY:76}),
+  mkp("Hog",          82, "GK", "Raro",       {DIV:82,REF:85,HAN:81,KIC:78,POS:83}),
+  mkp("Dross",        81, "AM", "Raro",       {PAC:78,SHO:80,PAS:84,DRI:85,DEF:54,PHY:69}),
+  mkp("Everest",      81, "GK", "Raro",       {DIV:81,REF:84,HAN:80,KIC:77,POS:82}),
+  mkp("Hisoka",       81, "GK", "Raro",       {DIV:81,REF:84,HAN:80,KIC:77,POS:82}),
+  mkp("Nizy",         81, "ST", "Raro",       {PAC:84,SHO:83,PAS:71,DRI:79,DEF:44,PHY:75}),
+  mkp("Feeling Jrzz", 73, "ST", "Comun",       {PAC:79,SHO:78,PAS:66,DRI:74,DEF:42,PHY:70}),
+  mkp("Ukz",          81, "DM", "Raro",       {PAC:77,SHO:64,PAS:78,DRI:76,DEF:85,PHY:82}),
   mkp("Apolo",        80, "AM", "Raro",       {PAC:76,SHO:78,PAS:82,DRI:83,DEF:52,PHY:68}),
   mkp("Birkir",       80, "DM", "Raro",       {PAC:75,SHO:62,PAS:76,DRI:74,DEF:83,PHY:80}),
   mkp("Burrito",      80, "DM", "Raro",       {PAC:75,SHO:62,PAS:76,DRI:74,DEF:83,PHY:80}),
@@ -509,9 +522,9 @@ const players = [
   mkp("Shoe",         81, "AM", "Raro",       {PAC:77,SHO:79,PAS:83,DRI:84,DEF:53,PHY:68}),
   mkp("Strange",      80, "AM", "Raro",       {PAC:76,SHO:78,PAS:82,DRI:83,DEF:52,PHY:68}),
   mkp("Theandrex",    81, "ST", "Raro",       {PAC:83,SHO:82,PAS:70,DRI:78,DEF:44,PHY:74}),
-  mkp("Vincenzo",     83, "AM", "Raro",       {PAC:79,SHO:81,PAS:85,DRI:86,DEF:54,PHY:69}),
-  mkp("Walham",       81, "GK", "Raro",       {DIV:80,REF:83,HAN:79,KIC:76,POS:81}),
-  mkp("Cat",          81, "GK", "Raro",       {DIV:80,REF:83,HAN:79,KIC:76,POS:81}),
+  mkp("Vincenzo",     84, "AM", "Raro",       {PAC:79,SHO:81,PAS:85,DRI:86,DEF:54,PHY:69}),
+  mkp("Walham",       80, "GK", "Raro",       {DIV:80,REF:83,HAN:79,KIC:76,POS:81}),
+  mkp("Cat",          80, "GK", "Raro",       {DIV:80,REF:83,HAN:79,KIC:76,POS:81}),
   mkp("Bonice",       74, "DM", "Comun",       {PAC:69,SHO:58,PAS:72,DRI:70,DEF:78,PHY:75}),
   mkp("Dan1",         78, "AM", "Comun",       {PAC:74,SHO:76,PAS:80,DRI:81,DEF:50,PHY:66}),
   mkp("Faissal",      77, "ST", "Comun",       {PAC:79,SHO:78,PAS:66,DRI:74,DEF:42,PHY:70}),
@@ -519,18 +532,18 @@ const players = [
   mkp("Mel",          78, "AM", "Comun",       {PAC:74,SHO:76,PAS:80,DRI:81,DEF:50,PHY:66}),
   mkp("Login",          78, "ST", "Comun",       {PAC:74,SHO:80,PAS:76,DRI:81,DEF:50,PHY:66}),
 
-  mkp("Barita",       79, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
-  mkp("Dan",          79, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
-  mkp("Kantz",        79, "AM", "Comun",      {PAC:78,SHO:77,PAS:81,DRI:82,DEF:51,PHY:67}),
-  mkp("Lxthomas",     79, "AM", "Comun",      {PAC:75,SHO:77,PAS:81,DRI:82,DEF:51,PHY:67}),
-  mkp("Nunf",         79, "AM", "Comun",      {PAC:75,SHO:77,PAS:81,DRI:89,DEF:51,PHY:67}),
-  mkp("Silva",        79, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
-  mkp("Slurpy",       79, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
+  mkp("Barita",       78, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
+  mkp("Dan",          78, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
+  mkp("Kantz",        78, "AM", "Comun",      {PAC:78,SHO:77,PAS:81,DRI:82,DEF:51,PHY:67}),
+  mkp("Lxthomas",     78, "AM", "Comun",      {PAC:75,SHO:77,PAS:81,DRI:82,DEF:51,PHY:67}),
+  mkp("Nunf",         78, "AM", "Comun",      {PAC:75,SHO:77,PAS:81,DRI:89,DEF:51,PHY:67}),
+  mkp("Silva",        78, "GK", "Comun",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
+  mkp("Slurpy",       81, "GK", "Raro",      {DIV:78,REF:81,HAN:77,KIC:74,POS:79}),
   mkp("Moonsky",      81, "ST", "Raro",      {PAC:83,SHO:82,PAS:70,DRI:78,DEF:44,PHY:74}),
-  mkp("Frist",        79, "ST", "Comun",      {PAC:81,SHO:83,PAS:68,DRI:73,DEF:42,PHY:72}),
-  mkp("Insane",       79, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
-  mkp("Nova",         79, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
-  mkp("Torrez",       79, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
+  mkp("Frist",        78, "ST", "Comun",      {PAC:81,SHO:83,PAS:68,DRI:73,DEF:42,PHY:72}),
+  mkp("Insane",       78, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
+  mkp("Nova",         78, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
+  mkp("Torrez",       78, "ST", "Comun",      {PAC:81,SHO:80,PAS:68,DRI:76,DEF:42,PHY:72}),
   mkp("Aj",           78, "ST", "Comun",      {PAC:80,SHO:79,PAS:67,DRI:75,DEF:42,PHY:71}),
   mkp("Barco",        78, "ST", "Comun",      {PAC:70,SHO:75,PAS:70,DRI:75,DEF:42,PHY:71}),
   mkp("Javi",         78, "ST", "Comun",      {PAC:80,SHO:79,PAS:67,DRI:75,DEF:42,PHY:71}),
@@ -542,8 +555,8 @@ const players = [
   mkp("Rai",          78, "AM", "Comun",      {PAC:74,SHO:76,PAS:80,DRI:81,DEF:50,PHY:66}),
   mkp("Samx",         78, "DM", "Comun",      {PAC:73,SHO:60,PAS:74,DRI:72,DEF:81,PHY:78}),
   mkp("Xavi",         80, "DM", "Raro",      {PAC:75,SHO:62,PAS:76,DRI:74,DEF:83,PHY:80}),
-  mkp("Amaterasu",    84, "DM", "Epico",      {PAC:84,SHO:83,PAS:82,DRI:84,DEF:84,PHY:81}),
-  mkp("Chelo",        77, "AM", "Comun",      {PAC:73,SHO:75,PAS:79,DRI:80,DEF:49,PHY:65}),
+  mkp("Amaterasu",    82, "DM", "Raro",      {PAC:84,SHO:83,PAS:82,DRI:84,DEF:84,PHY:81}),
+  mkp("Chelo",        78, "AM", "Comun",      {PAC:73,SHO:75,PAS:79,DRI:80,DEF:49,PHY:65}),
   mkp("Faustino Asprilla",77,"AM","Comun",{PAC:73,SHO:75,PAS:79,DRI:80,DEF:49,PHY:65}),
   mkp("Iancillo",     77, "GK", "Comun",      {DIV:76,REF:79,HAN:75,KIC:72,POS:77}),
   mkp("Kanpur",       80, "ST", "Raro",      {PAC:83,SHO:82,PAS:70,DRI:78,DEF:44,PHY:74}),
@@ -594,8 +607,28 @@ const players = [
 // 🌍 NACIONALIDADES
 // ─────────────────────────────────────────
 const playerNationality = {
+  
+  "DIEGO":        { flag: "🇨🇴", country: "Colombia"   },
+  "Panda":        { flag: "🇨🇴", country: "Colombia"   },
+  "Real":         { flag: "🇨🇴", country: "Colombia"   },
+  "Rad1":         { flag: "🇨🇴", country: "Colombia"   },
+  "Checo":        { flag: "🇨🇴", country: "Colombia"   },
+  "Mondaman":     { flag: "🇨🇴", country: "Colombia"   },
+  "Zyros":        { flag: "🇨🇴", country: "Colombia"   },
+  "P4er":         { flag: "🇮🇱", country: "Israel" },
+  "Lorenzi":      { flag: "🇨🇴", country: "Colombia"   },
+  "Pardo":        { flag: "🇨🇴", country: "Colombia"   },
+  "BryanCisf":    { flag: "🇨🇴", country: "Colombia"   },
+  "RX":           { flag: "🇨🇴", country: "Colombia"   },
+  "Mecha":        { flag: "🇨🇴", country: "Colombia"   },
+  "Zombot":       { flag: "🇨🇴", country: "Colombia"   },
+  "Disk":         { flag: "🇨🇴", country: "Colombia"   },
+  "P1nguano":     { flag: "🇨🇴", country: "Colombia"   },
+  "Doxing":       { flag: "🇨🇴", country: "Colombia"   },
+
+
   "Kyo":        { flag: "🇵🇱", country: "Polonia"   },
-  "Vak":       { flag: "🇵🇱", country: "Polonia"   },
+  "Vak":        { flag: "🇵🇱", country: "Polonia"   },
   "Luntek WC":  { flag: "🇵🇱", country: "Polonia"   },
   "Sekai WC":   { flag: "🇵🇱", country: "Polonia"   },
   "Pixel WC":   { flag: "🇺🇸", country: "USA"       },
@@ -780,6 +813,35 @@ function drawManualFlag(ctx, country, x, y, w, h) {
     ctx.fillStyle = '#F6B40E';
     ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, h * 0.22, 0, Math.PI * 2); ctx.fill();
 
+
+  } else if (country === 'Israel') {
+  // Fondo blanco
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h);
+  // Franja azul arriba
+  ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.1, w, h * 0.15);
+  // Franja azul abajo
+  ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.75, w, h * 0.15);
+  // Estrella de David (dos triángulos)
+  const cx2 = x + w / 2, cy2 = y + h / 2;
+  const r = h * 0.18;
+  ctx.fillStyle = '#0038B8';
+  // Triángulo arriba
+  ctx.beginPath();
+  ctx.moveTo(cx2, cy2 - r);
+  ctx.lineTo(cx2 + r * 0.87, cy2 + r * 0.5);
+  ctx.lineTo(cx2 - r * 0.87, cy2 + r * 0.5);
+  ctx.closePath(); ctx.fill();
+  // Triángulo abajo
+  ctx.beginPath();
+  ctx.moveTo(cx2, cy2 + r);
+  ctx.lineTo(cx2 + r * 0.87, cy2 - r * 0.5);
+  ctx.lineTo(cx2 - r * 0.87, cy2 - r * 0.5);
+  ctx.closePath(); ctx.fill();
+  // Hueco del centro (blanco)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.beginPath();
+  ctx.arc(cx2, cy2, r * 0.38, 0, Math.PI * 2); ctx.fill();
+
   } else if (country === 'Polonia') {
     // Blanco arriba, Rojo abajo
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h / 2);
@@ -829,6 +891,13 @@ function drawManualFlag(ctx, country, x, y, w, h) {
     ctx.fillStyle = '#FF0000';
     ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, h * 0.22, 0, Math.PI * 2); ctx.fill();
 
+
+  } else if (country === 'Colombia') {
+    // Amarillo arriba (mitad), Azul en medio, Rojo abajo
+    ctx.fillStyle = '#FCD116'; ctx.fillRect(x, y, w, h * 0.5);
+    ctx.fillStyle = '#003087'; ctx.fillRect(x, y + h * 0.5, w, h * 0.25);
+    ctx.fillStyle = '#CE1126'; ctx.fillRect(x, y + h * 0.75, w, h * 0.25);
+
   } else {
     // Fallback genérico si no hay bandera definida
     ctx.fillStyle = '#444444'; ctx.fillRect(x, y, w, h);
@@ -855,7 +924,7 @@ async function drawShowcaseCard(player) {
   const canvas = createCanvas(CW + PAD * 2, CH + PAD * 2);
   const ctx = canvas.getContext('2d');
   const c = getRarityColors(player.rarity);
-  const isWC = player.rarity === 'WorldCup';
+  const isWC = player.rarity === 'WorldCup' || player.rarity === 'Icon';
   const nationality = playerNationality[player.name] || null;
 
   ctx.fillStyle = '#080810';
@@ -903,7 +972,8 @@ async function drawShowcaseCard(player) {
     ctx.textAlign = 'center';
     ctx.shadowColor = '#FFD700';
     ctx.shadowBlur = 8;
-    ctx.fillText('✦  WORLD CUP CHAMPIONS  ✦', cx + CW / 2, cy + 18);
+    const badgeText = player.rarity === 'Icon' ? '✦  ICON  ✦' : '✦  WORLD CUP CHAMPIONS  ✦';
+    ctx.fillText(badgeText, cx + CW / 2, cy + 18);
     ctx.shadowBlur = 0;
     // Línea fina dorada debajo del texto
     ctx.strokeStyle = '#FFD70066';
@@ -3692,7 +3762,7 @@ saveData();
       // Slot labels fijos para el embed, igual que el canvas
       const slotLabels = ['GK','DM','AM','ST'];
       const posEmoji={GK:'🧤',DM:'🛡️',AM:'🎯',ST:'⚽'};
-      const rarityEmoji={"Legendario":"🟡","Epico":"🟣","Raro":"🔵","Comun":"⚪"};
+      const rarityEmoji={"Icon":"⚪", "WorldCup":"🔴", "Legendario":"🟡","Epico":"🟣","Raro":"🔵","Comun":"⚪"};
       const teamInfo=(user.team||[]).map((p,i)=>{
         const slotLabel = slotLabels[i] || '?';
         return `${posEmoji[slotLabel]||'👤'} ${rarityEmoji[p.rarity]||'⚫'} **${p.name}** · ${p.rating} OVR · ${p.position} _(slot ${slotLabel})_`;
