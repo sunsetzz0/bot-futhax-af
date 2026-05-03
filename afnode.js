@@ -2095,7 +2095,7 @@ async function generateSellCanvas(player, coinsEarned, newBalance, quantity) {
 // ─────────────────────────────────────────
 const helpPages = [
   {
-    title: '📖 Ayuda — Página 1/5 · Economía & Packs',
+    title: '📖 Ayuda — Página 1/6 · Economía & Packs',
     color: 0x1a56db,
     fields: [
       { name: '💰 `!bal`',           value: 'Ver tus monedas actuales', inline: false },
@@ -2111,7 +2111,7 @@ const helpPages = [
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
   {
-    title: '📖 Ayuda — Página 2/5 · Club, Equipo & Cartas',
+    title: '📖 Ayuda — Página 2/6 · Club, Equipo & Cartas',
     color: 0x00C851,
     fields: [
       { name: '📋 `!club`',                   value: `Ver tu plantilla completa (máx **${MAX_CLUB_SIZE} jugadores**)`, inline: false },
@@ -2127,7 +2127,7 @@ const helpPages = [
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
   {
-    title: '📖 Ayuda — Página 3/5 · Market & Equipo',
+    title: '📖 Ayuda — Página 3/6 · Market & Equipo',
     color: 0xFFD700,
     fields: [
       { name: '🔄 `!swap`',                      value: 'Intercambiar posiciones entre dos jugadores del equipo', inline: false },
@@ -2153,7 +2153,7 @@ const helpPages = [
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
   {
-    title: '📖 Ayuda — Página 4/5 · Arena & Partidos',
+    title: '📖 Ayuda — Página 4/6 · Arena & Partidos',
     color: 0xFF6B00,
     fields: [
       { name: '🤝 `!friendly @rival`', value: 'Partido amistoso\n💰 Victoria: **+100** · Empate: **+50** · Derrota: **+20**', inline: false },
@@ -2170,7 +2170,31 @@ const helpPages = [
     footer: '⬅️ Anterior  |  Siguiente ➡️  ·  Navega con los botones'
   },
   {
-    title: '📖 Ayuda — Página 5/5 · Admin',
+  title: '📖 Ayuda — Página 5/6 · Clanes & Minijuegos',
+  color: 0x5865F2,
+  fields: [
+    { name: '👥 Clanes', value: 'Sistema de clanes para jugar en equipo:', inline: false },
+    { name: '`!clan crear <nombre>`',      value: `Crear tu propio clan · Cuesta **2,000 💰**`, inline: false },
+    { name: '`!clan invitar @usuario`',    value: 'Invitar a alguien a tu clan (solo líder)', inline: false },
+    { name: '`!clan info [nombre]`',       value: 'Ver info de tu clan o buscar uno por nombre', inline: false },
+    { name: '`!clan top`',                 value: 'Ranking global de clanes por ELO total', inline: false },
+    { name: '`!clan guerra`',              value: 'Guerra automática contra otro clan · Suma ELO de todos\n💰 Cada miembro ganador recibe **+200 💰** · Cooldown **6h**', inline: false },
+    { name: '`!clan descripcion <texto>`', value: 'Editar descripción del clan (solo líder · máx 100 chars)', inline: false },
+    { name: '`!clan expulsar @usuario`',   value: 'Expulsar un miembro (solo líder)', inline: false },
+    { name: '`!clan lider @usuario`',      value: 'Transferir liderazgo a otro miembro', inline: false },
+    { name: '`!clan salir`',               value: 'Salir de tu clan actual', inline: false },
+    { name: '`!clan disband`',             value: 'Disolver el clan permanentemente (solo líder)', inline: false },
+    { name: '🎮 Minijuegos', value: 'Juegos con apuesta o recompensa fija:', inline: false },
+    { name: '`!trivia`',                   value: 'Pregunta de fútbol con 4 opciones · **20 segundos** para responder\n💰 Premio: hasta **250 💰** · Cooldown **5 min**', inline: false },
+    { name: '`!raspar`',                   value: 'Raspadito · Costo: **200 💰** · Cooldown **8 min**\n🎯 Triple → premio completo · Par → 30% del premio · 2+ raros → **350 💰**', inline: false },
+    { name: '`!penalty <cantidad>`',       value: 'Penal con apuesta · Elige 1 zona de 5 · 2 zonas ganadoras\n💰 Mín **50** · Máx **50,000** · Ganas el **doble** · Cooldown **10 min**', inline: false },
+    { name: '`!rul <cantidad> <opción>`',  value: 'Ruleta · Elige color o número\n🔴 Negro/Rojo **x2** · 🟢 Verde **x14** · 🎯 Número exacto **x35** · Cooldown **10 min**', inline: false },
+    { name: '`!dados <cantidad>`',         value: 'Tira 2 dados vs el bot · Mayor total gana **x2** · Empate devuelve apuesta\n💰 Mín **50** · Máx **50,000** · Cooldown **10 min**', inline: false },
+  ],
+  footer: '⬅️ Anterior  |  Fin  ·  Navega con los botones'
+},
+  {
+    title: '📖 Ayuda — Página 6/6 · Admin',
     color: 0x9B59B6,
     fields: [
       { name: '👑 Comandos de Admin', value: 'Los siguientes comandos solo funcionan si eres admin:', inline: false },
@@ -2288,6 +2312,27 @@ async function drawClubLogo(ctx, logoBuffer, cx, cy, radius) {
     ctx.stroke();
     ctx.restore();
   } catch { /* silencioso si falla al dibujar */ }
+}
+
+
+// ─────────────────────────────────────────
+// 👥 CLANES
+// ─────────────────────────────────────────
+let clansData = {};
+if (fs.existsSync('/app/data/clans.json')) {
+  try { clansData = JSON.parse(fs.readFileSync('/app/data/clans.json')); } catch {}
+}
+function saveClans() { fs.writeFileSync('/app/data/clans.json', JSON.stringify(clansData, null, 2)); }
+
+const CLAN_MAX_MEMBERS = 10;
+const CLAN_CREATE_COST = 2000;
+const CLAN_WAR_COOLDOWN = 6 * 60 * 60 * 1000;
+
+function getClanOfUser(uid) {
+  return Object.values(clansData).find(c => c.members.includes(uid)) || null;
+}
+function getClanIdOfUser(uid) {
+  return Object.keys(clansData).find(k => clansData[k].members.includes(uid)) || null;
 }
 
 
@@ -2787,39 +2832,82 @@ if (cmd === '!raspar') {
   saveData();
 
   const SIMBOLOS = [
-    { emoji: '⚽', nombre: 'Balón',    peso: 30, premio: 1000  },
-    { emoji: '🥇', nombre: 'Oro',      peso: 25, premio: 500   },
-    { emoji: '💎', nombre: 'Diamante', peso: 15, premio: 2000  },
-    { emoji: '👑', nombre: 'Corona',   peso: 8,  premio: 5000  },
-    { emoji: '🌟', nombre: 'Estrella', peso: 15, premio: 750   },
-    { emoji: '🎰', nombre: 'Ruleta',   peso: 7,  premio: 10000 },
+    { emoji: '⚽', nombre: 'Balón',    peso: 28, premio: 800  },
+    { emoji: '🥇', nombre: 'Oro',      peso: 22, premio: 400  },
+    { emoji: '💎', nombre: 'Diamante', peso: 13, premio: 1800 },
+    { emoji: '👑', nombre: 'Corona',   peso: 7,  premio: 4500 },
+    { emoji: '🌟', nombre: 'Estrella', peso: 18, premio: 600  },
+    { emoji: '🎰', nombre: 'Ruleta',   peso: 6,  premio: 9000 },
+    { emoji: '🍀', nombre: 'Trébol',   peso: 6,  premio: 3000 },
   ];
 
   function pickSymbol() {
     const total = SIMBOLOS.reduce((s, x) => s + x.peso, 0);
     let rand = Math.random() * total;
-    for (const s of SIMBOLOS) {
-      rand -= s.peso;
-      if (rand <= 0) return s;
-    }
+    for (const s of SIMBOLOS) { rand -= s.peso; if (rand <= 0) return s; }
     return SIMBOLOS[0];
   }
 
   const slots = [pickSymbol(), pickSymbol(), pickSymbol()];
-  const won = slots[0].emoji === slots[1].emoji && slots[1].emoji === slots[2].emoji;
-  const premio = won ? slots[0].premio : 0;
 
-  if (won) {
+  // --- Evaluar combinaciones ganadoras ---
+  let premio = 0;
+  let tipoGanador = null;
+  let descripcionPremio = '';
+
+  const [s1, s2, s3] = slots;
+
+  // 1) Triple igual
+  if (s1.emoji === s2.emoji && s2.emoji === s3.emoji) {
+    premio = s1.premio;
+    tipoGanador = 'triple';
+    descripcionPremio = `🎯 **¡TRIPLE ${s1.nombre.toUpperCase()}!**`;
+
+  // 2) Doble (cualquier par) → premio pequeño
+  } else if (s1.emoji === s2.emoji || s2.emoji === s3.emoji || s1.emoji === s3.emoji) {
+    // Encontrar el símbolo repetido
+    const parSimbolo = s1.emoji === s2.emoji ? s1 : s2.emoji === s3.emoji ? s2 : s1;
+    premio = Math.floor(parSimbolo.premio * 0.3);
+    tipoGanador = 'doble';
+    descripcionPremio = `🎲 **¡DOBLE ${parSimbolo.nombre.toUpperCase()}!**`;
+
+  // 3) Tres distintos pero todos de alta rareza (👑 + 🎰 + 💎 en cualquier orden)
+  } else {
+    const emojis = slots.map(s => s.emoji);
+    const raros = ['👑', '🎰', '🍀', '💎'];
+    const numRaros = emojis.filter(e => raros.includes(e)).length;
+    if (numRaros >= 2) {
+      premio = 350;
+      tipoGanador = 'combinacion_rara';
+      descripcionPremio = `✨ **¡COMBINACIÓN ESPECIAL! (2+ símbolos raros)**`;
+    }
+  }
+
+  if (premio > 0) {
     user.coins += premio;
     saveData();
   }
+
+  // --- Tabla de premios para el embed ---
+  const premiosInfo = [
+    `⚽⚽⚽ → **800 💰**`,
+    `🌟🌟🌟 → **600 💰**`,
+    `🥇🥇🥇 → **400 💰**`,
+    `🍀🍀🍀 → **3,000 💰**`,
+    `💎💎💎 → **1,800 💰**`,
+    `👑👑👑 → **4,500 💰**`,
+    `🎰🎰🎰 → **9,000 💰**`,
+    ``,
+    `Par de cualquier símbolo → **30% del premio triple**`,
+    `2+ raros distintos (💎👑🎰🍀) → **350 💰**`,
+  ].join('\n');
 
   const hiddenMsg = await message.reply({
     embeds: [{
       color: 0xFFD700,
       title: '🎟️ RASPADITO FUTHAX',
       description: [`\`[ ▓▓▓ | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+      footer: { text: 'Gana con triple, doble, o combinación especial' }
     }]
   });
 
@@ -2828,8 +2916,8 @@ if (cmd === '!raspar') {
     embeds: [{
       color: 0xFFD700,
       title: '🎟️ RASPADITO FUTHAX',
-      description: [`\`[ ${slots[0].emoji}  | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+      description: [`\`[ ${s1.emoji}  | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
+      footer: { text: 'Gana con triple, doble, o combinación especial' }
     }]
   }).catch(() => {});
 
@@ -2838,29 +2926,27 @@ if (cmd === '!raspar') {
     embeds: [{
       color: 0xFFD700,
       title: '🎟️ RASPADITO FUTHAX',
-      description: [`\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+      description: [`\`[ ${s1.emoji}  | ${s2.emoji}  | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
+      footer: { text: 'Gana con triple, doble, o combinación especial' }
     }]
   }).catch(() => {});
 
   await new Promise(r => setTimeout(r, 900));
 
-  const simbolosPremios = SIMBOLOS.map(s => `${s.emoji} x3 → **${s.premio.toLocaleString()} 💰**`).join(' · ');
-
   await hiddenMsg.edit({
     embeds: [{
-      color: won ? 0x00C851 : 0xFF4444,
-      title: `🎟️ RASPADITO FUTHAX — ${won ? '¡GANASTE!' : 'SIN SUERTE'}`,
+      color: tipoGanador ? 0x00C851 : 0xFF4444,
+      title: `🎟️ RASPADITO FUTHAX — ${tipoGanador ? '¡GANASTE!' : 'SIN SUERTE'}`,
       description: [
-        `\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ${slots[2].emoji}  ]\``,
+        `\`[ ${s1.emoji}  | ${s2.emoji}  | ${s3.emoji}  ]\``,
         ``,
-        won
-          ? `✅ **¡TRIPLE ${slots[0].nombre.toUpperCase()}!** → **+${premio.toLocaleString()} 💰**`
+        tipoGanador
+          ? `${descripcionPremio} → **+${premio.toLocaleString()} 💰**`
           : `❌ Sin combinación ganadora. Perdiste **${RASPAR_COST} 💰**`,
         ``,
         `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
       ].join('\n'),
-      fields: [{ name: '🏆 Premios posibles (3 iguales)', value: simbolosPremios, inline: false }],
+      fields: [{ name: '🏆 Premios posibles', value: premiosInfo, inline: false }],
       footer: { text: 'Cooldown: 8 minutos · Costo: 200 💰' }
     }]
   }).catch(() => {});
@@ -5948,6 +6034,654 @@ if (cmd === '!stats') {
 
 
 // ─────────────────────────────────────────
+// 👥 CLAN
+// ─────────────────────────────────────────
+if (cmd === '!clan') {
+  const sub = (args[1] || '').toLowerCase();
+
+  // ── !clan crear <nombre> ──
+  if (sub === 'crear') {
+    const nombre = args.slice(2).join(' ').trim();
+    if (!nombre) return message.reply('❌ Uso: `!clan crear <nombre>`\nEj: `!clan crear Los Cracks`');
+    if (nombre.length > 24) return message.reply('❌ El nombre del clan no puede tener más de 24 caracteres.');
+    if (getClanOfUser(userId)) return message.reply('❌ Ya perteneces a un clan. Usa `!clan salir` antes de crear uno nuevo.');
+    const yaExiste = Object.values(clansData).find(c => c.name.toLowerCase() === nombre.toLowerCase());
+    if (yaExiste) return message.reply(`❌ Ya existe un clan llamado **${nombre}**. Elige otro nombre.`);
+    if (user.coins < CLAN_CREATE_COST) return message.reply(`❌ Crear un clan cuesta **${CLAN_CREATE_COST} 💰**. Tienes **${user.coins.toLocaleString()} 💰**.`);
+
+    user.coins -= CLAN_CREATE_COST;
+    const clanId = `C${Date.now().toString(36).toUpperCase()}`;
+    clansData[clanId] = {
+      id: clanId,
+      name: nombre,
+      leaderId: userId,
+      members: [userId],
+      createdAt: Date.now(),
+      warWins: 0,
+      warLosses: 0,
+      lastWar: 0,
+      description: '',
+      invites: [],
+    };
+    saveClans();
+    saveData();
+
+    return message.reply({
+      embeds: [{
+        color: 0xFFD700,
+        author: { name: `👥 Clan creado por ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title: `🏰 ${nombre}`,
+        description: [
+          `¡Tu clan fue creado exitosamente!`,
+          ``,
+          `💸 Costo: **${CLAN_CREATE_COST} 💰**`,
+          `💰 Balance restante: **${user.coins.toLocaleString()} 💰**`,
+          ``,
+          `**Comandos del clan:**`,
+          `\`!clan invitar @usuario\` — Invitar miembros`,
+          `\`!clan info\` — Ver tu clan`,
+          `\`!clan guerra @clan\` — Iniciar guerra`,
+        ].join('\n'),
+        fields: [
+          { name: '👑 Líder', value: `<@${userId}>`, inline: true },
+          { name: '👥 Miembros', value: `1/${CLAN_MAX_MEMBERS}`, inline: true },
+          { name: '🆔 ID', value: clanId, inline: true },
+        ],
+        footer: { text: 'Invita hasta 9 jugadores más con !clan invitar @usuario' },
+        timestamp: new Date().toISOString()
+      }]
+    });
+  }
+
+  // ── !clan invitar @usuario ──
+  if (sub === 'invitar') {
+    const target = message.mentions.users.first();
+    if (!target) return message.reply('❌ Uso: `!clan invitar @usuario`');
+    if (target.bot) return message.reply('❌ No puedes invitar a un bot.');
+    if (target.id === userId) return message.reply('❌ No puedes invitarte a ti mismo.');
+
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan. Crea uno con `!clan crear <nombre>`.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el **líder** del clan puede invitar miembros.');
+    if (myClan.members.length >= CLAN_MAX_MEMBERS) return message.reply(`❌ Tu clan está lleno (**${CLAN_MAX_MEMBERS}/${CLAN_MAX_MEMBERS}** miembros).`);
+    if (getClanOfUser(target.id)) return message.reply(`❌ **${target.username}** ya pertenece a un clan.`);
+    if (myClan.invites.includes(target.id)) return message.reply(`❌ Ya enviaste una invitación a **${target.username}**.`);
+
+    myClan.invites.push(target.id);
+    saveClans();
+
+    const acceptRow = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`clan_accept_${myClanId}_${target.id}`)
+        .setLabel('✅ Aceptar')
+        .setStyle(ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId(`clan_reject_${myClanId}_${target.id}`)
+        .setLabel('❌ Rechazar')
+        .setStyle(ButtonStyle.Danger)
+    );
+
+    const clanTier = getEloTier(
+      myClan.members.reduce((s, id) => s + (data[id]?.elo || 1000), 0) / myClan.members.length
+    );
+
+    const inviteMsg = await message.reply({
+      content: `<@${target.id}> tienes una invitación al clan **${myClan.name}**!`,
+      embeds: [{
+        color: 0x5865F2,
+        author: { name: `👥 Invitación de clan — ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title: `🏰 ${myClan.name}`,
+        description: [
+          `**${message.author.username}** te invita a unirte a su clan.`,
+          ``,
+          `👥 Miembros: **${myClan.members.length}/${CLAN_MAX_MEMBERS}**`,
+          `⚔️ Guerras ganadas: **${myClan.warWins}**`,
+          `📊 ELO promedio: ${clanTier.emoji} **${Math.round(myClan.members.reduce((s, id) => s + (data[id]?.elo || 1000), 0) / myClan.members.length)}**`,
+        ].join('\n'),
+        footer: { text: '⏱️ Tienes 120 segundos para responder' },
+        timestamp: new Date().toISOString()
+      }],
+      components: [acceptRow]
+    });
+
+    const invCol = inviteMsg.createMessageComponentCollector({ time: 120000 });
+    invCol.on('collect', async interaction => {
+      if (interaction.user.id !== target.id)
+        return interaction.reply({ content: '❌ Esta invitación no es para ti.', ephemeral: true });
+
+      invCol.stop();
+      const clan = clansData[myClanId];
+      clan.invites = clan.invites.filter(id => id !== target.id);
+
+      if (interaction.customId === `clan_reject_${myClanId}_${target.id}`) {
+        saveClans();
+        return interaction.update({
+          content: null,
+          embeds: [{ color: 0xFF4444, title: '❌ Invitación rechazada', description: `**${target.username}** rechazó la invitación al clan **${clan.name}**.` }],
+          components: []
+        });
+      }
+
+      if (interaction.customId === `clan_accept_${myClanId}_${target.id}`) {
+        if (getClanOfUser(target.id)) {
+          saveClans();
+          return interaction.update({
+            content: null,
+            embeds: [{ color: 0xFF4444, title: '❌ Ya en un clan', description: `**${target.username}** ya pertenece a otro clan.` }],
+            components: []
+          });
+        }
+        if (clan.members.length >= CLAN_MAX_MEMBERS) {
+          saveClans();
+          return interaction.update({
+            content: null,
+            embeds: [{ color: 0xFF4444, title: '❌ Clan lleno', description: `El clan **${clan.name}** ya está lleno.` }],
+            components: []
+          });
+        }
+
+        clan.members.push(target.id);
+        saveClans();
+
+        return interaction.update({
+          content: null,
+          embeds: [{
+            color: 0x00C851,
+            title: `✅ ¡${target.username} se unió a ${clan.name}!`,
+            description: [
+              `<@${target.id}> ahora es miembro de **${clan.name}**.`,
+              ``,
+              `👥 Miembros: **${clan.members.length}/${CLAN_MAX_MEMBERS}**`,
+            ].join('\n'),
+            footer: { text: 'Usa !clan info para ver el clan completo' },
+            timestamp: new Date().toISOString()
+          }],
+          components: []
+        });
+      }
+    });
+
+    invCol.on('end', (_, reason) => {
+      if (reason === 'time') {
+        const clan = clansData[myClanId];
+        if (clan) clan.invites = clan.invites.filter(id => id !== target.id);
+        saveClans();
+        inviteMsg.edit({ components: [] }).catch(() => {});
+      }
+    });
+    return;
+  }
+
+  // ── !clan info [nombre] ──
+  if (sub === 'info' || sub === '') {
+    let targetClan = null;
+    let targetClanId = null;
+
+    if (args[2]) {
+      const searchName = args.slice(2).join(' ').toLowerCase();
+      targetClanId = Object.keys(clansData).find(k => clansData[k].name.toLowerCase() === searchName);
+      targetClan = targetClanId ? clansData[targetClanId] : null;
+      if (!targetClan) return message.reply(`❌ No existe ningún clan llamado **${args.slice(2).join(' ')}**.`);
+    } else {
+      targetClanId = getClanIdOfUser(userId);
+      targetClan = targetClanId ? clansData[targetClanId] : null;
+      if (!targetClan) return message.reply('❌ No perteneces a ningún clan.\n💡 Crea uno con `!clan crear <nombre>` o pide que te inviten.');
+    }
+
+    const memberLines = targetClan.members.map(mid => {
+      const mData = data[mid];
+      const tier = getEloTier(mData?.elo || 1000);
+      const isLeader = mid === targetClan.leaderId;
+      return `${isLeader ? '👑' : '👤'} <@${mid}> — ${tier.emoji} **${mData?.elo || 1000}** ELO`;
+    }).join('\n');
+
+    const totalElo = targetClan.members.reduce((s, id) => s + (data[id]?.elo || 1000), 0);
+    const avgElo = Math.round(totalElo / targetClan.members.length);
+    const clanTier = getEloTier(avgElo);
+    const totalPlayers = targetClan.members.reduce((s, id) => s + (data[id]?.players || []).length, 0);
+
+    return message.reply({
+      embeds: [{
+        color: 0xFFD700,
+        author: { name: `👥 Información de clan` },
+        title: `🏰 ${targetClan.name}`,
+        description: targetClan.description || '_Sin descripción_',
+        fields: [
+          { name: '👥 Miembros', value: memberLines || '_Sin miembros_', inline: false },
+          { name: '📊 ELO total', value: `**${totalElo.toLocaleString()}**`, inline: true },
+          { name: '📈 ELO promedio', value: `${clanTier.emoji} **${avgElo}**`, inline: true },
+          { name: '⚔️ Guerras', value: `✅ ${targetClan.warWins}W · ❌ ${targetClan.warLosses}L`, inline: true },
+          { name: '🃏 Jugadores totales', value: `**${totalPlayers}**`, inline: true },
+          { name: '📅 Fundado', value: `<t:${Math.floor(targetClan.createdAt / 1000)}:R>`, inline: true },
+          { name: '🆔 ID', value: targetClanId, inline: true },
+        ],
+        footer: { text: `!clan guerra — Retador  ·  !clan top — Ranking de clanes` },
+        timestamp: new Date().toISOString()
+      }]
+    });
+  }
+
+  // ── !clan top ──
+  if (sub === 'top') {
+    const ranking = Object.entries(clansData)
+      .map(([id, c]) => {
+        const totalElo = c.members.reduce((s, mid) => s + (data[mid]?.elo || 1000), 0);
+        return { id, clan: c, totalElo, avgElo: Math.round(totalElo / Math.max(1, c.members.length)) };
+      })
+      .sort((a, b) => b.totalElo - a.totalElo)
+      .slice(0, 10);
+
+    if (!ranking.length) return message.reply('❌ No hay clanes registrados todavía.');
+
+    const medals = ['🥇', '🥈', '🥉'];
+    const lines = ranking.map((r, i) => {
+      const tier = getEloTier(r.avgElo);
+      const num = i < 3 ? medals[i] : `**${i + 1}.**`;
+      return `${num} **${r.clan.name}** — ${r.totalElo.toLocaleString()} ELO total · ${tier.emoji} ${r.avgElo} prom · ${r.clan.members.length} miembros · ✅${r.clan.warWins}`;
+    }).join('\n');
+
+    return message.reply({
+      embeds: [{
+        color: 0xFFD700,
+        title: '🏆 Top 10 Clanes — ELO Total',
+        description: lines,
+        footer: { text: '!clan info <nombre> para ver detalles de un clan' },
+        timestamp: new Date().toISOString()
+      }]
+    });
+  }
+
+  // ── !clan descripcion <texto> ──
+  if (sub === 'descripcion') {
+    const desc = args.slice(2).join(' ').trim();
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el líder puede cambiar la descripción.');
+    if (!desc) return message.reply('❌ Uso: `!clan descripcion <texto>`');
+    if (desc.length > 100) return message.reply('❌ Máximo 100 caracteres.');
+    myClan.description = desc;
+    saveClans();
+    return message.reply(`✅ Descripción del clan **${myClan.name}** actualizada.`);
+  }
+
+  // ── !clan salir ──
+  if (sub === 'salir') {
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId === userId && myClan.members.length > 1)
+      return message.reply('❌ Eres el líder. Primero transfiere el liderazgo con `!clan lider @usuario` o disbanda el clan con `!clan disband`.');
+
+    if (myClan.leaderId === userId && myClan.members.length === 1) {
+      delete clansData[myClanId];
+      saveClans();
+      return message.reply('✅ Saliste y el clan fue disuelto (estabas solo).');
+    }
+
+    myClan.members = myClan.members.filter(id => id !== userId);
+    saveClans();
+    return message.reply(`✅ Saliste del clan **${myClan.name}**.`);
+  }
+
+  // ── !clan expulsar @usuario ──
+  if (sub === 'expulsar') {
+    const target = message.mentions.users.first();
+    if (!target) return message.reply('❌ Uso: `!clan expulsar @usuario`');
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el líder puede expulsar miembros.');
+    if (target.id === userId) return message.reply('❌ No puedes expulsarte a ti mismo.');
+    if (!myClan.members.includes(target.id)) return message.reply(`❌ **${target.username}** no está en tu clan.`);
+    myClan.members = myClan.members.filter(id => id !== target.id);
+    saveClans();
+    return message.reply(`✅ **${target.username}** fue expulsado del clan **${myClan.name}**.`);
+  }
+
+  // ── !clan lider @usuario ──
+  if (sub === 'lider') {
+    const target = message.mentions.users.first();
+    if (!target) return message.reply('❌ Uso: `!clan lider @usuario`');
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el líder actual puede transferir el liderazgo.');
+    if (!myClan.members.includes(target.id)) return message.reply(`❌ **${target.username}** no está en tu clan.`);
+    myClan.leaderId = target.id;
+    saveClans();
+    return message.reply(`✅ **${target.username}** es ahora el nuevo líder de **${myClan.name}**. 👑`);
+  }
+
+  // ── !clan disband ──
+  if (sub === 'disband') {
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el líder puede disolver el clan.');
+
+    const confirmRow = new ActionRowBuilder().addComponents(
+      new ButtonBuilder().setCustomId(`disband_confirm_${userId}`).setLabel('💀 Disolver clan').setStyle(ButtonStyle.Danger),
+      new ButtonBuilder().setCustomId(`disband_cancel_${userId}`).setLabel('❌ Cancelar').setStyle(ButtonStyle.Secondary)
+    );
+
+    const disbMsg = await message.reply({
+      embeds: [{
+        color: 0xFF4444,
+        title: `⚠️ ¿Disolver ${myClan.name}?`,
+        description: `Esto expulsará a **${myClan.members.length}** miembro(s) y borrará el clan permanentemente.\n\n⚠️ **Esta acción no se puede deshacer.**`,
+        footer: { text: '30 segundos para confirmar' }
+      }],
+      components: [confirmRow]
+    });
+
+    const disbCol = disbMsg.createMessageComponentCollector({ time: 30000 });
+    disbCol.on('collect', async interaction => {
+      if (interaction.user.id !== userId) return interaction.reply({ content: '❌', ephemeral: true });
+      disbCol.stop();
+      if (interaction.customId === `disband_cancel_${userId}`)
+        return interaction.update({ embeds: [{ color: 0x555555, title: '❌ Cancelado', description: 'El clan no fue disuelto.' }], components: [] });
+      delete clansData[myClanId];
+      saveClans();
+      return interaction.update({ embeds: [{ color: 0xFF4444, title: `💀 ${myClan.name} fue disuelto`, description: 'El clan y todos sus registros fueron eliminados.' }], components: [] });
+    });
+    disbCol.on('end', (_, r) => { if (r === 'time') disbMsg.edit({ components: [] }).catch(() => {}); });
+    return;
+  }
+
+  // ── !clan guerra ──
+  if (sub === 'guerra') {
+    const myClanId = getClanIdOfUser(userId);
+    const myClan = myClanId ? clansData[myClanId] : null;
+    if (!myClan) return message.reply('❌ No perteneces a ningún clan.');
+    if (myClan.leaderId !== userId) return message.reply('❌ Solo el **líder** puede declarar una guerra.');
+    if (myClan.members.length < 2) return message.reply('❌ Necesitas al menos **2 miembros** en el clan para hacer guerra.');
+
+    const now = Date.now();
+    if (now - myClan.lastWar < CLAN_WAR_COOLDOWN) {
+      const remaining = CLAN_WAR_COOLDOWN - (now - myClan.lastWar);
+      const hh = Math.floor(remaining / 3600000);
+      const mm = Math.floor((remaining % 3600000) / 60000);
+      return message.reply(`⏱️ Tu clan puede volver a guerrear en **${hh}h ${mm}m**.`);
+    }
+
+    // Buscar rival: otro clan con tamaño similar, distinto al tuyo
+    const candidates = Object.entries(clansData).filter(([id, c]) =>
+      id !== myClanId && c.members.length >= 1
+    );
+
+    if (!candidates.length) return message.reply('❌ No hay otros clanes disponibles para guerrear.');
+
+    const myTotalElo = myClan.members.reduce((s, id) => s + (data[id]?.elo || 1000), 0);
+
+    // Elegir rival más cercano en ELO total entre los 3 más similares
+    candidates.sort((a, b) => {
+      const aElo = a[1].members.reduce((s, id) => s + (data[id]?.elo || 1000), 0);
+      const bElo = b[1].members.reduce((s, id) => s + (data[id]?.elo || 1000), 0);
+      return Math.abs(aElo - myTotalElo) - Math.abs(bElo - myTotalElo);
+    });
+    const pool = candidates.slice(0, Math.min(3, candidates.length));
+    const [rivalId, rivalClan] = pool[Math.floor(Math.random() * pool.length)];
+
+    const rivalTotalElo = rivalClan.members.reduce((s, id) => s + (data[id]?.elo || 1000), 0);
+
+    // Calcular resultado: probabilidad basada en ELO total
+    const myWinProb = Math.max(0.2, Math.min(0.8, myTotalElo / (myTotalElo + rivalTotalElo)));
+    const myWon = Math.random() < myWinProb;
+
+    // Recompensa: 200 monedas por miembro ganador
+    const GUERRA_REWARD = 200;
+    if (myWon) {
+      myClan.warWins++;
+      for (const mid of myClan.members) {
+        if (data[mid]) data[mid].coins = (data[mid].coins || 0) + GUERRA_REWARD;
+      }
+    } else {
+      myClan.warLosses++;
+      rivalClan.warWins++;
+      for (const mid of rivalClan.members) {
+        if (data[mid]) data[mid].coins = (data[mid].coins || 0) + GUERRA_REWARD;
+      }
+    }
+
+    myClan.lastWar = now;
+    saveClans();
+    saveData();
+
+    // Detalle de miembros
+    const buildMemberLines = (clan) =>
+      clan.members.slice(0, 5).map(mid => {
+        const tier = getEloTier(data[mid]?.elo || 1000);
+        return `${tier.emoji} <@${mid}> — **${data[mid]?.elo || 1000}** ELO`;
+      }).join('\n') + (clan.members.length > 5 ? `\n_...y ${clan.members.length - 5} más_` : '');
+
+    const myAvg = Math.round(myTotalElo / myClan.members.length);
+    const rivalAvg = Math.round(rivalTotalElo / rivalClan.members.length);
+
+    return message.reply({
+      embeds: [{
+        color: myWon ? 0x00C851 : 0xFF4444,
+        author: { name: `⚔️ Guerra de Clanes`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title: myWon
+          ? `🏆 ¡${myClan.name} GANA LA GUERRA!`
+          : `💀 ${rivalClan.name} gana la guerra`,
+        description: [
+          `**${myClan.name}** vs **${rivalClan.name}**`,
+          ``,
+          myWon
+            ? `✅ ¡Cada miembro de **${myClan.name}** recibe **+${GUERRA_REWARD} 💰**!`
+            : `❌ **${rivalClan.name}** era más fuerte. Cada uno de sus miembros recibe **+${GUERRA_REWARD} 💰**.`,
+        ].join('\n'),
+        fields: [
+          {
+            name: `🏠 ${myClan.name} ${myWon ? '🏆' : ''}`,
+            value: `ELO total: **${myTotalElo.toLocaleString()}** · Promedio: **${myAvg}**\n${buildMemberLines(myClan)}`,
+            inline: true
+          },
+          {
+            name: `✈️ ${rivalClan.name} ${!myWon ? '🏆' : ''}`,
+            value: `ELO total: **${rivalTotalElo.toLocaleString()}** · Promedio: **${rivalAvg}**\n${buildMemberLines(rivalClan)}`,
+            inline: true
+          },
+        ],
+        footer: { text: `Cooldown: 6h · Récord: ✅${myClan.warWins}W ❌${myClan.warLosses}L` },
+        timestamp: new Date().toISOString()
+      }]
+    });
+  }
+
+  // ── Ayuda ──
+  return message.reply({
+    embeds: [{
+      color: 0x5865F2,
+      title: '👥 Comandos de Clan',
+      fields: [
+        { name: '`!clan crear <nombre>`',       value: `Crear clan · Cuesta **${CLAN_CREATE_COST} 💰**`,   inline: false },
+        { name: '`!clan invitar @usuario`',     value: 'Invitar miembro (solo líder)',                      inline: false },
+        { name: '`!clan info [nombre]`',        value: 'Ver info de tu clan o de otro',                    inline: false },
+        { name: '`!clan top`',                  value: 'Ranking de clanes por ELO total',                  inline: false },
+        { name: '`!clan guerra`',               value: 'Iniciar guerra automática · Cooldown 6h',          inline: false },
+        { name: '`!clan descripcion <texto>`',  value: 'Editar descripción del clan (solo líder)',         inline: false },
+        { name: '`!clan expulsar @usuario`',    value: 'Expulsar miembro (solo líder)',                    inline: false },
+        { name: '`!clan lider @usuario`',       value: 'Transferir liderazgo',                             inline: false },
+        { name: '`!clan salir`',                value: 'Salir del clan',                                   inline: false },
+        { name: '`!clan disband`',              value: 'Disolver el clan (solo líder)',                    inline: false },
+      ],
+      footer: { text: `Máximo ${CLAN_MAX_MEMBERS} miembros por clan` }
+    }]
+  });
+}
+
+
+
+// ─────────────────────────────────────────
+// ❓ TRIVIA
+// ─────────────────────────────────────────
+const TRIVIA_QUESTIONS = [
+  { q: '¿En qué año exacto se fundó la FIFA?', options: ['1900', '1904', '1906', '1908'], answer: 1, reward: 150 },
+  { q: '¿Cuántos goles marcó Pelé en toda su carrera oficial?', options: ['1000', '1078', '767', '892'], answer: 1, reward: 200 },
+  { q: '¿Qué selección ganó el primer Mundial de fútbol en 1930?', options: ['Argentina', 'Brasil', 'Uruguay', 'Italia'], answer: 2, reward: 150 },
+  { q: '¿Cuántos Balones de Oro ganó Ronaldo Nazário "el Fenómeno"?', options: ['1', '2', '3', '0'], answer: 1, reward: 160 },
+  { q: '¿Qué país fue sede del Mundial donde Maradona hizo "La mano de Dios"?', options: ['Argentina', 'España', 'México', 'Italia'], answer: 2, reward: 150 },
+  { q: '¿Quién fue el goleador histórico de la Champions League antes de Cristiano Ronaldo?', options: ['Raúl', 'Van Nistelrooy', 'Messi', 'Benzema'], answer: 0, reward: 200 },
+  { q: '¿En qué año ganó Colombia su única Copa América?', options: ['2001', '1999', '2004', '1995'], answer: 0, reward: 180 },
+  { q: '¿Cuántos goles marcó Gerd Müller en el Mundial de 1970?', options: ['8', '10', '7', '9'], answer: 1, reward: 220 },
+  { q: '¿En qué ciudad se jugó la final del Mundial 2006?', options: ['Munich', 'Berlín', 'Hamburgo', 'Dortmund'], answer: 1, reward: 170 },
+  { q: '¿Qué árbitro pitó la final del Mundial 1998?', options: ['Collina', 'Belqola', 'Moreno', 'Melo'], answer: 1, reward: 250 },
+  { q: '¿Cuántos goles marcó Just Fontaine en el Mundial 1958, récord histórico?', options: ['11', '13', '10', '12'], answer: 1, reward: 230 },
+  { q: '¿Qué jugador marcó el gol de oro en la Eurocopa 1996?', options: ['Bierhoff', 'Shearer', 'Klinsmann', 'Zidane'], answer: 0, reward: 220 },
+  { q: '¿En qué año debutó Messi con la selección absoluta de Argentina?', options: ['2004', '2005', '2006', '2007'], answer: 1, reward: 180 },
+  { q: '¿Cuántos mundiales consecutivos ganó Italia entre 1934 y 1938?', options: ['1', '2', '3', '4'], answer: 1, reward: 160 },
+  { q: '¿Qué selección eliminó a España en octavos del Mundial 2022?', options: ['Francia', 'Marruecos', 'Portugal', 'Croacia'], answer: 1, reward: 150 },
+  { q: '¿Cuántos goles marcó Miroslav Klose en Mundiales?', options: ['14', '15', '16', '13'], answer: 2, reward: 180 },
+  { q: '¿Quién entrenaba a Francia cuando ganó el Mundial 1998?', options: ['Houllier', 'Deschamps', 'Jacquet', 'Blanc'], answer: 2, reward: 200 },
+  { q: '¿En qué minuto marcó Iniesta el gol del Mundial 2010?', options: ['116', '119', '113', '110'], answer: 0, reward: 220 },
+  { q: '¿Qué club formó a Ronaldinho antes de ir al Barcelona?', options: ['Flamengo', 'Cruzeiro', 'Grêmio', 'Santos'], answer: 2, reward: 200 },
+  { q: '¿Cuántas Copas de Europa/Champions consecutivas ganó el Real Madrid entre 1956 y 1960?', options: ['4', '5', '6', '3'], answer: 1, reward: 180 },
+  { q: '¿Qué portero atajó los penales de Francia en semifinales del Mundial 2006?', options: ['Buffon', 'Casillas', 'Toldo', 'Peruzzi'], answer: 0, reward: 220 },
+  { q: '¿Cuántos goles marcó Colombia vs Brasil en el Mundial 2014?', options: ['1', '2', '3', '0'], answer: 0, reward: 170 },
+  { q: '¿Qué jugador marcó el hat-trick en la final de la Recopa 1997 para Chelsea?', options: ['Zola', 'Di Matteo', 'Vialli', 'Hughes'], answer: 2, reward: 250 },
+  { q: '¿En qué año ganó Boca Juniors su última Copa Libertadores?', options: ['2000', '2003', '2007', '2001'], answer: 1, reward: 200 },
+  { q: '¿Cuántos minutos jugó Maradona en el partido vs Inglaterra 1986?', options: ['90', '85', '80', '88'], answer: 0, reward: 220 },
+  { q: '¿Qué delantero marcó el gol decisivo en la final de Champions 1999 para el United?', options: ['Sheringham', 'Solskjaer', 'Cole', 'Yorke'], answer: 1, reward: 230 },
+  { q: '¿Cuántos penales falló Italia en la final del Mundial 1994?', options: ['2', '3', '1', '4'], answer: 0, reward: 200 },
+  { q: '¿Qué jugador holandés fue expulsado en la final del Mundial 2010?', options: ['Van Bommel', 'De Jong', 'Robben', 'Heitinga'], answer: 3, reward: 230 },
+  { q: '¿En qué temporada ganó el Leicester City la Premier League?', options: ['2014-15', '2015-16', '2016-17', '2013-14'], answer: 1, reward: 170 },
+  { q: '¿Cuántos goles marcó Ronaldo (CR7) en su primera temporada en la Juventus?', options: ['26', '28', '21', '30'], answer: 2, reward: 200 },
+  { q: '¿Quién fue el MVP del Mundial 2014?', options: ['Müller', 'Neuer', 'Messi', 'Götze'], answer: 2, reward: 170 },
+  { q: '¿Qué árbitro expulsó a Zidane en la final del Mundial 2006?', options: ['Elizondo', 'Archundia', 'Melo', 'Rosetti'], answer: 0, reward: 230 },
+  { q: '¿Cuántos goles marcó Romário en el Mundial 1994?', options: ['4', '5', '6', '3'], answer: 1, reward: 200 },
+  { q: '¿En qué año ganó el Atlético de Madrid su primera Liga de Campeones?', options: ['Nunca la ha ganado', '1974', '1996', '2014'], answer: 0, reward: 220 },
+  { q: '¿Cuántos jugadores africanos participaron en el primer Mundial de 1930?', options: ['0', '1', '2', '4'], answer: 0, reward: 210 },
+  { q: '¿Quién anotó el gol olímpico (directo de córner) más famoso en un Clásico?', options: ['Messi', 'Ronaldinho', 'Rivaldo', 'Ronaldo'], answer: 1, reward: 240 },
+  { q: '¿Cuántas veces fue convocado Ronaldo al Mundial y no pudo jugar por lesión en 1998?', options: ['Sí jugó', 'Nunca', 'Solo la final', 'Todo el torneo'], answer: 0, reward: 220 },
+  { q: '¿Qué selección ganó las dos primeras ediciones de la Copa América (1916 y 1917)?', options: ['Brasil', 'Argentina', 'Uruguay', 'Chile'], answer: 2, reward: 220 },
+  { q: '¿En qué minuto anotó Sergio Ramos su gol en la final de Champions 2014 para el empate?', options: ['90+3', '90+1', '88', '93'], answer: 0, reward: 240 },
+  { q: '¿Cuántos goles marcó Ronaldo (el Fenómeno) en el Mundial 2002?', options: ['6', '7', '8', '5'], answer: 2, reward: 200 },
+  { q: '¿Qué técnico llevó a Grecia a ganar la Eurocopa 2004?', options: ['Rehhagel', 'Clough', 'Hiddink', 'Eriksson'], answer: 0, reward: 230 },
+  { q: '¿Cuál fue el resultado de la famosa "Batalla de Santiago" en el Mundial 1962?', options: ['Chile 2-0 Italia', 'Chile 2-1 Italia', 'Italia 2-0 Chile', 'Chile 3-0 Italia'], answer: 0, reward: 250 },
+  { q: '¿Cuántos goles marcó Eusébio en el Mundial 1966?', options: ['7', '9', '8', '6'], answer: 1, reward: 220 },
+  { q: '¿Qué club ganó la primera Copa Libertadores de la historia?', options: ['Peñarol', 'Santos', 'Olimpia', 'River Plate'], answer: 0, reward: 230 },
+  { q: '¿En qué año se creó el offside (fuera de juego) moderno a 1 defensor?', options: ['1990', '1995', '2005', '2000'], answer: 0, reward: 210 },
+  { q: '¿Cuántos mundiales jugó Lothar Matthäus?', options: ['4', '5', '3', '6'], answer: 1, reward: 200 },
+  { q: '¿Qué jugador tiene más apariciones en la historia de la Premier League?', options: ['Giggs', 'James', 'Barry', 'Heskey'], answer: 2, reward: 240 },
+  { q: '¿En qué año ganó el Napoli su primer Scudetto con Maradona?', options: ['1985', '1987', '1989', '1986'], answer: 1, reward: 200 },
+  { q: '¿Cuántos penales atajó Jerzy Dudek en la final de Champions 2005?', options: ['1', '2', '3', '4'], answer: 1, reward: 230 },
+  { q: '¿Qué selección ganó el Grupo F del Mundial 2022 por encima de Bélgica?', options: ['Canadá', 'Marruecos', 'Croacia', 'Japón'], answer: 2, reward: 200 },
+];
+
+const triviaCooldowns = new Map();
+const TRIVIA_COOLDOWN = 5 * 60 * 1000;
+
+if (cmd === '!trivia') {
+  if (!isAdmin(userId)) {
+    const lastTrivia = Math.max(triviaCooldowns.get(userId) || 0, user.lastTrivia || 0);
+    const elapsed = Date.now() - lastTrivia;
+    if (elapsed < TRIVIA_COOLDOWN) {
+      const mins = Math.floor((TRIVIA_COOLDOWN - elapsed) / 60000);
+      const secs = Math.floor(((TRIVIA_COOLDOWN - elapsed) % 60000) / 1000);
+      return message.reply(`⏱️ **Trivia en cooldown** — espera **${mins}m ${secs}s**.`);
+    }
+  }
+
+  const q = TRIVIA_QUESTIONS[Math.floor(Math.random() * TRIVIA_QUESTIONS.length)];
+  const letters = ['🅰️', '🅱️', '🇨', '🇩'];
+  const TRIVIA_TIME = 20000;
+
+  triviaCooldowns.set(userId, Date.now());
+  user.lastTrivia = Date.now();
+  saveData();
+
+  const triviaRow = new ActionRowBuilder().addComponents(
+    q.options.map((opt, i) =>
+      new ButtonBuilder()
+        .setCustomId(`trivia_${i}_${userId}`)
+        .setLabel(`${['A', 'B', 'C', 'D'][i]}. ${opt}`)
+        .setStyle(ButtonStyle.Primary)
+    )
+  );
+
+  const triviaMsg = await message.reply({
+    embeds: [{
+      color: 0x5865F2,
+      author: { name: `❓ Trivia · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title: q.q,
+      description: q.options.map((opt, i) => `${letters[i]} ${opt}`).join('\n'),
+      fields: [
+        { name: '💰 Premio', value: `**${q.reward} 💰**`, inline: true },
+        { name: '⏱️ Tiempo', value: '**20 segundos**', inline: true },
+      ],
+      footer: { text: 'Elige la respuesta correcta' },
+      timestamp: new Date().toISOString()
+    }],
+    components: [triviaRow]
+  });
+
+  const triviaCol = triviaMsg.createMessageComponentCollector({ time: TRIVIA_TIME });
+
+  triviaCol.on('collect', async interaction => {
+    if (interaction.user.id !== userId)
+      return interaction.reply({ content: '❌ Esta trivia no es tuya.', ephemeral: true });
+
+    triviaCol.stop();
+    const chosen = parseInt(interaction.customId.replace(`trivia_`, '').replace(`_${userId}`, ''));
+    const correct = chosen === q.answer;
+
+    if (correct) {
+      user.coins += q.reward;
+      saveData();
+    }
+
+    const resultOptions = q.options.map((opt, i) => {
+      const isCorrect = i === q.answer;
+      const isChosen = i === chosen;
+      const prefix = isCorrect ? '✅' : isChosen ? '❌' : '⬜';
+      return `${prefix} ${['A', 'B', 'C', 'D'][i]}. ${opt}`;
+    }).join('\n');
+
+    await interaction.update({
+      embeds: [{
+        color: correct ? 0x00C851 : 0xFF4444,
+        author: { name: `❓ Trivia · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title: q.q,
+        description: resultOptions,
+        fields: [
+          correct
+            ? { name: '✅ ¡Correcto!', value: `**+${q.reward} 💰**`, inline: true }
+            : { name: '❌ Incorrecto', value: `La respuesta era **${q.options[q.answer]}**`, inline: true },
+          { name: '💰 Balance', value: `**${user.coins.toLocaleString()} 💰**`, inline: true },
+        ],
+        footer: { text: 'Cooldown: 5 minutos · !trivia para jugar de nuevo' },
+        timestamp: new Date().toISOString()
+      }],
+      components: []
+    });
+  });
+
+  triviaCol.on('end', (_, reason) => {
+    if (reason === 'time') {
+      triviaMsg.edit({
+        embeds: [{
+          color: 0x555555,
+          title: `⏱️ Tiempo agotado — ${q.q}`,
+          description: q.options.map((opt, i) => {
+            const isCorrect = i === q.answer;
+            return `${isCorrect ? '✅' : '⬜'} ${['A', 'B', 'C', 'D'][i]}. ${opt}`;
+          }).join('\n'),
+          fields: [{ name: '⏱️ Se acabó el tiempo', value: `La respuesta era **${q.options[q.answer]}**`, inline: false }],
+          footer: { text: 'Cooldown: 5 minutos' }
+        }],
+        components: []
+      }).catch(() => {});
+    }
+  });
+
+  return;
+}
+
+
+// ─────────────────────────────────────────
 // 🎮 PLAYERS — Ver todos los jugadores disponibles
 // ─────────────────────────────────────────
 if (cmd === '!players') {
@@ -6438,7 +7172,7 @@ const rulSS = Math.floor((rulRemaining % 60000) / 1000);
 const rulStr = rulReady ? '✅ Ready' : `⏳ ${rulMM}m ${rulSS}s`;
 
 // --- Raspadito ---
-const RASPAR_CD_MS = 8 * 60 * 1000;
+const RASPAR_CD_MS = 5 * 60 * 1000;
 const lastRaspar = user.lastRaspar || 0;
 const rasparElapsed = nowTs - lastRaspar;
 const rasparReady = isAdmin(userId) || rasparElapsed >= RASPAR_CD_MS;
@@ -6448,7 +7182,7 @@ const rasparSS = Math.floor((rasparRemaining % 60000) / 1000);
 const rasparStr = rasparReady ? '✅ Ready' : `⏳ ${rasparMM}m ${rasparSS}s`;
 
 // --- Dados ---
-const DADOS_CD_MS = 10 * 60 * 1000;
+const DADOS_CD_MS = 7 * 60 * 1000;
 const lastDados = user.lastDados || 0;
 const dadosElapsed = nowTs - lastDados;
 const dadosReady = isAdmin(userId) || dadosElapsed >= DADOS_CD_MS;
@@ -6479,6 +7213,19 @@ const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
             : `Próxima recompensa: **${claimReward} 💰** · Vuelve en **${claimHH}h ${claimMM}m ${claimSS}s**`,
           inline: false
         },
+
+{
+  name: `❓ Trivia — ${(() => {
+    const lastT = Math.max(triviaCooldowns.get(userId) || 0, user.lastTrivia || 0);
+    const e = Date.now() - lastT;
+    const ready = isAdmin(userId) || e >= TRIVIA_COOLDOWN;
+    if (ready) return '✅ Ready';
+    const r = TRIVIA_COOLDOWN - e;
+    return `⏳ ${Math.floor(r/60000)}m ${Math.floor((r%60000)/1000)}s`;
+  })()}`,
+  value: 'Usa `!trivia` · Premio hasta **180 💰** · Cooldown 5 min',
+  inline: false
+},
 
         {
   name: `🎰 Ruleta — ${rulStr}`,
