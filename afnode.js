@@ -405,43 +405,47 @@ const players = [
 
 mkp("DIEGO",      98, "ST", "Icon", {PAC:98,SHO:99,PAS:96,DRI:98,DEF:72,PHY:97}),
 mkp("Panda",      97, "GK", "Icon", {DIV:97,REF:98,HAN:96,KIC:97,POS:98}),
-mkp("Real",       95, "ST", "Icon", {PAC:96,SHO:97,PAS:93,DRI:95,DEF:68,PHY:94}),
+mkp("Caslu",      96, "DM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Hardem",      94, "ST", "Icon", {PAC:91,SHO:94,PAS:89,DRI:96,DEF:61,PHY:86}),
+mkp("Zarco",      94, "AM", "Icon", {PAC:93,SHO:91,PAS:96,DRI:97,DEF:65,PHY:88}),
+mkp("Kermit ICON",     94, "DM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Real",       96, "ST", "Icon", {PAC:96,SHO:97,PAS:93,DRI:95,DEF:68,PHY:94}),
 mkp("Rad1",       94, "AM", "Icon", {PAC:93,SHO:91,PAS:96,DRI:97,DEF:65,PHY:88}),
 mkp("Checo",      95, "DM", "Icon", {PAC:94,SHO:87,PAS:95,DRI:95,DEF:97,PHY:96}),
-mkp("Mondaman",   94, "AM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
-mkp("Zyros",      94, "AM", "Icon", {PAC:93,SHO:91,PAS:95,DRI:97,DEF:63,PHY:88}),
+mkp("Mondaman",   93, "AM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Zyros ICON",      94, "AM", "Icon", {PAC:93,SHO:91,PAS:95,DRI:97,DEF:63,PHY:88}),
 mkp("P4er",       98, "AM", "Icon", {PAC:96,SHO:95,PAS:99,DRI:99,DEF:70,PHY:91}),
-mkp("Lorenzi",    93, "AM", "Icon", {PAC:91,SHO:89,PAS:95,DRI:96,DEF:62,PHY:86}),
+mkp("Lorenzi",    94, "AM", "Icon", {PAC:91,SHO:89,PAS:95,DRI:96,DEF:62,PHY:86}),
 mkp("Pardo",      94, "DM", "Icon", {PAC:93,SHO:85,PAS:94,DRI:93,DEF:96,PHY:95}),
-mkp("BryanCisf",  93, "AM", "Icon", {PAC:91,SHO:89,PAS:94,DRI:96,DEF:61,PHY:86}),
+mkp("BryanCisf",  93, "ST", "Icon", {PAC:91,SHO:94,PAS:89,DRI:96,DEF:61,PHY:86}),
 mkp("RX",         93, "ST", "Icon", {PAC:94,SHO:95,PAS:90,DRI:93,DEF:65,PHY:92}),
-mkp("Mecha",      92, "GK", "Icon", {DIV:92,REF:94,HAN:91,KIC:92,POS:93}),
-mkp("Zombot",     94, "GK", "Icon", {DIV:94,REF:96,HAN:93,KIC:94,POS:95}),
-mkp("Disk",       92, "AM", "Icon", {PAC:90,SHO:88,PAS:93,DRI:95,DEF:60,PHY:85}),
-mkp("P1nguano",   94, "AM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
+mkp("Mecha",      93, "GK", "Icon", {DIV:92,REF:94,HAN:91,KIC:92,POS:93}),
+mkp("Zombot ICON",     94, "GK", "Icon", {DIV:94,REF:96,HAN:93,KIC:94,POS:95}),
+mkp("Disk",       94, "AM", "Icon", {PAC:90,SHO:88,PAS:93,DRI:95,DEF:60,PHY:85}),
+mkp("P1nguano",   94, "DM", "Icon", {PAC:92,SHO:90,PAS:96,DRI:97,DEF:64,PHY:87}),
 mkp("Doxing",     95, "AM", "Icon", {PAC:93,SHO:91,PAS:97,DRI:98,DEF:65,PHY:89}),
 
-  mkp("Kyo",         95, "ST", "WorldCup", {PAC:96,SHO:90,PAS:97,DRI:97,DEF:99,PHY:97}),
-  mkp("Vak",       94, "AM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
+  mkp("Kyo",         94, "ST", "WorldCup", {PAC:96,SHO:90,PAS:97,DRI:97,DEF:99,PHY:97}),
+  mkp("Vak",       93, "AM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
   mkp("Sekai WC",       94, "DM", "WorldCup", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
   mkp("Luntek WC",       93, "GK", "WorldCup", {DIV:97,REF:96,HAN:94,KIC:95,POS:96}),
-  mkp("Pixel WC",       96, "ST", "WorldCup", {PAC:97,SHO:99,PAS:95,DRI:96,DEF:75,PHY:96}),
+  mkp("Pixel WC",       95, "ST", "WorldCup", {PAC:97,SHO:99,PAS:95,DRI:96,DEF:75,PHY:96}),
   mkp("Mazda",       93, "ST", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:94,DEF:96,PHY:96}),
   mkp("Facha",       92, "DM", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:94,DEF:68,PHY:93}),
-  mkp("Compass WC",     96, "DM", "WorldCup", {PAC:98,SHO:93,PAS:97,DRI:98,DEF:99,PHY:98}),
-  mkp("Father WC",      96, "GK", "WorldCup", {DIV:97,REF:99,HAN:97,KIC:96,POS:99}),
-  mkp("Czerro WC",      96, "DM", "WorldCup", {PAC:98,SHO:93,PAS:98,DRI:98,DEF:99,PHY:97}),
+  mkp("Compass WC",     95, "DM", "WorldCup", {PAC:98,SHO:93,PAS:97,DRI:98,DEF:99,PHY:98}),
+  mkp("Father WC",      95, "GK", "WorldCup", {DIV:97,REF:99,HAN:97,KIC:96,POS:99}),
+  mkp("Czerro WC",      95, "DM", "WorldCup", {PAC:98,SHO:93,PAS:98,DRI:98,DEF:99,PHY:97}),
   mkp("Fusion",      94, "DM", "WorldCup", {PAC:95,SHO:91,PAS:96,DRI:96,DEF:98,PHY:96}),
   mkp("Thunder",     94, "AM", "WorldCup", {PAC:96,SHO:95,PAS:97,DRI:98,DEF:78,PHY:94}),
   mkp("Shott",       94, "AM", "WorldCup", {PAC:95,SHO:96,PAS:97,DRI:98,DEF:76,PHY:93}),
   mkp("Cervi WC",       94, "ST", "WorldCup", {PAC:95,SHO:98,PAS:94,DRI:96,DEF:72,PHY:95}),
-  mkp("Hitlerinho",  95, "AM", "WorldCup", {PAC:95,SHO:95,PAS:97,DRI:99,DEF:74,PHY:93}),
+  mkp("Hitlerinho",  94, "AM", "WorldCup", {PAC:95,SHO:95,PAS:97,DRI:99,DEF:74,PHY:93}),
   mkp("Ken",         93, "AM", "WorldCup", {PAC:94,SHO:94,PAS:96,DRI:97,DEF:72,PHY:92}),
   mkp("Rodrigo",     93, "GK", "WorldCup", {DIV:95,REF:97,HAN:95,KIC:94,POS:97}),
   mkp("Murillo",     93, "ST", "WorldCup", {PAC:96,SHO:98,PAS:91,DRI:95,DEF:70,PHY:94}),
   mkp("Magico",      93, "ST", "WorldCup", {PAC:95,SHO:97,PAS:92,DRI:96,DEF:68,PHY:93}),
-  mkp("N+23",        94, "GK", "WorldCup", {DIV:94,REF:96,HAN:94,KIC:93,POS:96}),
-  mkp("Becken",      91, "GK", "WorldCup", {DIV:93,REF:95,HAN:93,KIC:92,POS:95}),
+  mkp("N+23",        93, "GK", "WorldCup", {DIV:94,REF:96,HAN:94,KIC:93,POS:96}),
+  mkp("Becken",      92, "GK", "WorldCup", {DIV:93,REF:95,HAN:93,KIC:92,POS:95}),
 
 
   mkp("Luntek",       91, "ST", "Legendario", {PAC:96,SHO:98,PAS:90,DRI:97,DEF:70,PHY:94}),
@@ -487,7 +491,7 @@ mkp("Doxing",     95, "AM", "Icon", {PAC:93,SHO:91,PAS:97,DRI:98,DEF:65,PHY:89})
   mkp("Raz",          84, "ST", "Epico",      {PAC:87,SHO:90,PAS:74,DRI:83,DEF:53,PHY:86}),
   mkp("Allan Saint",  83, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
   mkp("Korai",        83, "DM", "Epico",      {PAC:79,SHO:66,PAS:80,DRI:78,DEF:87,PHY:84}),
-  mkp("Lawliet",      83, "AM", "Epico",      {PAC:80,SHO:80,PAS:83,DRI:83,DEF:53,PHY:74}),
+  mkp("Lawliet",      84, "AM", "Epico",      {PAC:80,SHO:80,PAS:83,DRI:83,DEF:53,PHY:74}),
   mkp("Metzi",        83, "DM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:70}),
   mkp("Nocke",        83, "AM", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:87,DEF:56,PHY:75}),
   mkp("Saskee",       83, "ST", "Epico",      {PAC:80,SHO:82,PAS:86,DRI:89,DEF:65,PHY:70}),
@@ -609,19 +613,23 @@ mkp("Doxing",     95, "AM", "Icon", {PAC:93,SHO:91,PAS:97,DRI:98,DEF:65,PHY:89})
 const playerNationality = {
   
   "DIEGO":        { flag: "🇨🇴", country: "Colombia"   },
+  "Kermit ICON":        { flag: "🇨🇴", country: "Colombia"   },
   "Panda":        { flag: "🇨🇴", country: "Colombia"   },
   "Real":         { flag: "🇨🇴", country: "Colombia"   },
   "Rad1":         { flag: "🇨🇴", country: "Colombia"   },
   "Checo":        { flag: "🇨🇴", country: "Colombia"   },
   "Mondaman":     { flag: "🇨🇴", country: "Colombia"   },
-  "Zyros":        { flag: "🇨🇴", country: "Colombia"   },
+  "Zyros ICON":        { flag: "🇨🇴", country: "Colombia"   },
+"Caslu":        { flag: "🇨🇴", country: "Colombia"   },
   "P4er":         { flag: "🇮🇱", country: "Israel" },
+"Hardem":        { flag: "🇨🇴", country: "Colombia"   },
+"Zarco":        { flag: "🇨🇴", country: "Colombia"   },
   "Lorenzi":      { flag: "🇨🇴", country: "Colombia"   },
   "Pardo":        { flag: "🇨🇴", country: "Colombia"   },
   "BryanCisf":    { flag: "🇨🇴", country: "Colombia"   },
   "RX":           { flag: "🇨🇴", country: "Colombia"   },
-  "Mecha":        { flag: "🇨🇴", country: "Colombia"   },
-  "Zombot":       { flag: "🇨🇴", country: "Colombia"   },
+  "Mecha": { flag: "🇵🇦", country: "Panamá" },
+  "Zombot ICON":       { flag: "🇨🇴", country: "Colombia"   },
   "Disk":         { flag: "🇨🇴", country: "Colombia"   },
   "P1nguano":     { flag: "🇨🇴", country: "Colombia"   },
   "Doxing":       { flag: "🇨🇴", country: "Colombia"   },
@@ -798,69 +806,61 @@ function drawFIFAPattern(ctx, x, y, W, H, color) {
 // 🌍 BANDERAS MANUALES POR PAÍS
 // ─────────────────────────────────────────
 function drawManualFlag(ctx, country, x, y, w, h) {
+  // Fondo base
   ctx.save();
-  // Borde redondeado de la bandera
+  ctx.fillStyle = '#444444';
+  ctx.beginPath();
+  roundRectPath(ctx, x, y, w, h, 3);
+  ctx.fill();
+  ctx.restore();
+
+  // Clip para el contenido de la bandera
+  ctx.save();
   ctx.beginPath();
   roundRectPath(ctx, x, y, w, h, 3);
   ctx.clip();
 
   if (country === 'Argentina') {
-    // Celeste - Blanco - Celeste
     ctx.fillStyle = '#74ACDF'; ctx.fillRect(x, y, w, h / 3);
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y + h / 3, w, h / 3);
     ctx.fillStyle = '#74ACDF'; ctx.fillRect(x, y + (h / 3) * 2, w, h / 3);
-    // Sol simplificado
     ctx.fillStyle = '#F6B40E';
     ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, h * 0.22, 0, Math.PI * 2); ctx.fill();
 
-
   } else if (country === 'Israel') {
-  // Fondo blanco
-  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h);
-  // Franja azul arriba
-  ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.1, w, h * 0.15);
-  // Franja azul abajo
-  ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.75, w, h * 0.15);
-  // Estrella de David (dos triángulos)
-  const cx2 = x + w / 2, cy2 = y + h / 2;
-  const r = h * 0.18;
-  ctx.fillStyle = '#0038B8';
-  // Triángulo arriba
-  ctx.beginPath();
-  ctx.moveTo(cx2, cy2 - r);
-  ctx.lineTo(cx2 + r * 0.87, cy2 + r * 0.5);
-  ctx.lineTo(cx2 - r * 0.87, cy2 + r * 0.5);
-  ctx.closePath(); ctx.fill();
-  // Triángulo abajo
-  ctx.beginPath();
-  ctx.moveTo(cx2, cy2 + r);
-  ctx.lineTo(cx2 + r * 0.87, cy2 - r * 0.5);
-  ctx.lineTo(cx2 - r * 0.87, cy2 - r * 0.5);
-  ctx.closePath(); ctx.fill();
-  // Hueco del centro (blanco)
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.arc(cx2, cy2, r * 0.38, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.1, w, h * 0.15);
+    ctx.fillStyle = '#0038B8'; ctx.fillRect(x, y + h * 0.75, w, h * 0.15);
+    const cx2 = x + w / 2, cy2 = y + h / 2;
+    const r = h * 0.18;
+    ctx.fillStyle = '#0038B8';
+    ctx.beginPath();
+    ctx.moveTo(cx2, cy2 - r);
+    ctx.lineTo(cx2 + r * 0.87, cy2 + r * 0.5);
+    ctx.lineTo(cx2 - r * 0.87, cy2 + r * 0.5);
+    ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(cx2, cy2 + r);
+    ctx.lineTo(cx2 + r * 0.87, cy2 - r * 0.5);
+    ctx.lineTo(cx2 - r * 0.87, cy2 - r * 0.5);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, r * 0.38, 0, Math.PI * 2); ctx.fill();
 
   } else if (country === 'Polonia') {
-    // Blanco arriba, Rojo abajo
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h / 2);
     ctx.fillStyle = '#DC143C'; ctx.fillRect(x, y + h / 2, w, h / 2);
 
   } else if (country === 'USA') {
-    // Fondo rojo
     ctx.fillStyle = '#B22234'; ctx.fillRect(x, y, w, h);
-    // Franjas blancas (7)
     ctx.fillStyle = '#FFFFFF';
     const stripeH = h / 13;
     for (let i = 1; i < 13; i += 2) ctx.fillRect(x, y + stripeH * i, w, stripeH);
-    // Canton azul
     ctx.fillStyle = '#3C3B6E'; ctx.fillRect(x, y, w * 0.4, h * 0.54);
 
   } else if (country === 'Brasil') {
-    // Verde
     ctx.fillStyle = '#009C3B'; ctx.fillRect(x, y, w, h);
-    // Rombo amarillo
     ctx.fillStyle = '#FFDF00';
     ctx.beginPath();
     ctx.moveTo(x + w / 2, y + h * 0.08);
@@ -868,44 +868,52 @@ function drawManualFlag(ctx, country, x, y, w, h) {
     ctx.lineTo(x + w / 2, y + h * 0.92);
     ctx.lineTo(x + w * 0.08, y + h / 2);
     ctx.closePath(); ctx.fill();
-    // Círculo azul
     ctx.fillStyle = '#002776';
     ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, h * 0.28, 0, Math.PI * 2); ctx.fill();
 
   } else if (country === 'Uruguay') {
-    // Blanco y azul franjas
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w, h);
     ctx.fillStyle = '#0038A8';
     const uStripeH = h / 9;
     for (let i = 1; i < 9; i += 2) ctx.fillRect(x, y + uStripeH * i, w, uStripeH);
-    // Sol amarillo
     ctx.fillStyle = '#F6B40E';
     ctx.beginPath(); ctx.arc(x + w * 0.25, y + h * 0.35, h * 0.2, 0, Math.PI * 2); ctx.fill();
 
   } else if (country === 'Canadá') {
-    // Rojo - Blanco - Rojo
     ctx.fillStyle = '#FF0000'; ctx.fillRect(x, y, w * 0.25, h);
     ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x + w * 0.25, y, w * 0.5, h);
     ctx.fillStyle = '#FF0000'; ctx.fillRect(x + w * 0.75, y, w * 0.25, h);
-    // Hoja de arce (simplificada como círculo rojo)
     ctx.fillStyle = '#FF0000';
     ctx.beginPath(); ctx.arc(x + w / 2, y + h / 2, h * 0.22, 0, Math.PI * 2); ctx.fill();
 
+  } else if (country === 'Panamá') {
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x, y, w / 2, h / 2);
+    ctx.fillStyle = '#D21034'; ctx.fillRect(x + w / 2, y, w / 2, h / 2);
+    ctx.fillStyle = '#003087'; ctx.fillRect(x, y + h / 2, w / 2, h / 2);
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x + w / 2, y + h / 2, w / 2, h / 2);
+    // Estrella roja en cuadrante blanco (arriba izq)
+    ctx.fillStyle = '#D21034';
+    ctx.beginPath(); ctx.arc(x + w * 0.25, y + h * 0.25, h * 0.18, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath(); ctx.arc(x + w * 0.25, y + h * 0.25, h * 0.10, 0, Math.PI * 2); ctx.fill();
+    // Estrella azul en cuadrante blanco (abajo der)
+    ctx.fillStyle = '#003087';
+    ctx.beginPath(); ctx.arc(x + w * 0.75, y + h * 0.75, h * 0.18, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath(); ctx.arc(x + w * 0.75, y + h * 0.75, h * 0.10, 0, Math.PI * 2); ctx.fill();
 
   } else if (country === 'Colombia') {
-    // Amarillo arriba (mitad), Azul en medio, Rojo abajo
     ctx.fillStyle = '#FCD116'; ctx.fillRect(x, y, w, h * 0.5);
     ctx.fillStyle = '#003087'; ctx.fillRect(x, y + h * 0.5, w, h * 0.25);
     ctx.fillStyle = '#CE1126'; ctx.fillRect(x, y + h * 0.75, w, h * 0.25);
 
   } else {
-    // Fallback genérico si no hay bandera definida
     ctx.fillStyle = '#444444'; ctx.fillRect(x, y, w, h);
   }
 
   ctx.restore();
 
-  // Borde de la bandera
+  // Borde dorado (fuera del clip)
   ctx.save();
   ctx.strokeStyle = '#FFD700';
   ctx.lineWidth = 1.5;
@@ -985,20 +993,21 @@ async function drawShowcaseCard(player) {
     ctx.restore();
   }
 
-  // Rating y posición
-  const topOffset = isWC ? 16 : 0;
-  ctx.font = `bold 82px ${FIFA_FONT}`;
-  ctx.fillStyle = c.ratingCol;
-  ctx.textAlign = 'left';
-  ctx.shadowColor = '#00000044';
-  ctx.shadowBlur = 6;
-  ctx.fillText(String(player.rating), cx + 16, cy + 84 + topOffset);
-  ctx.shadowBlur = 0;
+const topOffset = isWC ? 16 : 0;
 
-  ctx.font = `bold 22px ${FIFA_FONT}`;
-  ctx.fillStyle = c.posCol;
-  ctx.textAlign = 'left';
-  ctx.fillText(player.position, cx + 20, cy + 110 + topOffset);
+  // Rating y posición
+ctx.font = `bold 64px ${FIFA_FONT}`;
+ctx.fillStyle = c.ratingCol;
+ctx.textAlign = 'left';
+ctx.shadowColor = '#00000044';
+ctx.shadowBlur = 6;
+ctx.fillText(String(player.rating), cx + 8, cy + 72 + topOffset);
+ctx.shadowBlur = 0;
+
+ctx.font = `bold 22px ${FIFA_FONT}`;
+ctx.fillStyle = c.posCol;
+ctx.textAlign = 'left';
+ctx.fillText(player.position, cx + 20, cy + 110 + topOffset);
 
   // ── BANDERA manual esquina superior derecha (solo WC) ──
   if (isWC && nationality) {
@@ -1190,12 +1199,12 @@ async function drawCard(ctx, ox, oy, player) {
   drawFIFAPattern(ctx, ox, oy, CW, topH, c.shine);
 
   // Rating y posición
-  ctx.font = `bold 40px ${FIFA_FONT}`;
+  ctx.font = `bold 35px ${FIFA_FONT}`;
   ctx.fillStyle = c.ratingCol;
   ctx.textAlign = 'left';
   ctx.shadowColor = '#00000033';
   ctx.shadowBlur = 4;
-  ctx.fillText(String(player.rating), ox + 9, oy + 42);
+  ctx.fillText(String(player.rating), ox + 4, oy + 42);
   ctx.shadowBlur = 0;
 
   ctx.font = `bold 12px ${FIFA_FONT}`;
@@ -2233,8 +2242,8 @@ function findArenaMatch(userId, userElo) {
 // ─────────────────────────────────────────
 async function fetchClubLogo(url) {
   const cleanUrl = url.split('?')[0].toLowerCase();
-  if (!cleanUrl.endsWith('!png') && !cleanUrl.endsWith('!jpg') && !cleanUrl.endsWith('!jpeg') && !cleanUrl.endsWith('!webp')) {
-    return { ok: false, reason: 'El URL debe terminar en `!png`, `!jpg`, `!jpeg` o `!webp`!' };
+  if (!cleanUrl.endsWith('.png') && !cleanUrl.endsWith('.jpg') && !cleanUrl.endsWith('.jpeg') && !cleanUrl.endsWith('.webp')) {
+    return { ok: false, reason: 'El URL debe terminar en `.png`, `.jpg`, `.jpeg` o `.webp`!' };
   }
   let buffer;
   try {
@@ -2406,7 +2415,7 @@ if (isBanned(message.author.id)) {
     let streakBar = '';
     if (nextMilestone) {
       const filled = Math.floor(((newStreak % nextMilestone) / nextMilestone) * 10);
-      streakBar = `\n🎯 Próximo hito: Día **${nextMilestone}** [${'█'!repeat(filled)}${'░'!repeat(10-filled)}]`;
+      streakBar = `\n🎯 Próximo hito: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
     }
 
     let lines = [
@@ -2478,7 +2487,7 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
     let streakBar = '';
     if (nextMilestone) {
       const filled = Math.floor(((streak % nextMilestone) / nextMilestone) * 10);
-      streakBar = `\n🎯 Próximo hito de monedas: Día **${nextMilestone}** [${'█'!repeat(filled)}${'░'!repeat(10-filled)}]`;
+      streakBar = `\n🎯 Próximo hito de monedas: Día **${nextMilestone}** [${'█'.repeat(filled)}${'░'.repeat(10-filled)}]`;
     }
 
     let lines = [
@@ -2631,6 +2640,385 @@ if (elapsed < CLAIM_COOLDOWN_MS) {
       `⭐ Icon: **${user.packs.icon||0}**`
     );
   }
+
+// ─────────────────────────────────────────
+// 🎰 RULETA — !rul <cantidad> <color/número>
+// ─────────────────────────────────────────
+if (cmd === '!rul') {
+  const bet = parseInt(args[1]);
+  const choice = (args[2] || '').toLowerCase();
+
+  if (isNaN(bet) || !choice) return message.reply('❌ Uso: `!rul <cantidad> <rojo/negro/verde/número>`\nEj: `!rul 500 rojo` o `!rul 500 17`');
+  if (bet < 50) return message.reply('❌ La apuesta mínima es **50 💰**.');
+  if (bet > 50000) return message.reply('❌ La apuesta máxima es **50,000 💰**.');
+  if (user.coins < bet) return message.reply(`❌ No tienes suficientes monedas. Tienes **${user.coins.toLocaleString()} 💰**.`);
+
+  const validColors = ['rojo', 'negro', 'verde'];
+  const isColor = validColors.includes(choice);
+  const isNumber = !isNaN(parseInt(choice)) && parseInt(choice) >= 0 && parseInt(choice) <= 36;
+  if (!isColor && !isNumber) return message.reply('❌ Elige un color (`rojo`, `negro`, `verde`) o un número del **0 al 36**.');
+
+  if (!isAdmin(userId)) {
+    const lastRul = user.lastRuleta || 0;
+    const elapsed = Date.now() - lastRul;
+    const RUL_CD = 10 * 60 * 1000;
+    if (elapsed < RUL_CD) {
+      const mins = Math.floor((RUL_CD - elapsed) / 60000);
+      const secs = Math.floor(((RUL_CD - elapsed) % 60000) / 1000);
+      return message.reply(`⏱️ **Ruleta en cooldown** — espera **${mins}m ${secs}s**.`);
+    }
+  }
+
+  const redNumbers   = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+  const blackNumbers = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35];
+
+  const result = Math.floor(Math.random() * 37);
+  const resultColor = result === 0 ? 'verde' : redNumbers.includes(result) ? 'rojo' : 'negro';
+  const colorEmoji = { rojo: '🔴', negro: '⚫', verde: '🟢' };
+
+  let multiplier = 0;
+  let won = false;
+
+  if (isColor) {
+    if (choice === resultColor) {
+      won = true;
+      multiplier = choice === 'verde' ? 14 : 2;
+    }
+  } else {
+    if (parseInt(choice) === result) {
+      won = true;
+      multiplier = 35;
+    }
+  }
+
+  user.coins -= bet;
+  let gain = 0;
+  if (won) {
+    gain = bet * multiplier;
+    user.coins += gain;
+  }
+  user.lastRuleta = Date.now();
+  saveData();
+
+  const spinFrames = [
+    '`[ 🔴 | ⚫ | 🟢 | 🔴 | ⚫ ]`',
+    '`[ ⚫ | 🟢 | 🔴 | ⚫ | 🔴 ]`',
+    '`[ 🟢 | 🔴 | ⚫ | 🔴 | ⚫ ]`',
+    '`[ 🔴 | ⚫ | 🔴 | 🟢 | ⚫ ]`',
+  ];
+
+  const choiceDisplay = isColor
+    ? `${colorEmoji[choice]} **${choice.toUpperCase()}**`
+    : `**Número ${choice}**`;
+
+  const spinMsg = await message.reply({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎰 RULETA FUTHAX',
+      description: [`${spinFrames[0]}`, ``, `🎯 Tu apuesta: ${choiceDisplay} — **${bet.toLocaleString()} 💰**`, `⏳ Girando...`].join('\n'),
+      footer: { text: 'La ruleta está girando...' }
+    }]
+  });
+
+  for (let i = 1; i < spinFrames.length; i++) {
+    await new Promise(r => setTimeout(r, 700));
+    await spinMsg.edit({
+      embeds: [{
+        color: 0xFFD700,
+        title: '🎰 RULETA FUTHAX',
+        description: [`${spinFrames[i]}`, ``, `🎯 Tu apuesta: ${choiceDisplay} — **${bet.toLocaleString()} 💰**`, `⏳ Girando...`].join('\n'),
+        footer: { text: 'La ruleta está girando...' }
+      }]
+    }).catch(() => {});
+  }
+
+  await new Promise(r => setTimeout(r, 800));
+
+  const resultLine = `${colorEmoji[resultColor]} **${result}** — ${resultColor.toUpperCase()}`;
+
+  await spinMsg.edit({
+    embeds: [{
+      color: won ? 0x00C851 : 0xFF4444,
+      title: `🎰 RULETA FUTHAX — ${won ? '¡GANASTE!' : 'PERDISTE'}`,
+      description: [
+        `🎡 **Resultado:** ${resultLine}`,
+        ``,
+        `🎯 Tu apuesta: ${choiceDisplay}`,
+        won
+          ? `\n✅ **¡Acertaste!** x${multiplier} → **+${gain.toLocaleString()} 💰**`
+          : `\n❌ **Fallaste.** Perdiste **${bet.toLocaleString()} 💰**`,
+        ``,
+        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
+      ].join('\n'),
+      fields: [
+        { name: '🔴 Rojo', value: 'x2', inline: true },
+        { name: '⚫ Negro', value: 'x2', inline: true },
+        { name: '🟢 Verde', value: 'x14', inline: true },
+        { name: '🎯 Número exacto', value: 'x35', inline: true },
+      ],
+      footer: { text: 'Rojo: 18 números · Negro: 18 números · Verde: solo el 0 · Cooldown: 10 min' }
+    }]
+  }).catch(() => {});
+
+  return;
+}
+
+// ─────────────────────────────────────────
+// 🎟️ RASPADITO — !raspar
+// ─────────────────────────────────────────
+if (cmd === '!raspar') {
+  const RASPAR_COST = 200;
+  const RASPAR_CD = 8 * 60 * 1000;
+
+  if (!isAdmin(userId)) {
+    const lastRaspar = user.lastRaspar || 0;
+    const elapsed = Date.now() - lastRaspar;
+    if (elapsed < RASPAR_CD) {
+      const mins = Math.floor((RASPAR_CD - elapsed) / 60000);
+      const secs = Math.floor(((RASPAR_CD - elapsed) % 60000) / 1000);
+      return message.reply(`⏱️ **Raspadito en cooldown** — espera **${mins}m ${secs}s**.`);
+    }
+  }
+
+  if (user.coins < RASPAR_COST) return message.reply(`❌ Necesitas **${RASPAR_COST} 💰** para raspar. Tienes **${user.coins.toLocaleString()} 💰**.`);
+
+  user.coins -= RASPAR_COST;
+  user.lastRaspar = Date.now();
+  saveData();
+
+  const SIMBOLOS = [
+    { emoji: '⚽', nombre: 'Balón',    peso: 30, premio: 1000  },
+    { emoji: '🥇', nombre: 'Oro',      peso: 25, premio: 500   },
+    { emoji: '💎', nombre: 'Diamante', peso: 15, premio: 2000  },
+    { emoji: '👑', nombre: 'Corona',   peso: 8,  premio: 5000  },
+    { emoji: '🌟', nombre: 'Estrella', peso: 15, premio: 750   },
+    { emoji: '🎰', nombre: 'Ruleta',   peso: 7,  premio: 10000 },
+  ];
+
+  function pickSymbol() {
+    const total = SIMBOLOS.reduce((s, x) => s + x.peso, 0);
+    let rand = Math.random() * total;
+    for (const s of SIMBOLOS) {
+      rand -= s.peso;
+      if (rand <= 0) return s;
+    }
+    return SIMBOLOS[0];
+  }
+
+  const slots = [pickSymbol(), pickSymbol(), pickSymbol()];
+  const won = slots[0].emoji === slots[1].emoji && slots[1].emoji === slots[2].emoji;
+  const premio = won ? slots[0].premio : 0;
+
+  if (won) {
+    user.coins += premio;
+    saveData();
+  }
+
+  const hiddenMsg = await message.reply({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎟️ RASPADITO FUTHAX',
+      description: [`\`[ ▓▓▓ | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
+      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+    }]
+  });
+
+  await new Promise(r => setTimeout(r, 800));
+  await hiddenMsg.edit({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎟️ RASPADITO FUTHAX',
+      description: [`\`[ ${slots[0].emoji}  | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
+      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+    }]
+  }).catch(() => {});
+
+  await new Promise(r => setTimeout(r, 800));
+  await hiddenMsg.edit({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎟️ RASPADITO FUTHAX',
+      description: [`\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
+      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
+    }]
+  }).catch(() => {});
+
+  await new Promise(r => setTimeout(r, 900));
+
+  const simbolosPremios = SIMBOLOS.map(s => `${s.emoji} x3 → **${s.premio.toLocaleString()} 💰**`).join(' · ');
+
+  await hiddenMsg.edit({
+    embeds: [{
+      color: won ? 0x00C851 : 0xFF4444,
+      title: `🎟️ RASPADITO FUTHAX — ${won ? '¡GANASTE!' : 'SIN SUERTE'}`,
+      description: [
+        `\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ${slots[2].emoji}  ]\``,
+        ``,
+        won
+          ? `✅ **¡TRIPLE ${slots[0].nombre.toUpperCase()}!** → **+${premio.toLocaleString()} 💰**`
+          : `❌ Sin combinación ganadora. Perdiste **${RASPAR_COST} 💰**`,
+        ``,
+        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
+      ].join('\n'),
+      fields: [{ name: '🏆 Premios posibles (3 iguales)', value: simbolosPremios, inline: false }],
+      footer: { text: 'Cooldown: 8 minutos · Costo: 200 💰' }
+    }]
+  }).catch(() => {});
+
+  return;
+}
+
+// ─────────────────────────────────────────
+// 🎲 DADOS — !dados <cantidad>
+// ─────────────────────────────────────────
+if (cmd === '!dados') {
+  const bet = parseInt(args[1]);
+
+  if (isNaN(bet) || bet <= 0) return message.reply('❌ Uso: `!dados <cantidad>`\nEj: `!dados 500`');
+  if (bet < 50) return message.reply('❌ La apuesta mínima es **50 💰**.');
+  if (bet > 50000) return message.reply('❌ La apuesta máxima es **50,000 💰**.');
+  if (user.coins < bet) return message.reply(`❌ No tienes suficientes monedas. Tienes **${user.coins.toLocaleString()} 💰**.`);
+
+  if (!isAdmin(userId)) {
+    const lastDados = user.lastDados || 0;
+    const elapsed = Date.now() - lastDados;
+    const DADOS_CD = 10 * 60 * 1000;
+    if (elapsed < DADOS_CD) {
+      const mins = Math.floor((DADOS_CD - elapsed) / 60000);
+      const secs = Math.floor(((DADOS_CD - elapsed) % 60000) / 1000);
+      return message.reply(`⏱️ **Dados en cooldown** — espera **${mins}m ${secs}s**.`);
+    }
+  }
+
+  const DADOS_FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+  function rollDice() {
+    const val = Math.floor(Math.random() * 6) + 1;
+    return { val, emoji: DADOS_FACES[val - 1] };
+  }
+
+  user.coins -= bet;
+  user.lastDados = Date.now();
+  saveData();
+
+  // Tirar 2 dados para el jugador y 2 para el bot
+  const myDice1 = rollDice();
+  const myDice2 = rollDice();
+  const botDice1 = rollDice();
+  const botDice2 = rollDice();
+
+  const myTotal = myDice1.val + myDice2.val;
+  const botTotal = botDice1.val + botDice2.val;
+
+  const won = myTotal > botTotal;
+  const draw = myTotal === botTotal;
+
+  let gain = 0;
+  let resultTitle = '';
+  let resultDesc = '';
+
+  if (won) {
+    gain = bet * 2;
+    user.coins += gain;
+    resultTitle = '🎲 DADOS — ¡GANASTE!';
+    resultDesc = `✅ **¡Tu total fue mayor!** → **+${bet.toLocaleString()} 💰**`;
+  } else if (draw) {
+    gain = bet;
+    user.coins += gain;
+    resultTitle = '🎲 DADOS — EMPATE';
+    resultDesc = `🟡 **¡Empate!** Tu apuesta fue devuelta.`;
+  } else {
+    resultTitle = '🎲 DADOS — PERDISTE';
+    resultDesc = `❌ **El bot ganó.** Perdiste **${bet.toLocaleString()} 💰**`;
+  }
+
+  saveData();
+
+  // Animación
+  const rollMsg = await message.reply({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎲 DADOS FUTHAX',
+      description: [
+        `🎲 Tirando dados...`,
+        ``,
+        `👤 Tú:  \`[ ❓ | ❓ ]\``,
+        `🤖 Bot: \`[ ❓ | ❓ ]\``,
+      ].join('\n'),
+      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
+    }]
+  });
+
+  await new Promise(r => setTimeout(r, 800));
+  await rollMsg.edit({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎲 DADOS FUTHAX',
+      description: [
+        `🎲 Tirando dados...`,
+        ``,
+        `👤 Tú:  \`[ ${myDice1.emoji} | ❓ ]\``,
+        `🤖 Bot: \`[ ❓ | ❓ ]\``,
+      ].join('\n'),
+      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
+    }]
+  }).catch(() => {});
+
+  await new Promise(r => setTimeout(r, 700));
+  await rollMsg.edit({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎲 DADOS FUTHAX',
+      description: [
+        `🎲 Tirando dados...`,
+        ``,
+        `👤 Tú:  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
+        `🤖 Bot: \`[ ❓ | ❓ ]\``,
+      ].join('\n'),
+      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
+    }]
+  }).catch(() => {});
+
+  await new Promise(r => setTimeout(r, 800));
+  await rollMsg.edit({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🎲 DADOS FUTHAX',
+      description: [
+        `🎲 Tirando dados...`,
+        ``,
+        `👤 Tú:  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
+        `🤖 Bot: \`[ ${botDice1.emoji} | ❓ ]\``,
+      ].join('\n'),
+      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
+    }]
+  }).catch(() => {});
+
+  await new Promise(r => setTimeout(r, 700));
+
+  await rollMsg.edit({
+    embeds: [{
+      color: won ? 0x00C851 : draw ? 0xFFAA00 : 0xFF4444,
+      title: resultTitle,
+      description: [
+        `👤 **Tú:**  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
+        `🤖 **Bot:** \`[ ${botDice1.emoji} | ${botDice2.emoji} ]\` = **${botTotal}**`,
+        ``,
+        resultDesc,
+        ``,
+        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
+      ].join('\n'),
+      fields: [
+        { name: '🏆 Si ganas',  value: 'x2 tu apuesta', inline: true },
+        { name: '🟡 Empate',    value: 'Te devuelven la apuesta', inline: true },
+        { name: '❌ Si pierdes', value: 'Pierdes todo', inline: true },
+      ],
+      footer: { text: 'Cooldown: 10 minutos' }
+    }]
+  }).catch(() => {});
+
+  return;
+}
 
   // ─────────────────────────────────────────       
   // 🎮 ABRIR PACK
@@ -2950,7 +3338,7 @@ progressQuest(userId, 'pack_opened', 1);
       if (interaction.customId === `show_stats_${userId}_${found.name}`) {
         const statLines = Object.entries(found.stats || {}).map(([k, v]) => {
           const filled = Math.round(v / 10);
-          const bar = '█'!repeat(filled) + '░'!repeat(10 - filled);
+          const bar = '█'.repeat(filled) + '░'.repeat(10 - filled);
           const color = v >= 88 ? '🟢' : v >= 75 ? '🟡' : v >= 60 ? '🟠' : '🔴';
           return `${color} **${k}** \`${bar}\` **${v}**`;
         }).join('\n');
@@ -3027,7 +3415,7 @@ if (cmd === '!club' && args[1] && args[1].toLowerCase() === 'logo') {
           '**Formatos aceptados:** PNG, JPG, JPEG, WEBP',
           '**Tips:**',
           '• Sube la imagen a [imgur.com](https://imgur.com) y copia el link directo',
-          '• El link debe terminar en `!png` o `!jpg`',
+          '• El link debe terminar en `.png` o `.jpg`',
           '• Ejemplo: `!club logo https://i.imgur.com/abc123.png`',
         ].join('\n'),
         footer: { text: 'El logo aparecerá en !team, !club, !bal y resultados de partidos' }
@@ -3576,386 +3964,6 @@ else nombre=sub.join(' ');
     return message.reply(`✅ Quitaste **${removidos}x ${nombre}** del equipo.`);
   }
 
-
-// ─────────────────────────────────────────
-// 🎰 RULETA — !rul <cantidad> <color/número>
-// ─────────────────────────────────────────
-if (cmd === '!rul') {
-  const bet = parseInt(args[1]);
-  const choice = (args[2] || '').toLowerCase();
-
-  if (isNaN(bet) || !choice) return message.reply('❌ Uso: `!rul <cantidad> <rojo/negro/verde/número>`\nEj: `!rul 500 rojo` o `!rul 500 17`');
-  if (bet < 50) return message.reply('❌ La apuesta mínima es **50 💰**.');
-  if (bet > 50000) return message.reply('❌ La apuesta máxima es **50,000 💰**.');
-  if (user.coins < bet) return message.reply(`❌ No tienes suficientes monedas. Tienes **${user.coins.toLocaleString()} 💰**.`);
-
-  const validColors = ['rojo', 'negro', 'verde'];
-  const isColor = validColors.includes(choice);
-  const isNumber = !isNaN(parseInt(choice)) && parseInt(choice) >= 0 && parseInt(choice) <= 36;
-  if (!isColor && !isNumber) return message.reply('❌ Elige un color (`rojo`, `negro`, `verde`) o un número del **0 al 36**.');
-
-  if (!isAdmin(userId)) {
-    const lastRul = user.lastRuleta || 0;
-    const elapsed = Date.now() - lastRul;
-    const RUL_CD = 10 * 60 * 1000;
-    if (elapsed < RUL_CD) {
-      const mins = Math.floor((RUL_CD - elapsed) / 60000);
-      const secs = Math.floor(((RUL_CD - elapsed) % 60000) / 1000);
-      return message.reply(`⏱️ **Ruleta en cooldown** — espera **${mins}m ${secs}s**.`);
-    }
-  }
-
-  const redNumbers   = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
-  const blackNumbers = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35];
-
-  const result = Math.floor(Math.random() * 37);
-  const resultColor = result === 0 ? 'verde' : redNumbers.includes(result) ? 'rojo' : 'negro';
-  const colorEmoji = { rojo: '🔴', negro: '⚫', verde: '🟢' };
-
-  let multiplier = 0;
-  let won = false;
-
-  if (isColor) {
-    if (choice === resultColor) {
-      won = true;
-      multiplier = choice === 'verde' ? 14 : 2;
-    }
-  } else {
-    if (parseInt(choice) === result) {
-      won = true;
-      multiplier = 35;
-    }
-  }
-
-  user.coins -= bet;
-  let gain = 0;
-  if (won) {
-    gain = bet * multiplier;
-    user.coins += gain;
-  }
-  user.lastRuleta = Date.now();
-  saveData();
-
-  const spinFrames = [
-    '`[ 🔴 | ⚫ | 🟢 | 🔴 | ⚫ ]`',
-    '`[ ⚫ | 🟢 | 🔴 | ⚫ | 🔴 ]`',
-    '`[ 🟢 | 🔴 | ⚫ | 🔴 | ⚫ ]`',
-    '`[ 🔴 | ⚫ | 🔴 | 🟢 | ⚫ ]`',
-  ];
-
-  const choiceDisplay = isColor
-    ? `${colorEmoji[choice]} **${choice.toUpperCase()}**`
-    : `**Número ${choice}**`;
-
-  const spinMsg = await message.reply({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎰 RULETA FUTHAX',
-      description: [`${spinFrames[0]}`, ``, `🎯 Tu apuesta: ${choiceDisplay} — **${bet.toLocaleString()} 💰**`, `⏳ Girando...`].join('\n'),
-      footer: { text: 'La ruleta está girando...' }
-    }]
-  });
-
-  for (let i = 1; i < spinFrames.length; i++) {
-    await new Promise(r => setTimeout(r, 700));
-    await spinMsg.edit({
-      embeds: [{
-        color: 0xFFD700,
-        title: '🎰 RULETA FUTHAX',
-        description: [`${spinFrames[i]}`, ``, `🎯 Tu apuesta: ${choiceDisplay} — **${bet.toLocaleString()} 💰**`, `⏳ Girando...`].join('\n'),
-        footer: { text: 'La ruleta está girando...' }
-      }]
-    }).catch(() => {});
-  }
-
-  await new Promise(r => setTimeout(r, 800));
-
-  const resultLine = `${colorEmoji[resultColor]} **${result}** — ${resultColor.toUpperCase()}`;
-
-  await spinMsg.edit({
-    embeds: [{
-      color: won ? 0x00C851 : 0xFF4444,
-      title: `🎰 RULETA FUTHAX — ${won ? '¡GANASTE!' : 'PERDISTE'}`,
-      description: [
-        `🎡 **Resultado:** ${resultLine}`,
-        ``,
-        `🎯 Tu apuesta: ${choiceDisplay}`,
-        won
-          ? `\n✅ **¡Acertaste!** x${multiplier} → **+${gain.toLocaleString()} 💰**`
-          : `\n❌ **Fallaste.** Perdiste **${bet.toLocaleString()} 💰**`,
-        ``,
-        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
-      ].join('\n'),
-      fields: [
-        { name: '🔴 Rojo', value: 'x2', inline: true },
-        { name: '⚫ Negro', value: 'x2', inline: true },
-        { name: '🟢 Verde', value: 'x14', inline: true },
-        { name: '🎯 Número exacto', value: 'x35', inline: true },
-      ],
-      footer: { text: 'Rojo: 18 números · Negro: 18 números · Verde: solo el 0 · Cooldown: 10 min' }
-    }]
-  }).catch(() => {});
-
-  return;
-}
-
-// ─────────────────────────────────────────
-// 🎟️ RASPADITO — !raspar
-// ─────────────────────────────────────────
-if (cmd === '!raspar') {
-  const RASPAR_COST = 200;
-  const RASPAR_CD = 8 * 60 * 1000;
-
-  if (!isAdmin(userId)) {
-    const lastRaspar = user.lastRaspar || 0;
-    const elapsed = Date.now() - lastRaspar;
-    if (elapsed < RASPAR_CD) {
-      const mins = Math.floor((RASPAR_CD - elapsed) / 60000);
-      const secs = Math.floor(((RASPAR_CD - elapsed) % 60000) / 1000);
-      return message.reply(`⏱️ **Raspadito en cooldown** — espera **${mins}m ${secs}s**.`);
-    }
-  }
-
-  if (user.coins < RASPAR_COST) return message.reply(`❌ Necesitas **${RASPAR_COST} 💰** para raspar. Tienes **${user.coins.toLocaleString()} 💰**.`);
-
-  user.coins -= RASPAR_COST;
-  user.lastRaspar = Date.now();
-  saveData();
-
-  const SIMBOLOS = [
-    { emoji: '⚽', nombre: 'Balón',    peso: 30, premio: 1000  },
-    { emoji: '🥇', nombre: 'Oro',      peso: 25, premio: 500   },
-    { emoji: '💎', nombre: 'Diamante', peso: 15, premio: 2000  },
-    { emoji: '👑', nombre: 'Corona',   peso: 8,  premio: 5000  },
-    { emoji: '🌟', nombre: 'Estrella', peso: 15, premio: 750   },
-    { emoji: '🎰', nombre: 'Ruleta',   peso: 7,  premio: 10000 },
-  ];
-
-  function pickSymbol() {
-    const total = SIMBOLOS.reduce((s, x) => s + x.peso, 0);
-    let rand = Math.random() * total;
-    for (const s of SIMBOLOS) {
-      rand -= s.peso;
-      if (rand <= 0) return s;
-    }
-    return SIMBOLOS[0];
-  }
-
-  const slots = [pickSymbol(), pickSymbol(), pickSymbol()];
-  const won = slots[0].emoji === slots[1].emoji && slots[1].emoji === slots[2].emoji;
-  const premio = won ? slots[0].premio : 0;
-
-  if (won) {
-    user.coins += premio;
-    saveData();
-  }
-
-  const hiddenMsg = await message.reply({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎟️ RASPADITO FUTHAX',
-      description: [`\`[ ▓▓▓ | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
-    }]
-  });
-
-  await new Promise(r => setTimeout(r, 800));
-  await hiddenMsg.edit({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎟️ RASPADITO FUTHAX',
-      description: [`\`[ ${slots[0].emoji}  | ▓▓▓ | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
-    }]
-  }).catch(() => {});
-
-  await new Promise(r => setTimeout(r, 800));
-  await hiddenMsg.edit({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎟️ RASPADITO FUTHAX',
-      description: [`\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ▓▓▓ ]\``, ``, `💸 Costo: **${RASPAR_COST} 💰**`, `🤲 Raspando...`].join('\n'),
-      footer: { text: 'Si los 3 símbolos son iguales ¡ganás!' }
-    }]
-  }).catch(() => {});
-
-  await new Promise(r => setTimeout(r, 900));
-
-  const simbolosPremios = SIMBOLOS.map(s => `${s.emoji} x3 → **${s.premio.toLocaleString()} 💰**`).join(' · ');
-
-  await hiddenMsg.edit({
-    embeds: [{
-      color: won ? 0x00C851 : 0xFF4444,
-      title: `🎟️ RASPADITO FUTHAX — ${won ? '¡GANASTE!' : 'SIN SUERTE'}`,
-      description: [
-        `\`[ ${slots[0].emoji}  | ${slots[1].emoji}  | ${slots[2].emoji}  ]\``,
-        ``,
-        won
-          ? `✅ **¡TRIPLE ${slots[0].nombre.toUpperCase()}!** → **+${premio.toLocaleString()} 💰**`
-          : `❌ Sin combinación ganadora. Perdiste **${RASPAR_COST} 💰**`,
-        ``,
-        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
-      ].join('\n'),
-      fields: [{ name: '🏆 Premios posibles (3 iguales)', value: simbolosPremios, inline: false }],
-      footer: { text: 'Cooldown: 8 minutos · Costo: 200 💰' }
-    }]
-  }).catch(() => {});
-
-  return;
-}
-
-// ─────────────────────────────────────────
-// 🎲 DADOS — !dados <cantidad>
-// ─────────────────────────────────────────
-if (cmd === '!dados') {
-  const bet = parseInt(args[1]);
-
-  if (isNaN(bet) || bet <= 0) return message.reply('❌ Uso: `!dados <cantidad>`\nEj: `!dados 500`');
-  if (bet < 50) return message.reply('❌ La apuesta mínima es **50 💰**.');
-  if (bet > 50000) return message.reply('❌ La apuesta máxima es **50,000 💰**.');
-  if (user.coins < bet) return message.reply(`❌ No tienes suficientes monedas. Tienes **${user.coins.toLocaleString()} 💰**.`);
-
-  if (!isAdmin(userId)) {
-    const lastDados = user.lastDados || 0;
-    const elapsed = Date.now() - lastDados;
-    const DADOS_CD = 10 * 60 * 1000;
-    if (elapsed < DADOS_CD) {
-      const mins = Math.floor((DADOS_CD - elapsed) / 60000);
-      const secs = Math.floor(((DADOS_CD - elapsed) % 60000) / 1000);
-      return message.reply(`⏱️ **Dados en cooldown** — espera **${mins}m ${secs}s**.`);
-    }
-  }
-
-  const DADOS_FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
-
-  function rollDice() {
-    const val = Math.floor(Math.random() * 6) + 1;
-    return { val, emoji: DADOS_FACES[val - 1] };
-  }
-
-  user.coins -= bet;
-  user.lastDados = Date.now();
-  saveData();
-
-  // Tirar 2 dados para el jugador y 2 para el bot
-  const myDice1 = rollDice();
-  const myDice2 = rollDice();
-  const botDice1 = rollDice();
-  const botDice2 = rollDice();
-
-  const myTotal = myDice1.val + myDice2.val;
-  const botTotal = botDice1.val + botDice2.val;
-
-  const won = myTotal > botTotal;
-  const draw = myTotal === botTotal;
-
-  let gain = 0;
-  let resultTitle = '';
-  let resultDesc = '';
-
-  if (won) {
-    gain = bet * 2;
-    user.coins += gain;
-    resultTitle = '🎲 DADOS — ¡GANASTE!';
-    resultDesc = `✅ **¡Tu total fue mayor!** → **+${bet.toLocaleString()} 💰**`;
-  } else if (draw) {
-    gain = bet;
-    user.coins += gain;
-    resultTitle = '🎲 DADOS — EMPATE';
-    resultDesc = `🟡 **¡Empate!** Tu apuesta fue devuelta.`;
-  } else {
-    resultTitle = '🎲 DADOS — PERDISTE';
-    resultDesc = `❌ **El bot ganó.** Perdiste **${bet.toLocaleString()} 💰**`;
-  }
-
-  saveData();
-
-  // Animación
-  const rollMsg = await message.reply({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎲 DADOS FUTHAX',
-      description: [
-        `🎲 Tirando dados...`,
-        ``,
-        `👤 Tú:  \`[ ❓ | ❓ ]\``,
-        `🤖 Bot: \`[ ❓ | ❓ ]\``,
-      ].join('\n'),
-      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
-    }]
-  });
-
-  await new Promise(r => setTimeout(r, 800));
-  await rollMsg.edit({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎲 DADOS FUTHAX',
-      description: [
-        `🎲 Tirando dados...`,
-        ``,
-        `👤 Tú:  \`[ ${myDice1.emoji} | ❓ ]\``,
-        `🤖 Bot: \`[ ❓ | ❓ ]\``,
-      ].join('\n'),
-      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
-    }]
-  }).catch(() => {});
-
-  await new Promise(r => setTimeout(r, 700));
-  await rollMsg.edit({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎲 DADOS FUTHAX',
-      description: [
-        `🎲 Tirando dados...`,
-        ``,
-        `👤 Tú:  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
-        `🤖 Bot: \`[ ❓ | ❓ ]\``,
-      ].join('\n'),
-      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
-    }]
-  }).catch(() => {});
-
-  await new Promise(r => setTimeout(r, 800));
-  await rollMsg.edit({
-    embeds: [{
-      color: 0xFFD700,
-      title: '🎲 DADOS FUTHAX',
-      description: [
-        `🎲 Tirando dados...`,
-        ``,
-        `👤 Tú:  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
-        `🤖 Bot: \`[ ${botDice1.emoji} | ❓ ]\``,
-      ].join('\n'),
-      footer: { text: 'El mayor total gana · Empate devuelve la apuesta' }
-    }]
-  }).catch(() => {});
-
-  await new Promise(r => setTimeout(r, 700));
-
-  await rollMsg.edit({
-    embeds: [{
-      color: won ? 0x00C851 : draw ? 0xFFAA00 : 0xFF4444,
-      title: resultTitle,
-      description: [
-        `👤 **Tú:**  \`[ ${myDice1.emoji} | ${myDice2.emoji} ]\` = **${myTotal}**`,
-        `🤖 **Bot:** \`[ ${botDice1.emoji} | ${botDice2.emoji} ]\` = **${botTotal}**`,
-        ``,
-        resultDesc,
-        ``,
-        `💰 Balance: **${user.coins.toLocaleString()} 💰**`,
-      ].join('\n'),
-      fields: [
-        { name: '🏆 Si ganas',  value: 'x2 tu apuesta', inline: true },
-        { name: '🟡 Empate',    value: 'Te devuelven la apuesta', inline: true },
-        { name: '❌ Si pierdes', value: 'Pierdes todo', inline: true },
-      ],
-      footer: { text: 'Cooldown: 10 minutos' }
-    }]
-  }).catch(() => {});
-
-  return;
-}
-
   // ─────────────────────────────────────────
   // 🗑️ REMOVEALL
   // ─────────────────────────────────────────
@@ -4042,7 +4050,7 @@ saveData();
       const ctx = canvas.getContext('2d');
 
       try {
-        const bg = await loadImage('!/assets/cancha.png');
+        const bg = await loadImage('./assets/cancha.png');
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
       } catch {
         const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -5523,29 +5531,94 @@ progressQuest(userId, 'market_visited', 1);
   // 🏅 TOP
   // ─────────────────────────────────────────
   if (cmd === '!top') {
+  const sub = (args[1] || 'elo').toLowerCase();
+  const medals = ['🥇', '🥈', '🥉'];
+
+  if (sub === 'elo') {
     const ranking = Object.entries(data)
       .sort((a, b) => (b[1].elo || 1000) - (a[1].elo || 1000))
       .slice(0, 10);
-
-    const medals = ['🥇','🥈','🥉'];
 
     let description = '';
     ranking.forEach(([uid, udata], i) => {
       const elo = udata.elo || 1000;
       const tier = getEloTier(elo);
-      const num = i < 3 ? medals[i] : `**${i+1}**`;
-      description += `${num} <@${uid}> — **${elo}** ${tier.emoji}\n`;
+      const num = i < 3 ? medals[i] : `**${i + 1}.**`;
+      description += `${num} <@${uid}> — **${elo}** ELO ${tier.emoji}\n`;
     });
 
-    return message.reply({ embeds: [{ 
-      color: 0xFFD700,
-      title: '🏆 Top 10 — Arena',
-      description,
-      footer: { text: `Jugadores registrados: ${Object.keys(data).length}` },
-      timestamp: new Date().toISOString()
-    }]});
+    return message.reply({ embeds: [{ color: 0xFFD700, title: '📊 Top 10 — ELO', description, footer: { text: `!top monedas · !top victorias · !top derrotas` }, timestamp: new Date().toISOString() }] });
   }
 
+  if (sub === 'monedas') {
+    const ranking = Object.entries(data)
+      .sort((a, b) => (b[1].coins || 0) - (a[1].coins || 0))
+      .slice(0, 10);
+
+    let description = '';
+    ranking.forEach(([uid, udata], i) => {
+      const coins = udata.coins || 0;
+      const num = i < 3 ? medals[i] : `**${i + 1}.**`;
+      description += `${num} <@${uid}> — **${coins.toLocaleString()}** 💰\n`;
+    });
+
+    return message.reply({ embeds: [{ color: 0xFFD700, title: '💰 Top 10 — Monedas', description, footer: { text: `!top elo · !top victorias · !top derrotas` }, timestamp: new Date().toISOString() }] });
+  }
+
+  if (sub === 'victorias') {
+    const ranking = Object.entries(data)
+      .map(([uid, udata]) => {
+        const wins = (udata.matchHistory || []).filter(m => m.result === 'win').length;
+        return [uid, udata, wins];
+      })
+      .sort((a, b) => b[2] - a[2])
+      .slice(0, 10);
+
+    let description = '';
+    ranking.forEach(([uid, udata, wins], i) => {
+      const total = (udata.matchHistory || []).length;
+      const rate = total > 0 ? Math.round((wins / total) * 100) : 0;
+      const num = i < 3 ? medals[i] : `**${i + 1}.**`;
+      description += `${num} <@${uid}> — **${wins}** victorias _(${rate}% en ${total} partidos)_\n`;
+    });
+
+    return message.reply({ embeds: [{ color: 0x00C851, title: '✅ Top 10 — Victorias', description: description || '_Sin datos_', footer: { text: `!top elo · !top monedas · !top derrotas` }, timestamp: new Date().toISOString() }] });
+  }
+
+  if (sub === 'derrotas') {
+    const ranking = Object.entries(data)
+      .map(([uid, udata]) => {
+        const losses = (udata.matchHistory || []).filter(m => m.result === 'loss').length;
+        return [uid, udata, losses];
+      })
+      .sort((a, b) => b[2] - a[2])
+      .slice(0, 10);
+
+    let description = '';
+    ranking.forEach(([uid, udata, losses], i) => {
+      const total = (udata.matchHistory || []).length;
+      const num = i < 3 ? medals[i] : `**${i + 1}.**`;
+      description += `${num} <@${uid}> — **${losses}** derrotas _(${total} partidos)_\n`;
+    });
+
+    return message.reply({ embeds: [{ color: 0xFF4444, title: '❌ Top 10 — Derrotas', description: description || '_Sin datos_', footer: { text: `!top elo · !top monedas · !top victorias` }, timestamp: new Date().toISOString() }] });
+  }
+
+  // Ayuda si el subcomando no existe
+  return message.reply({
+    embeds: [{
+      color: 0xFFD700,
+      title: '🏆 Rankings disponibles',
+      fields: [
+        { name: '📊 `!top elo`',       value: 'Top 10 por ELO',       inline: true },
+        { name: '💰 `!top monedas`',   value: 'Top 10 por monedas',   inline: true },
+        { name: '✅ `!top victorias`', value: 'Top 10 por victorias', inline: true },
+        { name: '❌ `!top derrotas`',  value: 'Top 10 por derrotas',  inline: true },
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  });
+}
 
 // ─────────────────────────────────────────
 // 📊 STATS — Historial y estadísticas de partidos
@@ -5595,7 +5668,7 @@ if (cmd === '!stats') {
     const winBars   = Math.round((wins  / vsMatches.length) * totalBars);
     const lossBars  = Math.round((losses / vsMatches.length) * totalBars);
     const drawBars  = totalBars - winBars - lossBars;
-    const dominanceBar = '🟢'!repeat(winBars) + '🟡'!repeat(Math.max(0, drawBars)) + '🔴'!repeat(lossBars);
+    const dominanceBar = '🟢'.repeat(winBars) + '🟡'.repeat(Math.max(0, drawBars)) + '🔴'.repeat(lossBars);
 
     const myClubName  = user.teamName || message.author.username + "'s FC";
     const rivalData   = data[rivalId];
@@ -5786,7 +5859,7 @@ if (cmd === '!stats') {
     const wBars = history.length > 0 ? Math.round((mWins  / history.length) * totalBars2) : 0;
     const dBars = history.length > 0 ? Math.round((mDraws / history.length) * totalBars2) : 0;
     const lBars = Math.max(0, totalBars2 - wBars - dBars);
-    const wdlBar = `\`${'█'!repeat(wBars)}${'▒'!repeat(dBars)}${'░'!repeat(lBars)}\` ${mRate}% wins`;
+    const wdlBar = `\`${'█'.repeat(wBars)}${'▒'.repeat(dBars)}${'░'.repeat(lBars)}\` ${mRate}% wins`;
 
     return {
       embeds: [{
@@ -5973,7 +6046,7 @@ if (cmd === '!players') {
     ctx.beginPath(); ctx.moveTo(40, 108); ctx.lineTo(W - 40, 108); ctx.stroke();
     ctx.restore();
 
-    const rarityColor = { 'Icon': #C0C0C0, "WorldCup": '#CC2200', "Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
+    const rarityColor = { 'Icon': '#C0C0C0', "WorldCup": '#CC2200', "Legendario": '#FFD700', "Epico": '#9B59B6', "Raro": '#5B9BD5', "Comun": '#A0836A' };
 const rarityEmoji = { "Icon": '⭐', "WorldCup": '🏆', "Legendario": '👑', "Epico": '💜', "Raro": '💙', "Comun": '⚪' };
 const posEmoji    = { GK: '🧤', DM: '🛡️', AM: '🎯', ST: '⚽' };
 const packForRarity = { "Icon": '⭐ Icon', "WorldCup": '🏆 World Cup', "Legendario": '💎 Legend', "Epico": '🥇 Gold', "Raro": '🥈 Silver', "Comun": '🥉 Bronze' };
@@ -6344,6 +6417,15 @@ const penaltyMM = Math.floor(penaltyRemaining / 60000);
 const penaltySS = Math.floor((penaltyRemaining % 60000) / 1000);
 const penaltyStr = penaltyReady ? '✅ Ready' : `⏳ ${penaltyMM}m ${penaltySS}s`;
 
+  // --- Arena ---
+  const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
+  const arenaElapsed = nowTs - lastArena;
+  const arenaReady = isAdmin(userId) || arenaElapsed >= ARENA_COOLDOWN_MS;
+  const arenaRemaining = ARENA_COOLDOWN_MS - arenaElapsed;
+  const arenaMM = Math.floor(arenaRemaining / 60000);
+  const arenaSS = Math.floor((arenaRemaining % 60000) / 1000);
+  const arenaStr = arenaReady ? '✅ Ready' : `⏳ ${arenaMM}m ${arenaSS}s`;
+  const tier = getEloTier(user.elo || 1000);
 
 // --- Ruleta ---
 const RUL_CD_MS = 10 * 60 * 1000;
@@ -6374,16 +6456,6 @@ const dadosRemaining = DADOS_CD_MS - dadosElapsed;
 const dadosMM = Math.floor(dadosRemaining / 60000);
 const dadosSS = Math.floor((dadosRemaining % 60000) / 1000);
 const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
-
-  // --- Arena ---
-  const lastArena = Math.max(arenaCooldowns.get(userId) || 0, user.lastArena || 0);
-  const arenaElapsed = nowTs - lastArena;
-  const arenaReady = isAdmin(userId) || arenaElapsed >= ARENA_COOLDOWN_MS;
-  const arenaRemaining = ARENA_COOLDOWN_MS - arenaElapsed;
-  const arenaMM = Math.floor(arenaRemaining / 60000);
-  const arenaSS = Math.floor((arenaRemaining % 60000) / 1000);
-  const arenaStr = arenaReady ? '✅ Ready' : `⏳ ${arenaMM}m ${arenaSS}s`;
-  const tier = getEloTier(user.elo || 1000);
 
   return message.reply({
     embeds: [{
@@ -6422,7 +6494,8 @@ const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
   name: `🎲 Dados — ${dadosStr}`,
   value: dadosReady ? `Usa \`!dados <cantidad>\` · Gana x2` : `Vuelve en **${dadosMM}m ${dadosSS}s**`,
   inline: false
-},
+},    
+
         {
           name: `🤝 Friendly — ${friendlyStr}`,
           value: friendlyReady
@@ -6489,7 +6562,7 @@ const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
  
     const fields = quests.map((q, i) => {
       const bar = Math.round((q.progress / q.target) * 10);
-      const prog = `\`${'█'!repeat(bar)}${'░'!repeat(10-bar)}\` **${q.progress}/${q.target}**`;
+      const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${q.progress}/${q.target}**`;
       const status = q.claimed ? '✅ Reclamada'
         : q.completed ? `🎁 **¡Lista!** — \`!quests reclamar ${i+1}\``
         : '⏳ En progreso';
@@ -6549,7 +6622,7 @@ const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
       );
       const newFields = quests.map((qq, i) => {
         const bar = Math.round((qq.progress / qq.target) * 10);
-        const prog = `\`${'█'!repeat(bar)}${'░'!repeat(10-bar)}\` **${qq.progress}/${qq.target}**`;
+        const prog = `\`${'█'.repeat(bar)}${'░'.repeat(10-bar)}\` **${qq.progress}/${qq.target}**`;
         const status = qq.claimed ? '✅ Reclamada'
           : qq.completed ? `🎁 **¡Lista!** — \`!quests reclamar ${i+1}\``
           : '⏳ En progreso';
@@ -7337,6 +7410,95 @@ const dadosStr = dadosReady ? '✅ Ready' : `⏳ ${dadosMM}m ${dadosSS}s`;
       data[target.id].packs[type] += amount; saveData();
       return message.reply(`✅ Le diste **${amount}** pack(s) **${packs[type].label}** a **${target.username}**`);
     }
+
+
+if (cmd === '!resetelo') {
+  if (!isAdmin(userId)) return message.reply('❌ Solo admins.');
+  
+  const target = args[1]?.toLowerCase();
+  if (target !== 'all') return message.reply('❌ Uso: `!resetelo all` para resetear el ELO de todos los jugadores.');
+
+  const totalUsers = Object.keys(data).length;
+  
+  const confirmRow = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`resetelo_confirm_${userId}`)
+      .setLabel(`⚠️ Confirmar — Resetear ${totalUsers} jugadores`)
+      .setStyle(ButtonStyle.Danger),
+    new ButtonBuilder()
+      .setCustomId(`resetelo_cancel_${userId}`)
+      .setLabel('❌ Cancelar')
+      .setStyle(ButtonStyle.Secondary)
+  );
+
+  const confirmMsg = await message.reply({
+    embeds: [{
+      color: 0xFF4444,
+      title: '⚠️ Confirmar Reset de ELO Global',
+      description: [
+        `Estás a punto de **resetear el ELO de TODOS los jugadores** a **1000**.`,
+        ``,
+        `👥 Jugadores afectados: **${totalUsers}**`,
+        `📊 ELO nuevo: **1000** (Oro 🥇)`,
+        ``,
+        `⚠️ **Esta acción no se puede deshacer.**`,
+      ].join('\n'),
+      footer: { text: '⏱️ Tienes 30 segundos para confirmar' },
+      timestamp: new Date().toISOString()
+    }],
+    components: [confirmRow]
+  });
+
+  const col = confirmMsg.createMessageComponentCollector({ time: 30000 });
+  col.on('collect', async interaction => {
+    if (interaction.user.id !== userId)
+      return interaction.reply({ content: '❌ Este panel no es tuyo.', ephemeral: true });
+
+    col.stop();
+
+    if (interaction.customId === `resetelo_cancel_${userId}`) {
+      return interaction.update({
+        embeds: [{ color: 0x555555, title: '❌ Reset cancelado', description: 'No se modificó ningún ELO.' }],
+        components: []
+      });
+    }
+
+    if (interaction.customId === `resetelo_confirm_${userId}`) {
+      let count = 0;
+      for (const uid of Object.keys(data)) {
+        data[uid].elo = 1000;
+        count++;
+      }
+      saveData();
+
+      return interaction.update({
+        embeds: [{
+          color: 0x00C851,
+          title: '✅ ELO reseteado globalmente',
+          description: [
+            `El ELO de **${count} jugadores** fue reseteado a **1000**.`,
+            ``,
+            `📊 Todos los jugadores están ahora en **Oro 🥇**`,
+          ].join('\n'),
+          footer: { text: `Ejecutado por ${message.author.username}` },
+          timestamp: new Date().toISOString()
+        }],
+        components: []
+      });
+    }
+  });
+
+  col.on('end', (_, reason) => {
+    if (reason === 'time') {
+      confirmMsg.edit({
+        embeds: [{ color: 0x555555, title: '⏱️ Expirado', description: 'No confirmaste a tiempo. No se modificó ningún ELO.' }],
+        components: []
+      }).catch(() => {});
+    }
+  });
+
+  return;
+}
 
     if (cmd === '!givecard') {
       const target   = message.mentions.users.first();
