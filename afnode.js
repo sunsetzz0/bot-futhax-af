@@ -4215,6 +4215,503 @@ else nombre=sub.join(' ');
     return message.reply(`✅ Eliminaste todos los **${nombre}** (${eliminados}) del equipo.`);
   }
 
+// ─────────────────────────────────────────
+// 🔨 !mejorar <jugador> — Subir OVR de una carta (máx +2, coste escalado)
+// ─────────────────────────────────────────
+if (cmd === '!mejorar') {
+  const playerName = args.slice(1).join(' ').trim();
+  if (!playerName) return message.reply(
+    '❌ Uso: `!mejorar <nombre>`\n' +
+    '💡 Sube el OVR de una carta gastando monedas.\n' +
+    '• Máximo **+2 OVR** por carta\n' +
+    '• Coste: **1ª mejora** = 500 × OVR actual · **2ª mejora** = 1000 × OVR actual'
+  );
+
+  const idx = (user.players || []).findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+  if (idx === -1) return message.reply(`❌ No tienes a **${playerName}** en tu club.\nUsa \`!club\` para ver tu plantilla.`);
+
+  const card = user.players[idx];
+  if (!card.upgrades) card.upgrades = 0;
+
+  const MAX_UPGRADES = 2;
+  if (card.upgrades >= MAX_UPGRADES) {
+    return message.reply({
+      embeds: [{
+        color: 0xFF4444,
+        title: '❌ Carta al máximo',
+        description: `**${card.name}** ya alcanzó el límite de mejoras (+${MAX_UPGRADES} OVR).\nNo se puede mejorar más.`,
+        footer: { text: `OVR actual: ${card.rating}` }
+      }]
+    });
+  }
+
+  // Coste escalado según mejora
+  const UPGRADE_COST_MULTIPLIER = [500, 1000];
+  const cost = UPGRADE_COST_MULTIPLIER[card.upgrades] * card.rating;
+
+  if (user.coins < cost) {
+    return message.reply({
+      embeds: [{
+        color: 0xFF4444,
+        title: '❌ Monedas insuficientes',
+        description: [
+          `Para mejorar **${card.name}** necesitas **${cost.toLocaleString()} 💰**.`,
+          `Tienes **${user.coins.toLocaleString()} 💰**.`,
+          ``,
+          `Te faltan **${(cost - user.coins).toLocaleString()} 💰**.`
+        ].join('\n'),
+        footer: { text: 'Gana monedas con !arena, !daily y !claim' }
+      }]
+    });
+  }
+
+  const rarityColors = { 'Icon': 0xC0C0C0, 'WorldCup': 0xCC2200, 'Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };
+  const rarityEmoji  = { 'Icon': '⭐', 'WorldCup': '🏆', 'Legendario': '👑', 'Epico': '💜', 'Raro': '💙', 'Comun': '⚪' };
+
+  const confirmRow = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`mejorar_confirm_${userId}`)
+      .setLabel(`✅ Confirmar — ${cost.toLocaleString()} 💰`)
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId(`mejorar_cancel_${userId}`)
+      .setLabel('❌ Cancelar')
+      .setStyle(ButtonStyle.Danger)
+  );
+
+  const oldRating = card.rating;
+  const newRating = card.rating + 1;
+  const upgradeNum = card.upgrades + 1;
+
+  const confirmMsg = await message.reply({
+    embeds: [{
+      color: rarityColors[card.rarity] || 0x5865F2,
+      author: { name: `🔨 Mejorar carta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title: `${rarityEmoji[card.rarity]} ${card.name} — Mejora #${upgradeNum}`,
+      description: [
+        `¿Confirmas mejorar a **${card.name}**?`,
+        ``,
+        `📈 OVR: **${oldRating}** → **${newRating}**`,
+        `💰 Coste: **${cost.toLocaleString()} 💰**`,
+        `💳 Balance después: **${(user.coins - cost).toLocaleString()} 💰**`,
+        ``,
+        `⚠️ Mejoras restantes tras esto: **${MAX_UPGRADES - upgradeNum}/${MAX_UPGRADES}**`
+      ].join('\n'),
+      fields: [
+        { name: '📦 Rareza', value: card.rarity, inline: true },
+        { name: '🎯 Posición', value: card.position, inline: true },
+        { name: '🔢 Mejora', value: `${upgradeNum} de ${MAX_UPGRADES}`, inline: true }
+      ],
+      footer: { text: '⏱️ 30 segundos para confirmar' },
+      timestamp: new Date().toISOString()
+    }],
+    components: [confirmRow]
+  });
+
+  const mejCol = confirmMsg.createMessageComponentCollector({ time: 30000 });
+  mejCol.on('collect', async interaction => {
+    if (interaction.user.id !== userId)
+      return interaction.reply({ content: '❌ Esta mejora no es tuya.', ephemeral: true });
+
+    mejCol.stop();
+
+    if (interaction.customId === `mejorar_cancel_${userId}`) {
+      return interaction.update({
+        embeds: [{ color: 0x555555, title: '❌ Mejora cancelada', description: 'No se realizó ningún cambio.' }],
+        components: []
+      });
+    }
+
+    if (interaction.customId === `mejorar_confirm_${userId}`) {
+      // Re-buscar la carta por si cambió
+      const freshIdx = (user.players || []).findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+      if (freshIdx === -1) return interaction.update({ embeds: [{ color: 0xFF4444, title: '❌ Error', description: 'La carta ya no está en tu club.' }], components: [] });
+
+      if (user.coins < cost) return interaction.update({ embeds: [{ color: 0xFF4444, title: '❌ Sin monedas', description: 'Ya no tienes suficientes monedas.' }], components: [] });
+
+      user.coins -= cost;
+      user.players[freshIdx].rating = (user.players[freshIdx].rating || oldRating) + 1;
+      if (!user.players[freshIdx].upgrades) user.players[freshIdx].upgrades = 0;
+      user.players[freshIdx].upgrades += 1;
+
+      // Actualizar en el equipo si está activo
+      const teamIdx = (user.team || []).findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+      if (teamIdx !== -1) {
+        user.team[teamIdx].rating = user.players[freshIdx].rating;
+        user.team[teamIdx].upgrades = user.players[freshIdx].upgrades;
+      }
+
+      saveData();
+
+      const maxed = user.players[freshIdx].upgrades >= MAX_UPGRADES;
+
+      await interaction.update({
+        embeds: [{
+          color: 0x00C851,
+          author: { name: `✅ ¡Carta mejorada! · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title: `${rarityEmoji[card.rarity]} ${card.name}`,
+          description: [
+            `🎉 **¡La mejora fue exitosa!**`,
+            ``,
+            `📈 OVR: **${oldRating}** → **${user.players[freshIdx].rating}** (+1)`,
+            `💰 Gastaste: **${cost.toLocaleString()} 💰**`,
+            `💳 Balance actual: **${user.coins.toLocaleString()} 💰**`,
+            ``,
+            maxed
+              ? `🔒 **Esta carta ya alcanzó el máximo de mejoras (+${MAX_UPGRADES} OVR total).**`
+              : `🔨 Aún puedes hacer **${MAX_UPGRADES - user.players[freshIdx].upgrades}** mejora(s) más.`
+          ].join('\n'),
+          fields: [
+            { name: '⭐ Mejoras aplicadas', value: `${user.players[freshIdx].upgrades}/${MAX_UPGRADES}`, inline: true },
+            { name: '📦 Rareza', value: card.rarity, inline: true },
+            { name: '🎯 Posición', value: card.position, inline: true }
+          ],
+          footer: { text: maxed ? '🔒 Carta completamente mejorada' : `Próxima mejora costará ${(UPGRADE_COST_MULTIPLIER[1] * user.players[freshIdx].rating).toLocaleString()} 💰` },
+          timestamp: new Date().toISOString()
+        }],
+        components: []
+      });
+    }
+  });
+
+  mejCol.on('end', (_, reason) => {
+    if (reason === 'time') confirmMsg.edit({ embeds: [{ color: 0x555555, title: '⏱️ Mejora expirada', description: 'No confirmaste a tiempo.' }], components: [] }).catch(() => {});
+  });
+
+  return;
+}
+
+// ─────────────────────────────────────────
+// 🏷️ !subasta <jugador> <precio_inicial> — Subasta pública de cartas
+// ─────────────────────────────────────────
+if (cmd === '!subasta') {
+  const lastArg   = args[args.length - 1];
+  const startBid  = parseInt(lastArg);
+  const playerName = args.slice(1, -1).join(' ').trim();
+
+  if (!playerName || isNaN(startBid) || startBid <= 0) {
+    return message.reply(
+      '❌ Uso: `!subasta <nombre> <precio_inicial>`\n' +
+      'Ej: `!subasta Veil 5000`\n\n' +
+      '• La subasta dura **90 segundos**\n' +
+      '• Cada puja debe ser mayor a la anterior\n' +
+      '• Si nadie puja, la carta regresa a tu club'
+    );
+  }
+
+  const SUBASTA_MIN = 200;
+  if (startBid < SUBASTA_MIN) return message.reply(`❌ El precio mínimo de inicio es **${SUBASTA_MIN} 💰**.`);
+
+  const playerIdx = (user.players || []).findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+  if (playerIdx === -1) return message.reply(`❌ No tienes a **${playerName}** en tu club.\nUsa \`!club\` para ver tu plantilla.`);
+
+  const auctionCard = { ...user.players[playerIdx] };
+  const rarityColors = { 'Icon': 0xC0C0C0, 'WorldCup': 0xCC2200, 'Legendario': 0xFFD700, 'Epico': 0x9B59B6, 'Raro': 0x5B9BD5, 'Comun': 0x8B7355 };
+  const rarityEmoji  = { 'Icon': '⭐', 'WorldCup': '🏆', 'Legendario': '👑', 'Epico': '💜', 'Raro': '💙', 'Comun': '⚪' };
+
+  // Quitar carta del club temporalmente
+  user.players.splice(playerIdx, 1);
+  user.team = (user.team || []).filter(p => p.name !== auctionCard.name);
+  saveData();
+
+  const AUCTION_DURATION = 90000; // 90 segundos
+  const auctionEnd = Date.now() + AUCTION_DURATION;
+
+  let currentBid    = startBid;
+  let currentBidder = null; // userId del pujador actual
+  let currentBidderName = null;
+  let bidCount = 0;
+
+  function buildAuctionEmbed(timeLeft) {
+    const secs = Math.max(0, Math.floor(timeLeft / 1000));
+    const bar  = '█'.repeat(Math.round((secs / 90) * 10)) + '░'.repeat(10 - Math.round((secs / 90) * 10));
+
+    return {
+      color: currentBidder ? 0x00C851 : rarityColors[auctionCard.rarity] || 0x5865F2,
+      author: { name: `🏷️ Subasta · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title: `${rarityEmoji[auctionCard.rarity]} ${auctionCard.name} — ${auctionCard.rarity} · ${auctionCard.rating} OVR`,
+      description: [
+        `**Posición:** ${auctionCard.position}`,
+        ``,
+        currentBidder
+          ? `🏆 **Puja actual:** **${currentBid.toLocaleString()} 💰** — @${currentBidderName}`
+          : `💰 **Precio inicial:** **${currentBid.toLocaleString()} 💰** — Sin pujas aún`,
+        ``,
+        `📊 Pujas recibidas: **${bidCount}**`,
+        `⏱️ Tiempo restante: **${secs}s** \`${bar}\``,
+        ``,
+        `💡 Pulsa **¡Pujar!** para hacer una oferta mayor.`
+      ].join('\n'),
+      fields: [
+        { name: '🏷️ Vendedor', value: `<@${userId}>`, inline: true },
+        { name: '💸 Mín. venta', value: `${(SELL_PRICES[auctionCard.rarity] || 90).toLocaleString()} 💰`, inline: true },
+        { name: '⏳ Fin', value: `<t:${Math.floor(auctionEnd / 1000)}:R>`, inline: true }
+      ],
+      footer: { text: 'Cada puja debe superar la anterior · La carta va al mejor postor' },
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  function buildBidRow(disabled = false) {
+    return new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`bid_place_${userId}`)
+        .setLabel(`💰 ¡Pujar! (mín. ${(currentBid + 1).toLocaleString()} 💰)`)
+        .setStyle(ButtonStyle.Success)
+        .setDisabled(disabled),
+      new ButtonBuilder()
+        .setCustomId(`bid_info_${userId}`)
+        .setLabel('📊 Ver stats')
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(disabled)
+    );
+  }
+
+  const auctionMsg = await message.reply({
+    embeds: [buildAuctionEmbed(AUCTION_DURATION)],
+    components: [buildBidRow()]
+  });
+
+  // Actualizar embed cada 15 segundos
+  const intervals = [75000, 60000, 45000, 30000, 15000, 5000].filter(t => t < AUCTION_DURATION);
+  const updateTimers = intervals.map(t =>
+    setTimeout(async () => {
+      const timeLeft = auctionEnd - Date.now();
+      await auctionMsg.edit({ embeds: [buildAuctionEmbed(timeLeft)], components: [buildBidRow()] }).catch(() => {});
+    }, AUCTION_DURATION - t)
+  );
+
+  const bidCollector = auctionMsg.createMessageComponentCollector({ time: AUCTION_DURATION });
+
+  bidCollector.on('collect', async interaction => {
+    // Ver stats de la carta
+    if (interaction.customId === `bid_info_${userId}`) {
+      const statLines = Object.entries(auctionCard.stats || {}).map(([k, v]) => {
+        const filled = Math.round(v / 10);
+        const bar = '█'.repeat(filled) + '░'.repeat(10 - filled);
+        const col = v >= 88 ? '🟢' : v >= 75 ? '🟡' : v >= 60 ? '🟠' : '🔴';
+        return `${col} **${k}** \`${bar}\` **${v}**`;
+      }).join('\n');
+      return interaction.reply({
+        embeds: [{ color: rarityColors[auctionCard.rarity] || 0x888888, title: `📊 Stats — ${auctionCard.name}`, description: statLines || '_Sin stats_', footer: { text: `${auctionCard.rarity} · ${auctionCard.position} · ${auctionCard.rating} OVR` } }],
+        ephemeral: true
+      });
+    }
+
+    // Hacer puja
+    if (interaction.customId === `bid_place_${userId}`) {
+      const bidderId = interaction.user.id;
+
+      // El vendedor no puede pujar su propia carta
+      if (bidderId === userId) return interaction.reply({ content: '❌ No puedes pujar en tu propia subasta.', ephemeral: true });
+
+      // Asegurar que el pujador tiene perfil
+      if (!data[bidderId]) return interaction.reply({ content: '❌ No tienes perfil registrado. Usa cualquier comando primero.', ephemeral: true });
+
+      const bidder = data[bidderId];
+      const minBid = currentBid + Math.max(1, Math.floor(currentBid * 0.05)); // mínimo 5% más
+
+      if (bidder.coins < minBid) {
+        return interaction.reply({
+          content: `❌ Necesitas al menos **${minBid.toLocaleString()} 💰** para pujar. Tienes **${(bidder.coins || 0).toLocaleString()} 💰**.`,
+          ephemeral: true
+        });
+      }
+
+      if ((bidder.players || []).length >= MAX_CLUB_SIZE) {
+        return interaction.reply({ content: `❌ Tu club está lleno (${MAX_CLUB_SIZE}/${MAX_CLUB_SIZE}). Vende jugadores antes de comprar más.`, ephemeral: true });
+      }
+
+      // Devolver monedas al pujador anterior si existe
+      if (currentBidder && currentBidder !== bidderId) {
+        if (!data[currentBidder]) data[currentBidder] = {};
+        data[currentBidder].coins = (data[currentBidder].coins || 0) + currentBid;
+      }
+
+      // Descontar al nuevo pujador
+      bidder.coins -= minBid;
+      currentBid = minBid;
+      currentBidder = bidderId;
+      currentBidderName = interaction.user.username;
+      bidCount++;
+      saveData();
+
+      const timeLeft = auctionEnd - Date.now();
+      await interaction.update({
+        embeds: [buildAuctionEmbed(timeLeft)],
+        components: [buildBidRow()]
+      });
+    }
+  });
+
+  bidCollector.on('end', async () => {
+    updateTimers.forEach(t => clearTimeout(t));
+
+    // Subasta terminada
+    if (!currentBidder) {
+      // Nadie pujó — devolver carta al vendedor
+      if (!user.players) user.players = [];
+      user.players.push({ ...auctionCard });
+      saveData();
+
+      await auctionMsg.edit({
+        embeds: [{
+          color: 0x555555,
+          author: { name: `🏷️ Subasta finalizada · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+          title: `${rarityEmoji[auctionCard.rarity]} ${auctionCard.name} — Sin pujas`,
+          description: [
+            `❌ **Nadie pujó.** La carta regresó a tu club.`,
+            ``,
+            `💡 Intenta con un precio inicial más bajo o publica en \`!market\`.`
+          ].join('\n'),
+          footer: { text: 'Usa !sell <nombre> para vender en el market' },
+          timestamp: new Date().toISOString()
+        }],
+        components: []
+      }).catch(() => {});
+      return;
+    }
+
+    // Hay ganador — transferir carta
+    if (!data[currentBidder].players) data[currentBidder].players = [];
+    data[currentBidder].players.push({ ...auctionCard });
+
+    // Pagar al vendedor
+    user.coins = (user.coins || 0) + currentBid;
+    saveData();
+
+    // Notificar al ganador por DM
+    try {
+      const winner = await client.users.fetch(currentBidder);
+      winner.send({
+        embeds: [{
+          color: 0x00C851,
+          title: `🏆 ¡Ganaste la subasta!`,
+          description: `Obtuviste **${auctionCard.name}** (${auctionCard.rarity} · ${auctionCard.rating} OVR) por **${currentBid.toLocaleString()} 💰**.\n\nRevisa tu club con \`!club\`.`
+        }]
+      }).catch(() => {});
+    } catch {}
+
+    await auctionMsg.edit({
+      embeds: [{
+        color: 0xFFD700,
+        author: { name: `🏷️ Subasta finalizada · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+        title: `🏆 ${rarityEmoji[auctionCard.rarity]} ${auctionCard.name} — ¡Vendida!`,
+        description: [
+          `✅ **Subasta cerrada con ${bidCount} puja(s).**`,
+          ``,
+          `🏆 **Ganador:** <@${currentBidder}>`,
+          `💰 **Precio final:** **${currentBid.toLocaleString()} 💰**`,
+          `💸 **Vendedor recibió:** **+${currentBid.toLocaleString()} 💰**`
+        ].join('\n'),
+        fields: [
+          { name: `${rarityEmoji[auctionCard.rarity]} Carta`, value: `${auctionCard.name} · ${auctionCard.rating} OVR · ${auctionCard.position}`, inline: false },
+          { name: '💳 Balance vendedor', value: `${user.coins.toLocaleString()} 💰`, inline: true },
+          { name: '📊 Pujas totales', value: `${bidCount}`, inline: true }
+        ],
+        footer: { text: 'Gracias por usar el sistema de subastas' },
+        timestamp: new Date().toISOString()
+      }],
+      components: []
+    }).catch(() => {});
+  });
+
+  return;
+}
+
+// ─────────────────────────────────────────
+// 💼 !trabajo — Ingresos pasivos cada 4h basados en ELO y colección
+// ─────────────────────────────────────────
+if (cmd === '!trabajo') {
+  const TRABAJO_CD = 4 * 60 * 60 * 1000; // 4 horas
+  const lastTrabajo = user.lastTrabajo || 0;
+  const elapsed = Date.now() - lastTrabajo;
+
+  if (!isAdmin(userId) && elapsed < TRABAJO_CD) {
+    const remaining = TRABAJO_CD - elapsed;
+    const hh = Math.floor(remaining / 3600000);
+    const mm = Math.floor((remaining % 3600000) / 60000);
+    const ss = Math.floor((remaining % 60000) / 1000);
+    return message.reply({
+      embeds: [{
+        color: 0x2b2d31,
+        title: '⏱️ Ya trabajaste recientemente',
+        description: `Vuelve en **${hh}h ${mm}m ${ss}s** para cobrar tu próximo salario.`,
+        footer: { text: 'El trabajo se renueva cada 4 horas' }
+      }]
+    });
+  }
+
+  // Calcular salario
+  const elo         = user.elo || 1000;
+  const tier        = getEloTier(elo);
+  const clubSize    = (user.players || []).length;
+  const teamFull    = (user.team || []).length === 4;
+  const avgOvr      = clubSize > 0 ? Math.round((user.players || []).reduce((s, p) => s + p.rating, 0) / clubSize) : 0;
+
+  // Base por ELO
+  const eloBonus = Math.floor(elo / 10); // 100 ELO → 10 coins base
+
+  // Bonus por tier
+  const tierBonus = { 'BRONCE': 50, 'PLATA': 100, 'ORO': 180, 'PLATINO': 300, 'DIAMANTE': 500, 'CAMPEÓN': 800 };
+  const tierPay = tierBonus[tier.name] || 50;
+
+  // Bonus por colección
+  const collectionBonus = Math.floor(clubSize * 15); // 15 coins por jugador en club
+
+  // Bonus por OVR promedio
+  const ovrBonus = avgOvr > 0 ? Math.floor(avgOvr * 2.5) : 0;
+
+  // Bonus equipo completo
+  const teamBonus = teamFull ? 100 : 0;
+
+  // Bonus por racha
+  const streakBonus = Math.min(200, (user.daily?.streak || 0) * 10);
+
+  const total = eloBonus + tierPay + collectionBonus + ovrBonus + teamBonus + streakBonus;
+
+  user.coins += total;
+  user.lastTrabajo = Date.now();
+  saveData();
+
+  const breakdown = [
+    { label: `${tier.emoji} Tier ${tier.name}`,         value: tierPay       },
+    { label: `📊 ELO (${elo} pts)`,                     value: eloBonus      },
+    { label: `🃏 Colección (${clubSize} jugadores)`,    value: collectionBonus },
+    { label: `⭐ OVR promedio (${avgOvr})`,             value: ovrBonus      },
+    { label: `👥 Equipo completo`,                       value: teamBonus     },
+    { label: `🔥 Racha (${user.daily?.streak || 0}d)`,  value: streakBonus   },
+  ].filter(b => b.value > 0);
+
+  const breakdownText = breakdown.map(b => `• ${b.label}: **+${b.value} 💰**`).join('\n');
+
+  // Calcular cuándo será el próximo trabajo
+  const nextWork = new Date(Date.now() + TRABAJO_CD);
+  const nextHH   = nextWork.getHours().toString().padStart(2, '0');
+  const nextMM   = nextWork.getMinutes().toString().padStart(2, '0');
+
+  return message.reply({
+    embeds: [{
+      color: 0x00C851,
+      author: { name: `💼 Trabajo · ${message.author.username}`, icon_url: message.author.displayAvatarURL({ dynamic: true }) },
+      title: `💼 ¡Salario cobrado! +${total.toLocaleString()} 💰`,
+      description: [
+        `**${message.author.username}** cobró su salario de **${total.toLocaleString()} 💰**.`,
+        ``,
+        `**📋 Desglose:**`,
+        breakdownText,
+      ].join('\n'),
+      fields: [
+        { name: '💰 Total cobrado',   value: `**${total.toLocaleString()} 💰**`,     inline: true },
+        { name: '💳 Balance actual',  value: `**${user.coins.toLocaleString()} 💰**`, inline: true },
+        { name: '⏰ Próximo trabajo', value: `Disponible a las **${nextHH}:${nextMM}**`, inline: true },
+      ],
+      footer: { text: 'Mejora tu ELO, expande tu club y mantén la racha para ganar más 💰' },
+      timestamp: new Date().toISOString()
+    }]
+  });
+}
+
 // ═══════════════════════════════════
 // 🏆 !logros
 // ═══════════════════════════════════
